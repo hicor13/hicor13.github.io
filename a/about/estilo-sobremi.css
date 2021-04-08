@@ -1,0 +1,111 @@
+a, s, p, div{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+    background: url(/media/patterns/pattern_1.png);
+    background-color: rgb(59, 59, 59);
+    background-size: 10px;
+}
+
+.centered{ /* This is the one for centering */
+    display:flex;
+    align-items: center; 
+    justify-content: center;
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    border: 10px;
+    border-color: black;
+    
+}
+
+#box-one{
+    position:static;
+    box-sizing: border-box;
+    background-color: aqua;
+    height: 482px;
+    width: 482px;
+    background-image: url(/media/profile_pic.png);
+    background-repeat: no-repeat;
+    display: inline-block;
+}
+
+#box-two{
+    box-sizing: border-box;
+    background-color: rgb(27, 27, 27);
+    opacity: 70%;
+    height: 482px;
+    width: 482px;
+    display: inline-block;
+}
+
+#box-three{
+    box-sizing: border-box;
+    background-color:transparent;
+    height: 482px;
+    width: 482px;
+    left: 50%;
+    position: absolute;
+    top:36vh;
+}
+
+#caca {
+    color:white;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    text-align: center; 
+    font-size: 2vh; 
+    align-self: center;
+}
+
+#pichi{
+    line-height: 25px;
+    color:white;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    text-align: justify;  
+
+}
+
+/*
+@media only screen and (max-device-width: 480px) {
+
+    .centered{ 
+        display:flex;
+        align-items: center; 
+        justify-content: center;
+        margin: auto;
+        position: absolute;
+        top: 0; left: 0; bottom: 0; right: 0;
+    }
+    
+    #box-one{
+        position:static;
+        box-sizing: border-box;
+        background-color: aqua;
+        height: 482px;
+        width: 482px;
+        background-image: url(/media/profile_pic.png);
+        background-repeat: no-repeat;
+        display: inline-block;
+    }
+    
+    #box-two{
+        box-sizing: border-box;
+        background-color: rgb(27, 27, 27);
+        opacity: 70%;
+        height: 482px;
+        width: 482px;
+        display: inline-block;
+    }
+    
+    #box-three{
+        box-sizing: border-box;
+        background-color:transparent;
+        height: 482px;
+        width: 482px;
+        left: 50%
+    }
+}
+*/
