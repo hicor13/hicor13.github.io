@@ -23,7 +23,7 @@ body{
 #box-one{
     position:static;
     box-sizing: border-box;
-    background-color: aqua;
+    background-color: transparent;
     height: 482px;
     width: 482px;
     background-image: url(/media/profile_pic.png);
