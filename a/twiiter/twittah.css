@@ -1,0 +1,21 @@
+a, s, p, div{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+    background: url(/media/patterns/pattern_1.png);
+    background-color: rgba(29, 29, 29, 0.959);
+    background-size: 10px;
+}
+
+.centered{ /* This is the one for centering */
+    display:flex;
+    align-items: center; 
+    justify-content: center;
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    border: 10px;
+    border-color: black;
+    
+}
