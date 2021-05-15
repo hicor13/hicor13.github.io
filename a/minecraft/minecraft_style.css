@@ -1,0 +1,59 @@
+body {
+    
+    background:url(/media/image_2021-05-14_193656.ico);
+    background-repeat:unset;
+
+}
+
+a, section {
+
+font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+font-size: 5vh;
+
+}
+.popo {
+
+    display:flex;
+    align-items: center; 
+    justify-content: center;
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    
+}
+
+.poncho {
+
+    color: darkred;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 20vh;
+    right: 0;
+    
+}
+
+.textoo {
+
+    box-sizing: border-box;
+    background-color: black;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.texting {
+
+    color:rgb(98, 98, 98);
+
+
+}
+.down {
+
+    bottom:100px;
+
+}
