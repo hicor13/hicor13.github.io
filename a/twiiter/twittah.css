@@ -3,7 +3,7 @@ a, s, p, div{
 }
 
 body{
-    background: url(/media/patterns/pattern_1.png);
+    background: url(/media/img/patterns/pattern_1.png);
     background-color: rgba(29, 29, 29, 0.959);
     background-size: 10px;
 }

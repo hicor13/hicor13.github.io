@@ -3,7 +3,7 @@ a, s, p, div{
 }
 
 body{
-    background: url(/media/patterns/pattern_1.png);
+    background: url(/media/img/patterns/pattern_1.png);
     background-color: rgb(59, 59, 59);
     background-size: 10px;
 }
@@ -26,7 +26,7 @@ body{
     background-color: transparent;
     height: 482px;
     width: 482px;
-    background-image: url(/media/profile_pic.png);
+    background-image: url(/media/img/profile_pic.png);
     background-repeat: no-repeat;
     display: inline-block;
 }
@@ -86,7 +86,7 @@ body{
         background-color: aqua;
         height: 482px;
         width: 482px;
-        background-image: url(/media/profile_pic.png);
+        background-image: url(/media/img/profile_pic.png);
         background-repeat: no-repeat;
         display: inline-block;
     }

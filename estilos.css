@@ -27,7 +27,7 @@ a{
 
     height:100vh;
     background-color:transparent;
-    background-image: url(/media/HDchungus.png);
+    background-image: url(/media/img/HDchungus.png);
     background-repeat: no-repeat;
     background-position-x: 30%;
     background-position-y: auto 50%;
@@ -58,7 +58,7 @@ a{
         height:100vh;
         background-color:transparent;
         margin: 0;
-        background-image: url(/media/HDchungus.png);
+        background-image: url(/media/img/HDchungus.png);
         background-repeat: no-repeat;
         background-position-x: -30vh;
         background-position-y: -5vh;
