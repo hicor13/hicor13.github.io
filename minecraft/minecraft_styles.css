@@ -1,0 +1,184 @@
+@font-face {
+    font-family: "Minecrafter";
+    src: url("/media/fonts/minecrafter/minecrafter.reg-webfont.eot");
+    src: url("/media/fonts/minecrafter/minecrafter.reg-webfont.woff") format("woff"),
+    url("/media/fonts/minecrafter/Minecrafter.Reg.otf") format("opentype"),
+    url("/media/fonts/minecrafter/minecrafter.reg-webfont.svg") format("svg");
+    }
+
+
+
+body {
+    background-image: url(/media/netherrack.png);
+    background-size: 15vw;
+    background-size: 20vh;
+    background-repeat: repeat;
+    position: unset;
+
+}
+
+p {
+    font-family: 'Minecrafter';
+    ;
+}
+
+a:link {
+    color:rgb(255, 80, 80)
+    
+}
+
+
+a:hover {
+    color: blueviolet;
+}
+
+a:visited{
+    color:rgb(255, 80, 80)
+
+}
+
+a:active {
+    color: rgb(54, 255, 88);
+  }
+
+#centeroo {
+    margin-top: 10%;
+}
+.specific1 {
+    text-align: center;
+    color: azure;
+    font-size:13vh;
+    
+    line-height:1 ;
+
+    }
+
+.specific2 {
+    
+    background-color: black;
+    position: fixed;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20vh;
+    margin-bottom: auto;
+    width: 85vw;
+    position: relative;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+}
+
+.specific3{
+    font-size: 4vw;
+    margin-top: 2vh;
+    color: rgb(124, 124, 124);
+}
+
+.specific4{
+    color:rgb(255, 58, 58);
+    font-size: 3vw;
+    padding-top: 1.5vh;
+    padding-bottom: 1.5vh;
+    margin-top: 2vh;
+
+}
+
+@media only screen and (max-device-width: 480px) {
+
+    .centeroo {
+        margin-top: 0px !important;
+    
+    }    
+
+    .specific1 {
+        text-align: center;
+        color: rgb(255, 255, 255);
+        font-size:6.7vh;
+        font-size-adjust:8vh;
+        line-height:1 ;
+    
+        }
+    
+    .specific2 {
+        
+        background-color: black;
+        position: initial;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 20vh;
+        margin-bottom: auto;
+        width: 88vw;
+        position: relative;
+        padding-top: 2vh;
+        padding-bottom: 2vh;
+    }
+    
+    .specific3{
+        font-size: 5.7vw;
+        margin-top: 2vh;
+        color: rgb(155, 155, 155);
+    }
+    
+    .specific4{
+        color:rgb(255, 75, 75);
+        font-size: 6.5vw;
+        padding-top: 1.5vh;
+        padding-bottom: 1.5vh;
+        margin-top: 2vh;
+    
+    }
+
+}
+
+
+
+@media only screen and (max-device-height:480px) {
+    .centeroo {
+        margin-top: 0px !important;
+    }
+        .specific1 {
+            text-align: center;
+            color: azure;
+            font-size:8vh;
+            font-size-adjust:8vh;
+            line-height:1 ;
+        
+            }
+   
+            .specific2 {
+        
+                background-color: black;
+                position: initial;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 20vh;
+                margin-bottom: auto;
+                width: 88vw;
+                position: relative;
+                padding-top: 2vh;
+                padding-bottom: 2vh;
+            }
+            
+            .specific3{
+                font-size: 5.7vw;
+                margin-top: 2vh;
+                color: rgb(155, 155, 155);
+            }
+            
+            .specific4{
+                color:rgb(255, 75, 75);
+                font-size: 6.5vw;
+                padding-top: 1.5vh;
+                padding-bottom: 1.5vh;
+                margin-top: 2vh;
+            
+            }
+   
+   
+   
+   
+        }    
+
+
+
+}
+
