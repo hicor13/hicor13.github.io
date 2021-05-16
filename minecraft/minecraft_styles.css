@@ -1,9 +1,9 @@
 @font-face {
     font-family: "Minecrafter";
-    src: url("/media/img/fonts/minecrafter/minecrafter.reg-webfont.eot");
-    src: url("/media/img/fonts/minecrafter/minecrafter.reg-webfont.woff") format("woff"),
-    url("/media/img/fonts/minecrafter/Minecrafter.Reg.otf") format("opentype"),
-    url("/media/img/fonts/minecrafter/minecrafter.reg-webfont.svg") format("svg");
+    src: url("/media/fonts/minecrafter/minecrafter.reg-webfont.eot");
+    src: url("/media/fonts/minecrafter/minecrafter.reg-webfont.woff") format("woff"),
+    url("/media/fonts/minecrafter/Minecrafter.Reg.otf") format("opentype"),
+    url("/media/fonts/minecrafter/minecrafter.reg-webfont.svg") format("svg");
     }
 
 
