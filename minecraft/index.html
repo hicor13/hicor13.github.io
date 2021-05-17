@@ -1,37 +1,99 @@
 <!DOCTYPE html>
 <html>
-
     <head>
-        <title>Servidor de Minecraft</title>
-        <link rel="icon" href="/media/img/netherrack.png">
-        <link rel="stylesheet" href="/minecraft/minecraft_styles.css">      
+        <title>Servidor de Minecraft (1.16.5)</title>
+        <link rel="icon" href="/media/img/image_2021-05-14_193656.ico">
+        <link rel="stylesheet" href="minecraft_styles_2.css">
+        <script src="/libs/clipboard.js-master/dist/clipboard.min.js"></script>
+    
     </head>
-
     <body>
-        
-        <section id="centeroo">
-            <table>
-                <tr>
-                    <p class="specific1 specific2">MINECRaFT VERSION 1.16.5</p>
-                </tr>
 
-                <tr>
-                    <p class="specific1 specific2 specific3">
-                        DIRECCION DEL SERVIDOR: </p>
-                </tr>
-                
-                <tr>
-                    <p class="specific1 specific2 specific4">&nbsp<a href="https://mc.mariocornejo.com" target="_blank" style="text-decoration: none;">mc.mariocornejo.com</a></p>
-                </tr>
-            
-            </table>
-        
+<script>
+            var clipboard = new ClipboardJS('.btn');
+      
+            clipboard.on('success', function (e) {
+              console.log(e);
+            });
+      
+            clipboard.on('error', function (e) {
+              console.log(e);
+            });
+            var clipboard = new ClipboardJS('.btn');
+            clipboard.destroy();
+        </script>
+        <script>
+
+function unhide() {
+    var hid = document.getElementsByClassName("exp");
+    // Emulates jQuery $(element).is(':hidden');
+    if(hid[0].offsetWidth > 0 && hid[0].offsetHeight > 0) {
+        hid[0].style.visibility = "visible";
+    }
+}
+
+        </script>
+        <script>
+    var btn = document.getElementById('btn');
+    var clipboard = new ClipboardJS(btn);
+
+    clipboard.on('success', function (e) {
+      console.log(e);
+    });
+
+    clipboard.on('error', function (e) {
+      console.log(e);
+    });
+        </script>
+
+        <main id="main-card">
+            <h1 class="text main-title">
+                <div id="maincra">MINECraFT</div> VErSI<a id="accent">O</a>N 1.16.5
+            </h1>
+            <h2 class="text main-subtitle">
+                DIrECCION DEL SErVIDOr:
+            </h2>
+            <button class="text btn caca Click-here" data-clipboard-text="mc.mariocornejo.com">
+                MC.MARIOCORNEJO.COM
+            </button>
+        </main>
+
+        <section>
+            <div class="rt-container">
+                  <div class="col-rt-12">
+                      <div class="Scriptcontent">
+                      
+                    <!-- Message Box HTML -->
+      
+        <div class="custom-model-main">
+            <div class="custom-model-inner">        
+            <div class="close-btn">×</div>
+                <div class="custom-model-wrap">
+                    <div class="pop-up-content-wrap">
+                       <h2>HaZ COPIaDO LA DIRECCION.</h2>
+                       <p>Puedes colocarlo en tu listA de servidores.</p>
+                    </div>
+                </div>  
+            </div>  
+            <div class="bg-overlay"></div>
+        </div>
+                          <!-- End Message Box HTML -->
+                   
+                    </div>
+                </div>
+            </div>
         </section>
 
-
-
-        
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+        <script>
+        $(".Click-here").on('click', function() {
+          $(".custom-model-main").addClass('model-open');
+        }); 
+        $(".close-btn, .bg-overlay").click(function(){
+          $(".custom-model-main").removeClass('model-open');
+        });
+        </script>
+           
     </body>
-
 </html>
 
