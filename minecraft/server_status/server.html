@@ -1,13 +1,30 @@
+<!DOCTYPE html>
+
 <html>
-    <script src="/minecraft/server_status/server_star.js"></script>
-    <link rel="stylesheet" href="server-stat.css">
-<div class="card"> <div class="icon">
-<img src="https://pbs.twimg.com/profile_images/808180587605331969/u-CULTwl_400x400.jpg" id="favicon"></div><div class="header">
- <div class="image"> <img src="http://hypixel.net/proxy.php?image=https%3A%2F%2Fi.imgur.com%2FjkFk4TU.png&hash=ec5b70a2ba4c4f79b5031ac356695a13" alt="" /> </div>
- 
-  <h2>hypixel.net</h2><!-- put server name here !-->
-  </div>
-  <div id="rest">Loading ...</div>
-</div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+    <script src="https://mcapi.us/scripts/minecraft.js"></script>
+  
+    <div class="server-status">
+      My awesome server is currently <span class="server-online"></span>!
+    </div>
+    <div class="server-status">
+      My awesome server is currently <span class="players-now"></span>!
+    </div>
+
+    <script>
+      MinecraftAPI.getServerStatus('mc.mariocornejo.com', {
+        port: 25565 // optional, only if you need a custom port
+      }, function (err, status) {
+        if (err) {
+          return document.querySelector('.server-status').innerHTML = 'Error loading status';
+        }
+
+        // you can change these to your own message!
+        document.querySelector('.server-online').innerHTML = status.online ? 'up' : 'down';
+
+        document.querySelector('.server-now').innerHTML = players.now ? '' : ''
+      });
+    </script>
+
+
 </html>
