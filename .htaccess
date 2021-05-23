@@ -1,2 +1,2 @@
 ErrorDocument 404 /404.html
-RedirectMatch 302 ^/minecraft /projects/minecraft/
+RedirectMatch 302 ^/minecraft /projects/minecraft
