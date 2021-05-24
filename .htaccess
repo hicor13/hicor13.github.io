@@ -1,3 +1,1 @@
 ErrorDocument 404 /404.html
-RedirectMatch 302 ^/minecraft /projects/minecraft
-Redirect /minecraft/index.html https://mariocornejo.com/projects/minecraft
