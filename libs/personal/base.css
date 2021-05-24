@@ -1,0 +1,222 @@
+
+*{
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
+    padding: 0;
+    background-color:#4A6050;
+    width:100%;
+}
+p, a, div, section{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+main{
+    height:5000px;
+    width: 100%;
+}
+.nav_style{
+    font-size: 20px;
+    background-color: #1E291E;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin:0;
+}
+.nav_links{
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+    height: max-content;
+    width: fit-content;
+}
+
+.nav_style a{
+    text-decoration: none;
+    color:white;
+    border-radius: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+a.nav_home:default{
+    color:white;
+}
+.nav_style a:hover{
+    transition: 0.8s;
+    color:#1E291E;
+    animation-duration: 0.3s;
+    background-color: white;
+}
+/*Special*/
+a.nav_home:hover{
+    color:white;
+    background-color: black;
+    padding-left:50px;
+    padding-right:50px;
+    transition: 0.3s;
+}
+a.nav_home:not(hover){
+    padding-left:25px;
+    padding-right:25px;
+    transition: 0.3s;
+}
+a.nav_hl{
+    color:white;
+    background-color: #141A14;
+    cursor: default;
+}
+a.nav_hl:hover{
+    color:white;
+    background-color: #141A14;
+    cursor: default;
+}
+/* Insert Here*/
+/* Insert Here*/
+/* Insert Here*/
+.pie{
+    font-family: 'Segoe UI';
+    font-size: 13px;
+    text-align: center;
+    box-sizing: border-box;
+    margin-top: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;  
+    background-color: #3F5344;
+}
+.pie p, a{
+    margin-top: 10px;
+    color: white;
+    text-decoration: none;
+}
+.img_DMCA{
+    margin-top: 10px;
+}
+/*MEDIA QUERIES*/
+@media only screen and (max-device-width: 480px) { /* Portrait */
+    body{
+        width: 100%;
+    }
+    .nav_style a{
+        display: grid;
+        margin:0px;
+
+    }
+    .nav_style{
+        position: inherit;
+        width: 100%;    
+        padding-top: 10px;
+        font-size: 15px;
+        padding-bottom: 10px;
+        text-align: center;
+    }
+    .nav_links{
+        width: 100%;
+        padding-right:8px;
+        padding-left: 8px;
+        left:50%;
+        transform: translate(-50%);
+        
+    }
+    .spacing{
+        height:0;
+        margin-bottom: 15px;
+        width:100%;
+    }
+    /*Hovers*/
+    .nav_style a:hover{
+        transition: 0;
+        color:#1E291E;
+        animation-duration: 0s;
+        background-color: white;
+    }
+    a.nav_home:hover{
+        color:white;
+        background-color: black;
+        padding-left:25px;
+        padding-right:25px;
+        transition: 0s;
+    }
+    a.nav_home:not(hover){
+        padding-left:25px;
+        padding-right:25px;
+        transition: 0s;
+    }
+    a.nav_hl{
+        color:white;
+        background-color: #141A14;
+        cursor: default;
+    }
+    a.nav_hl:hover{
+        color:white;
+        background-color: #141A14;
+        cursor: default;
+    }
+}
+@media only screen and (max-device-height: 480px) { /* Landscape */
+    body{
+        width: 100%;
+    }
+    .nav_style a{
+        display: inline-block;
+        margin-top: 100px;
+        margin:10px;
+    }
+    .nav_style{
+        position: inherit;
+        width: 100%;    
+        padding-top: 10px;
+        font-size: 15px;
+        padding-bottom: 10px;
+        text-align: center;
+    }
+    .nav_links{
+        width: 100%;
+        padding-right:8px;
+        padding-left: 8px;
+        left:50%;
+        transform: translate(-50%);
+    }
+    .spacing{
+        height:0;
+        margin-bottom: 15px;
+        width:100%;
+    }
+    /*Hovers*/
+    .nav_style a:hover{
+        transition: 0;
+        color:#1E291E;
+        animation-duration: 0s;
+        background-color: white;
+    }
+    a.nav_home:hover{
+        color:white;
+        background-color: black;
+        padding-left:25px;
+        padding-right:25px;
+        transition: 0s;
+    }
+    a.nav_home:not(hover){
+        padding-left:25px;
+        padding-right:25px;
+        transition: 0s;
+    }
+    a.nav_hl{
+        color:white;
+        background-color: #141A14;
+        cursor: default;
+    }
+    a.nav_hl:hover{
+        color:white;
+        background-color: #141A14;
+        cursor: default;
+    }
+    .pie{
+        padding-top: 20px;
+        padding-bottom: 20px;
+        font-size: 11px;
+    }
+}
