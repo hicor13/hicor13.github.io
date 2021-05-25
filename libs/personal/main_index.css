@@ -1,0 +1,30 @@
+main{
+    background-color: #57715E;
+    height: fit-content;
+    padding: 20px;
+}
+.main_section{
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #84AC8F;
+    width: 100%;
+    max-width: fit-content;
+    max-height: 100%;
+    height: max-content;
+}
+.main_section h1{
+    width: 100%;
+    color:rgb(0, 0, 0);
+    padding-bottom: 15px;
+    font-size: 54px;
+    max-width: fit-content
+    ;
+}
+
+
+@media screen and (max-device-height:480px) {
+    .main_section h1{
+        font-size: 8.5vw;
+    }
+              
+}

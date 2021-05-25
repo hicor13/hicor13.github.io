@@ -11,10 +11,7 @@ body{
 p, a, div, section{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-main{
-    height:5000px;
-    width: 100%;
-}
+
 .nav_style{
     font-size: 20px;
     background-color: #1E291E;
@@ -24,6 +21,7 @@ main{
     padding-top: 30px;
     padding-bottom: 30px;
     margin:0;
+    margin-bottom:30px;
 }
 .nav_links{
     position: relative;
@@ -82,10 +80,10 @@ a.nav_hl:hover{
     font-size: 13px;
     text-align: center;
     box-sizing: border-box;
-    margin-top: 30px;
     padding-top: 30px;
     padding-bottom: 30px;  
     background-color: #3F5344;
+    margin-top: 30px;
 }
 .pie p, a{
     margin-top: 10px;
