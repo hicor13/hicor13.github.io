@@ -8,8 +8,26 @@
         <link rel="stylesheet" href="/libs/personal/base.css">
         <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="/libs/personal/main_index.css">
+        <link rel="stylesheet" href="/libs/personal/disqus_mod1.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta charset="utf-8">
+        <meta charset="utf-8">  
+        <script>
+            var disqus_shortname = "hicor13";
+            var disqus_config = function () {
+                this.page.url = 'https://mariocornejo.com';  
+                this.page.identifier = 'https://mariocornejo.com';
+            };
+            var is_disqus_loaded = false;
+            function loadDisqus() {  
+            if (!is_disqus_loaded){
+                is_disqus_loaded = true;
+                var d = document, s = d.createElement('script');        
+                s.src = '//' + disqus_shortname +'.disqus.com/embed.js';        
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                }   
+            };
+        </script>
     </head>
     <body>
         <header>
@@ -34,12 +52,27 @@
             </nav> 
         </header>
         <main>
-            <section class="main_section">
+            <div class="main_title">
                 <h1>¡Bienvenidos a mariocornejo.com!</h1>
+            </div>
+            <section class="main_section">
                 <p>Esta es una página web que he creado para concentrar todos mis esfuerzos creativos, siempre he querido tener una página web y bueno ya estoy aquí.
                     No es mi primera página web, pero es la primera que he construido completamente usando HTML, CSS y JavaScript. Así que la página web solo mejorará con el pasar del tiempo. 
                     </p>
+                    <p> 
+                        &nbsp;
+                    </p>
+                    <p>
+                        <a title="¡Es esta página web!"href="https://mariocornejo.com">mariocornejo.com</a> es una página web construida con la intención de exponer los conocimientos que he ido adquiriendo a lo largo del tiempo. Es un proyecto mediante el cuál busco mejorar mis talentos y en el camino crear una página web bien interesante
+                    </p>
             </section>
+            
+            <div class="disqus">
+                <div id="disqus_thread" class="disqus_chungus">
+                    <a title="Abrir Disqus" href="#" class="comments-holder" onclick="loadDisqus();return false;"><p class="link_only">Mostrar / Publicar comentarios</p></a> 
+                    </div>
+            </div>
+
         </main>
         <footer class="pie">
             <p><a href="https://www.youtube.com/watch?v=62UVc759fzY" title="?????????????????????????????????????????????????????????????????????????????????" style="cursor: default;">Elaborado por Mario Cornejo</a></p>

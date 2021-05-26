@@ -1,4 +1,23 @@
+        /* width */
+        ::-webkit-scrollbar {
+            width: 3px;
+            opacity: 40%;
+        }
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #5C7964;
+            opacity: 40%;
+        }
 
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: rgb(55, 61, 57);
+        }
+        
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgb(81, 87, 80);
+        }
 *{
     box-sizing: border-box;
 }
@@ -94,7 +113,7 @@ a.nav_hl:hover{
     margin-top: 10px;
 }
 /*MEDIA QUERIES*/
-@media only screen and (max-device-width: 480px) { /* Portrait */
+@media only screen and (max-device-width: 510px) { /* Portrait */
     body{
         width: 100%;
     }
