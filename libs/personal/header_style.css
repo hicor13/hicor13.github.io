@@ -3,9 +3,7 @@
     margin:0;
     border: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
 }
-
 .header_style{
     box-sizing: border-box;
     height:200px;
@@ -38,6 +36,10 @@
 .main_section{
     text-align: justify;
     line-height: 30px;
+}
+.disqus-footer {
+    height: 3000px;
+
 }
 
 @media screen and (max-device-width:480px){
