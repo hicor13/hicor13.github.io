@@ -5,6 +5,7 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .header_style{
+    float: left;
     box-sizing: border-box;
     height:200px;
     width: 100%;

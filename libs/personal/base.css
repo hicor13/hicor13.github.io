@@ -1,106 +1,91 @@
-/* width */
-::-webkit-scrollbar {
-    width: 10px;
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background-color: transparent
-}
-   
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: #1b3121; 
-
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgb(38, 39, 38); 
-  }
-
-
-*{
-    box-sizing: border-box;
-}
-
-body{
-    margin: 0;
-    padding: 0;
-    background-color:#4A6050;
-    width:100%;
-}
-p, a, div, section{
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.nav_style{
+        *{
+            box-sizing: border-box;
+        }
+        /* width */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background-color: transparent
+        }
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #1b3121; 
+        }
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgb(38, 39, 38); 
+        }
+        main{
+            width: 100%;
+            float: left;
+            margin-top: 45px;
+            margin-bottom: 45px;
+        }
+        body{
+            margin: 0;
+            padding: 0;
+            background-color:#4A6050;
+            width:100%;
+        }
+        p, a, div, section{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+.nav_style2{
     font-size: 20px;
     background-color: #1E291E;
-    overflow: hidden;
-    position: relative;
+    float: left;
     width: 100%;
-    padding-top: 30px;
-    padding-bottom: 30px;
+    padding-top:15px;
+    padding-bottom: 15px;
     margin:0;
-    margin-bottom:30px;
-}
-.nav_links{
-    position: relative;
-    left: 50%;
-    transform: translate(-50%);
-    height: max-content;
-    width: fit-content;
-}
-
-.nav_style a{
     text-decoration: none;
+    position: relative;
+}
+.nav_master{
+    width: max-content;
+    margin-left: 50%;
+    transform: translate(-50%);
+}
+.nav_master div{ 
+    width: auto;
+    float: left;
+    text-align: center;
     color:white;
     border-radius: 5px;
     padding-top: 10px;
     padding-bottom: 10px;
+    margin-bottom: 0px;
     padding-left: 25px;
     padding-right: 25px;
+    margin-left: 4px;
+    margin-right: 4px;
 }
-a.nav_home:default{
+div.nav_hl2{
     color:white;
+    background-color: #141A14;
+    cursor: default;
 }
-.nav_style a:hover{
+div.nav_home2:hover{
+    color:white;
+    background-color: black;
+    transition: 0.3s;
+}
+div.nav_normal:hover{
     transition: 0.8s;
     color:#1E291E;
     animation-duration: 0.3s;
     background-color: white;
 }
-/*Special*/
-a.nav_home:hover{
-    color:white;
-    background-color: black;
-    padding-left:50px;
-    padding-right:50px;
-    transition: 0.3s;
-}
-a.nav_home:not(hover){
-    padding-left:25px;
-    padding-right:25px;
-    transition: 0.3s;
-}
-a.nav_hl{
-    color:white;
-    background-color: #141A14;
-    cursor: default;
-}
-a.nav_hl:hover{
-    color:white;
-    background-color: #141A14;
-    cursor: default;
-}
+            footer{
+                float: left;
+                width: 100%;
+            }
 .link_mc{
     color:white;
     font-weight: bold;
 }
-/* Insert Here*/
-/* Insert Here*/
-/* Insert Here*/
 .pie{
     font-family: 'Segoe UI';
     font-size: 13px;
@@ -109,7 +94,7 @@ a.nav_hl:hover{
     padding-top: 30px;
     padding-bottom: 30px;  
     background-color: #3F5344;
-    margin-top: 30px;
+    margin-top: 0px;
 }
 .pie p, a{
     margin-top: 10px;
@@ -119,125 +104,30 @@ a.nav_hl:hover{
 .img_DMCA{
     margin-top: 10px;
 }
-/*MEDIA QUERIES*/
-@media only screen and (max-device-width: 510px) { /* Portrait */
-    body{
-        width: 100%;
-    }
-    .nav_style a{
-        display: grid;
-        margin:0px;
 
-    }
-    .nav_style{
-        position: inherit;
-        width: 100%;    
-        padding-top: 10px;
-        font-size: 15px;
-        padding-bottom: 10px;
-        text-align: center;
-    }
-    .nav_links{
+@media only screen and (max-device-width: 480px) { /* Landscape */
+    .nav_master{
         width: 100%;
-        padding-right:8px;
-        padding-left: 8px;
-        left:50%;
-        transform: translate(-50%);
-        
     }
-    .spacing{
-        height:0;
-        margin-bottom: 15px;
-        width:100%;
-    }
-    /*Hovers*/
-    .nav_style a:hover{
-        transition: 0;
-        color:#1E291E;
-        animation-duration: 0s;
-        background-color: white;
-    }
-    a.nav_home:hover{
+    .nav_master div{ 
+        width: 100%;
+        float: left;
+        text-align: center;
         color:white;
-        background-color: black;
-        padding-left:25px;
-        padding-right:25px;
-        transition: 0s;
-    }
-    a.nav_home:not(hover){
-        padding-left:25px;
-        padding-right:25px;
-        transition: 0s;
-    }
-    a.nav_hl{
-        color:white;
-        background-color: #141A14;
-        cursor: default;
-    }
-    a.nav_hl:hover{
-        color:white;
-        background-color: #141A14;
-        cursor: default;
+        border-radius: 5px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        margin-bottom: 0px;
+        padding-left: 25px;
+        padding-right: 25px;
+        margin-left: 0px;
+        margin-right: 0px;
+        margin-top: 4px;
+        margin-bottom: 4px;
     }
 }
+
 @media only screen and (max-device-height: 480px) { /* Landscape */
-    body{
-        width: 100%;
-    }
-    .nav_style a{
-        display: inline-block;
-        margin-top: 100px;
-        margin:10px;
-    }
-    .nav_style{
-        position: inherit;
-        width: 100%;    
-        padding-top: 10px;
-        font-size: 15px;
-        padding-bottom: 10px;
-        text-align: center;
-    }
-    .nav_links{
-        width: 100%;
-        padding-right:8px;
-        padding-left: 8px;
-        left:50%;
-        transform: translate(-50%);
-    }
-    .spacing{
-        height:0;
-        margin-bottom: 15px;
-        width:100%;
-    }
-    /*Hovers*/
-    .nav_style a:hover{
-        transition: 0;
-        color:#1E291E;
-        animation-duration: 0s;
-        background-color: white;
-    }
-    a.nav_home:hover{
-        color:white;
-        background-color: black;
-        padding-left:25px;
-        padding-right:25px;
-        transition: 0s;
-    }
-    a.nav_home:not(hover){
-        padding-left:25px;
-        padding-right:25px;
-        transition: 0s;
-    }
-    a.nav_hl{
-        color:white;
-        background-color: #141A14;
-        cursor: default;
-    }
-    a.nav_hl:hover{
-        color:white;
-        background-color: #141A14;
-        cursor: default;
-    }
     .pie{
         padding-top: 20px;
         padding-bottom: 20px;
