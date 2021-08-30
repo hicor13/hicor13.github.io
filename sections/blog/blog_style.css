@@ -1,70 +1,138 @@
-main {
-    width: 100%;
-    float: left;
-    padding: 20px;
-}
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    
-}
-h2 {
-    margin: 0px;
-}
-/* Header/Blog Title */
+      main {
+          width: 100%;
+          float: left;
+          padding-left: 20px;
+          padding-right: 20px;
+      }
+      body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          color:white;
+        }
+        h2 {
+          color:white;
+          padding-bottom: 10PX;
+      }
+      img{
+        margin: 0px;
+      }
+
 .header {
-    padding: 0px;
-    font-size: 40px;
-    text-align: center;
-    background: white;
-  }
-  
-  /* Create two unequal columns that floats next to each other */
-  /* Left column */
-  .leftcolumn {
-    float: left;
-    width: 75%;
-  }
-  
-  /* Right column */
-  .rightcolumn {
-    float: left;
-    width: 25%;
-    padding-left: 20px;
-  }
-  
-  /* Fake image */
-  .fakeimg {
-    background-color: #aaa;
-    width: 100%;
-    padding: 20px;
-  }
-  
-  /* Add a card effect for articles */
-  .card {
-    background-color: white;
-    padding: 20px;
-    margin-top: 20px;
-  }
-  
-  /* Clear floats after the columns */
-  .row:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-  
-  /* Footer */
-  .footer {
-    padding: 20px;
-    text-align: center;
-    background: #ddd;
-    margin-top: 20px;
-  }
-  
-  /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+  color:white;
+  padding: 30px;
+  font-size: 40px;
+  text-align: center;
+  background: #1E291E;
+}
+.header h2{
+  font-size:50px;
+}
+.leftcolumn {
+  float: left;
+  width: 75%;
+}
+.rightcolumn {
+  float: left;
+  width: 25%;
+  padding-left: 20px;
+}
+.rightcolumn .card {
+  background-color: #2B362F;
+}
+.card {
+  background-color: #3A4940;
+  padding: 20px;
+  margin-top: 20px;
+}
+.card p{
+  font-size: 22px;
+  text-align: justify;
+  overflow-wrap: break-word;
+}
+.leftcolumn h2{
+  font-size: 48px;
+  overflow-wrap: break-word;
+}
+.leftcolumn h5{
+font-size: 18px;
+font-style: italic;
+font-weight: 600;
+line-height: 1.8;
+}
+.card img{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  max-height: 500px;
+  max-width: 100%;
+}
+.fakeimg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #54695C;
+  width: 100%;
+  height: 100px;
+}
+.leftcolumn .fakeimg {
+  margin-bottom: 50px;
+}
+.content_card{
+  background-color: #2B362F;
+  margin: -20px;
+  border-top-width: 0px;
+  border-top-style: solid;
+  padding-left: 20px;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+.content_card p {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+.content_card h1 {
+  font-size: 48px;
+}
+.content_card h2 {
+  font-size: 34px;
+}
+.content_card h3 {
+  font-size: 28px;
+}
+.content_card h4 {
+  font-size: 24px;
+}
+.content_card h1, h2, h3, h4, h5{
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding-bottom: 0px;
+  overflow-wrap: break-word;
+}
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.footer {
+  padding: 20px;
+  text-align: center;
+  background: #1E291E;
+  margin-top: 20px;
+}
+div.rightcolumn h2 {
+  padding-bottom: 10px;
+}
   @media screen and (max-width: 800px) {
     .leftcolumn, .rightcolumn {
       width: 100%;
       padding: 0;
     }
+    .card img{
+      border: 0px;
+      margin-top: 10px;
+      margin-bottom: 0px;
+      max-width: 100%;
   }
+}
