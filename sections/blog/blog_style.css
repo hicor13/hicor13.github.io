@@ -44,13 +44,14 @@
   margin-top: 20px;
 }
 .card p{
-  font-size: 22px;
+  font-size: 20px;
   text-align: justify;
   overflow-wrap: break-word;
 }
 .leftcolumn h2{
   font-size: 48px;
   overflow-wrap: break-word;
+  line-height: 1.1;
 }
 .leftcolumn h5{
 font-size: 18px;
@@ -68,6 +69,10 @@ line-height: 1.8;
   max-width: 100%;
 }
 .fakeimg {
+  padding: 25px;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 300;
+  font-size:23px;
   display: flex;
   justify-content: center;
   align-items: center;
