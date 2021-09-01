@@ -39,7 +39,7 @@
   background-color: #2B362F;
 }
 .card {
-  background-color: #3A4940;
+  background-color: #3C4C42;
   padding: 20px;
   margin-top: 20px;
 }
@@ -47,6 +47,9 @@
   font-size: 20px;
   text-align: justify;
   overflow-wrap: break-word;
+}
+.card h5{
+  color: #a7a7a7;
 }
 .leftcolumn h2{
   font-size: 48px;
@@ -69,8 +72,9 @@ line-height: 1.8;
   max-width: 100%;
 }
 .fakeimg {
+  color: beige;
   padding: 25px;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: cursive;
   font-weight: 300;
   font-size:23px;
   display: flex;
@@ -84,7 +88,7 @@ line-height: 1.8;
   margin-bottom: 50px;
 }
 .content_card{
-  background-color: #2B362F;
+  background-color: #35433A;
   margin: -20px;
   border-top-width: 0px;
   border-top-style: solid;
