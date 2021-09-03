@@ -144,7 +144,10 @@ div.rightcolumn h2 {
 }
 .rightcolumn .card.social_stuff .fakeimg{
   background-color: #161D18;
-  margin: 0px;;
+  margin: 0px;
+}
+.rightcolumn .card.social_stuff .fakeimg:hover{
+
 }
 .rightcolumn .card.social_stuff h3{
   margin-top: 0px;
