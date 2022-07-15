@@ -1,4 +1,4 @@
-
+/*CHUNGY BOY*/
 *{
     margin:0;
     border: 0;
@@ -14,6 +14,10 @@
     background-color: #121812;
     padding-top: 50px;
     padding-left: 80px;
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */  
 }
 .header_style h1{
     font-size: 35px;
@@ -42,7 +46,6 @@
     height: 3000px;
 
 }
-
 @media screen and (max-device-width:480px){
     .header_style{
         padding-top: 75px;
