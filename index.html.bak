@@ -42,6 +42,41 @@
 
         </head>
     <body>
-       
+        <header>
+            <div class="header_style">
+                <h1>
+                    Mario Cornejo
+                </h1>
+                <p>la página web</p>    
+            </div>
+            <div class="header_right">
+                <img src="/media/img/chungus.png" alt="chungus">
+            </div>
+            <header-component></header-component>
+            <div>
+            </div> 
+        </header>
+        <main>
+            <div>
+                <div class="main_title">
+                    <h1>¡Bienvenidos a mariocornejo.com!</h1>
+                </div>
+                <section class="main_section">
+                    <p>Esta es una página web que he creado para concentrar todos mis esfuerzos creativos, siempre he querido tener una página web y bueno ya estoy aquí.
+                        No es mi primera página web, pero es la primera que he construido completamente usando HTML, CSS y JavaScript. Así que la página web solo mejorará con el pasar del tiempo. 
+                    </p>
+                   
+
+                    <h2 style="text-align: center; font-size: 25px;">¡¡¡Más en el futuro!!! (No ha mejorado mucho en un año, pero estoy dispuesto a hacer más cosas aquí!!!)</h2>
+                </section>
+                    <!--End of main-->
+                <div class="disqus">
+                        <div id="disqus_thread" class="disqus_chungus">
+                            <a title="Abrir Disqus" href="#" class="comments-holder" onclick="loadDisqus();return false;"><p class="link_only">Mostrar / Publicar comentarios</p></a> 
+                        </div>
+                    </div>
+            </div>
+        </main>
+        <footer-component></footer-component>
      </body>
-</html>
+<html>
