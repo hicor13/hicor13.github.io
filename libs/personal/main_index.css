@@ -14,6 +14,30 @@ main {
     padding-left: 45px;
     padding-right: 45px;
 } 
+#annoying-dog {
+    position: absolute;
+    width: 300px; /* adjust size as needed */
+    height: auto;
+    animation: curved-path 8s infinite linear;
+}
+
+@keyframes curved-path {
+    0% {
+        transform: translate(50vw, 50vh) translate(-40vw, -40vh) rotate(15deg);
+    }
+    15% {
+        transform: translate(50vw, 50vh) translate(40vw, -40vh) rotate(175deg);
+    }
+    50% {
+        transform: translate(50vw, 50vh) translate(40vw, 40vh) rotate(1456deg);
+    }
+    75% {
+        transform: translate(50vw, 50vh) translate(-40vw, 40vh) rotate(180deg);
+    }
+    100% {
+        transform: translate(50vw, 50vh) translate(-40vw, -40vh) rotate(156deg);
+    }
+}
 .main_title {
     margin:0;
     border-top-left-radius: 20px ;

@@ -74,3 +74,49 @@
     }
 
 }
+
+/* Sticky horizontal navigation with subtle blur */
+.site-nav{
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--nav-height);
+    display: flex;
+    justify-content: space-between;
+    gap: 100px;
+    align-items: center;
+    z-index: 9999;
+    background: rgba(18,24,18,0.55);
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+.main-content{
+    max-width: 1200px;
+    margin : 40px auto;
+    padding: 0 20px;
+}
+.site-nav ul{
+    list-style: none;
+    display: flex;
+    gap: 28px;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+.site-nav li{
+    margin: 0;
+}
+
+.site-nav a{
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 18px;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
