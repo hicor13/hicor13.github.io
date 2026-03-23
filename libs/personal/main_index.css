@@ -21,6 +21,7 @@ main {
     animation: curved-path 8s infinite linear;
 }
 
+
 @keyframes curved-path {
     0% {
         transform: translate(50vw, 50vh) translate(-40vw, -40vh) rotate(15deg);
