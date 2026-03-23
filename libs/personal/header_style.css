@@ -92,6 +92,8 @@
     text-align: justify;
     line-height: 30px;
 }
+#sections{
+padding-right: 30px;}
 
 
 /* Mobile/Cellphone Responsive Styles */
@@ -100,7 +102,7 @@
         width: 100%;
     }
     .header_style {
-        height: 150px;
+        height: 200px;
         padding-top: 30px;
         padding-left: 20px;
     }
@@ -118,27 +120,34 @@
     }
     
     .site-nav {
-        gap: 20px;
+        height: 50px;
+        gap: 0px;
         padding: 0 15px;
     }
     
     .site-nav ul {
-        gap: 15px;
+        gap: 1px;
     }
     
     .site-nav a {
-        font-size: 12px;
-        padding: 6px 10px;
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 14px;
+        padding: 8px 10px;
+        border-radius: 6px;
     }
     
     .main-content {
-        margin: 20px auto;
-        padding: 0 15px;
+        margin: 22px auto;
+        padding: 0 5px;
     }
     
     .main_section {
         line-height: 24px;
         font-size: 14px;
+    }
+    #sections{
+        padding-right: 0px;
     }
 }
 
