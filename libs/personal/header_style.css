@@ -96,6 +96,9 @@
 
 /* Mobile/Cellphone Responsive Styles */
 @media (max-width: 768px) {
+    body {
+        width: fit-content;
+    }
     .header_style {
         height: 150px;
         padding-top: 30px;
