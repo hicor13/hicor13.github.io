@@ -1,3 +1,12 @@
+const image = document.getElementById('annoying-dog');
+const sound = document.getElementById('mySound');
+
+image.addEventListener('click', () => {
+    sound.currentTime = 0; // Resets sound to start if clicked rapidly
+    sound.play();
+});
+
+/*
 class Header extends HTMLElement {
   constructor() {
     super();
@@ -16,10 +25,10 @@ class Header extends HTMLElement {
         margin:0;
         text-decoration: none;
         position: relative;
-        -webkit-user-select: none;  /* Chrome all / Safari all */
-        -moz-user-select: none;     /* Firefox all */
-        -ms-user-select: none;      /* IE 10+ */
-        user-select: none;          /* Likely future */  
+        -webkit-user-select: none;  
+        -moz-user-select: none;     
+        -ms-user-select: none;      
+        user-select: none;          
     }
     .nav_master{
         width: max-content;
@@ -106,10 +115,10 @@ class Footer extends HTMLElement {
           bottom : 0;
           height : fit-contents;
           margin-top : 40px;
-          -webkit-user-select: none;  /* Chrome all / Safari all */
-          -moz-user-select: none;     /* Firefox all */
-          -ms-user-select: none;      /* IE 10+ */
-          user-select: none;          /* Likely future */  
+          -webkit-user-select: none;  
+          -moz-user-select: none;     
+          -ms-user-select: none;      
+          user-select: none;          
         }
         .link_mc{
           color:white;
@@ -174,3 +183,4 @@ customElements.define('footer-component', Footer);
 
 
 
+*/

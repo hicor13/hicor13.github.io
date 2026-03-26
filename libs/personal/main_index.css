@@ -14,6 +14,9 @@ main {
     padding-left: 45px;
     padding-right: 45px;
 } 
+audio {
+    display: none;
+}
 #dog-box {
     position: relative;
     width: var(--dog-box-width, 100vw);
