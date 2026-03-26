@@ -51,7 +51,7 @@
     gap: 100px;
     align-items: center;
     z-index: 9999;
-    background: rgba(18,24,18,0.55);
+    background: #1218128c;
     border-bottom-left-radius: 14px;
     border-bottom-right-radius: 14px;
     -webkit-backdrop-filter: blur(6px);
@@ -71,7 +71,6 @@
     padding: 0;
     align-items: center;
 }
-
 .site-nav li{
     margin: 0;
 }
@@ -84,9 +83,6 @@
     padding: 8px 12px;
     border-radius: 6px;
 }
-
-
-
 /*  Body Text  */
 .main_section{
     text-align: justify;
