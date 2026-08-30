@@ -143,6 +143,8 @@ h1 {
 
 .lightbox-content {
     position: relative;
+    width: 100%;
+    height: 100%;
     max-width: 100%;
     max-height: 100%;
     display: flex;
@@ -160,6 +162,7 @@ h1 {
     justify-content: center;
     max-width: 100%;
     max-height: 100%;
+    min-height: 0;
 }
 
 .lightbox img {
