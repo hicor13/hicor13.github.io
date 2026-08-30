@@ -49,11 +49,36 @@ function renderGallery() {
     }
 
     gallery.innerHTML = images.map((img, index) => `
-        <div class="gallery-item" style="--reveal-delay: ${Math.min(index * REVEAL_STEP_MS, REVEAL_MAX_DELAY_MS)}ms" onclick="openLightbox(${index})">
-            <img src="${img.src}" alt="${escapeHtml(img.title)}" loading="lazy">
+        <div class="gallery-item" onclick="openLightbox(${index})">
+            <img src="${img.src}" alt="${escapeHtml(img.title)}">
             <div class="gallery-item-title">${escapeHtml(img.title)}</div>
         </div>
     `).join('');
+}
+
+// CSS column-count fills the first column completely (top to bottom)
+// before starting the next one, so an item's position in `images` doesn't
+// match its visual column. Staggering by that flat index made whichever
+// column got the earlier indices finish revealing before the next column
+// had even started, which read as the columns not being top-aligned.
+// Stagger by each item's position within its own column instead, so every
+// column starts cascading in from the top at the same time. Must run after
+// every image has actually loaded (see waitForGalleryImages) — column
+// membership depends on each image's real height, which isn't known yet
+// right after the markup is inserted.
+function applyRevealStagger() {
+    const columns = new Map();
+    document.querySelectorAll('.gallery-item').forEach((el) => {
+        const left = Math.round(el.getBoundingClientRect().left);
+        if (!columns.has(left)) columns.set(left, []);
+        columns.get(left).push(el);
+    });
+    columns.forEach((items) => {
+        items.sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
+        items.forEach((el, i) => {
+            el.style.setProperty('--reveal-delay', `${Math.min(i * REVEAL_STEP_MS, REVEAL_MAX_DELAY_MS)}ms`);
+        });
+    });
 }
 
 // Waits on the actual gallery <img> elements (not a duplicate fetch) so the
@@ -162,6 +187,7 @@ document.getElementById('lightbox').addEventListener('click', (e) => {
 
     if (images.length > 0) {
         await waitForGalleryImages();
+        applyRevealStagger();
     }
     revealGallery();
 })();
