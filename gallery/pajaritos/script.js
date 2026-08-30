@@ -117,9 +117,14 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Close on background click
+// Close on background click. The layout wrappers between #lightbox and the
+// photo (.lightbox-content, .lightbox-image-row) have their own box area —
+// e.g. the image's padding, or the gap left/right of a narrow photo — so a
+// click there lands on the wrapper, not #lightbox itself. Treat anything
+// that isn't the photo, a control, or the caption as background instead.
 document.getElementById('lightbox').addEventListener('click', (e) => {
-    if (e.target.id === 'lightbox') closeLightbox();
+    if (e.target.closest('#lightbox-img, .lightbox-close, .lightbox-nav, .lightbox-caption')) return;
+    closeLightbox();
 });
 
 // Initialize: merge metadata, render markup, wait for every photo to be
