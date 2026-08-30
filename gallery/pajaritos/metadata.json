@@ -1,128 +1,24 @@
 {
-    "dsc-0090": {
-        "order": 2,
-        "title": "Chisco descansando en un árbol",
-        "date": "25/12/25",
-        "description": "Chisco (Mimus longicaudatus)"
-    },
-    "dsc-0095": {
-        "order": 3,
-        "title": "Chisco paseando por la tierra",
-        "date": "25/12/25",
-        "description": "Chisco (Mimus longicaudatus)"
-    },
-    "dsc-0096": {
-        "order": 4,
-        "title": "El mismo Chisco mirando a la derecha",
-        "date": "25/12/25",
-        "description": "Chisco (Mimus longicaudatus)"
-    },
-    "dsc-0103": {
-        "order": 5,
-        "title": "Un Chisco preparando el vuelo",
-        "date": "25/12/25",
-        "description": "Chisco (Mimus longicaudatus)"
-    },
-    "dsc-0109": {
-        "order": 6,
-        "title": "Chisco mirando épicamente",
-        "date": "25/12/25",
-        "description": "Chisco (Mimus longicaudatus)"
-    },
-    "dsc-0116": {
-        "order": 7,
-        "title": "Botón de oro mirando una hoja",
-        "date": "25/12/25",
-        "description": "Botón de oro (Sicalis flaveola)"
-    },
-    "dsc-0118": {
-        "order": 8,
-        "title": "Botón de oro posando para la cámara",
-        "date": "25/12/25",
-        "description": "Botón de oro (Sicalis flaveola)"
-    },
-    "dsc-0122": {
-        "order": 9,
-        "title": "Chisco farmeando aura",
-        "date": "25/12/25",
-        "description": "Chisco (Mimus longicaudatus)"
-    },
-    "dsc-0132": {
-        "order": 10,
-        "title": "Dos Botones de oro pasándola bien",
-        "date": "25/12/25",
-        "description": "Botón de oro (Sicalis flaveola)"
-    },
-    "dsc-0137": {
-        "order": 11,
-        "title": "Botón de oro mirando pensativamente",
-        "date": "25/12/25",
-        "description": "Botón de oro (Sicalis flaveola)"
-    },
-    "dsc-0145": {
-        "order": 12,
-        "title": "Botón de oro orándole a diosito",
-        "date": "25/12/25",
-        "description": "Botón de oro (Sicalis flaveola)"
-    },
-    "dsc-0155": {
-        "order": 13,
-        "title": "Guardacaballo siendo el más capo",
-        "date": "25/12/25",
-        "description": "Guardacaballo (Crotophaga sulcirostris)"
-    },
-    "dsc-0159": {
-        "order": 14,
-        "title": "Guardacaballo pisando grass",
-        "date": "25/12/25",
-        "description": "Guardacaballo (Crotophaga sulcirostris)"
-    },
-    "dsc-0161": {
-        "order": 15,
-        "title": "Botones de oro chismeando en un árbol",
-        "date": "25/12/25",
-        "description": "Botón de oro (Sicalis flaveola)"
-    },
-    "dsc-0163": {
-        "order": 16,
-        "title": "Botones de oro chismeando en un árbol (cont.)",
-        "date": "25/12/25",
-        "description": "Botón de oro (Sicalis flaveola)"
-    },
-    "dsc-0175": {
-        "order": 17,
-        "title": "Guardacaballo chilleando en el agua",
-        "date": "25/12/25",
-        "description": "Guardacaballo (Crotophaga sulcirostris)"
-    },
-    "dsc-0813": {
-        "order": 18,
-        "title": "Chisco chisqueando",
-        "date": "16/11/25",
-        "description": "Chisco (Mimus longicaudatus)"
-    },
-    "dsc-0814": {
-        "order": 19,
-        "title": "Chisco camuflado",
-        "date": "16/11/25",
-        "description": "Chisco (Mimus longicaudatus)"
-    },
-    "dsc-0826": {
-        "order": 20,
-        "title": "Chisco (de cerca)",
-        "date": "16/11/25",
-        "description": "Chisco (Mimus longicaudatus)"
-    },
-    "dsc-0829": {
-        "order": 21,
-        "title": "Chisco creyéndose Batman",
-        "date": "17/11/25",
-        "description": "Chisco (Mimus longicaudatus)"
-    },
-    "dsc-6767": {
-        "order": 1,
-        "title": "Pajarracos refrigerándose",
-        "date": "07/04/2026",
-        "description": "Raza no identificada"
-    }
+    "dsc-0017": { "order": 1, "title": "El kausa farmeando aura", "date": "30/08/2026", "description": "Raza no identificada" },
+    "dsc-6767": { "order": 1, "title": "Pajarracos refrigerándose", "date": "07/04/2026", "description": "Raza no identificada" },
+    "dsc-0090": { "order": 2, "title": "Chisco descansando en un árbol", "date": "25/12/25", "description": "Chisco (Mimus longicaudatus)" },
+    "dsc-0095": { "order": 3, "title": "Chisco paseando por la tierra", "date": "25/12/25", "description": "Chisco (Mimus longicaudatus)" },
+    "dsc-0096": { "order": 4, "title": "El mismo Chisco mirando a la derecha", "date": "25/12/25", "description": "Chisco (Mimus longicaudatus)" },
+    "dsc-0103": { "order": 5, "title": "Un Chisco preparando el vuelo", "date": "25/12/25", "description": "Chisco (Mimus longicaudatus)" },
+    "dsc-0109": { "order": 6, "title": "Chisco mirando épicamente", "date": "25/12/25", "description": "Chisco (Mimus longicaudatus)" },
+    "dsc-0116": { "order": 7, "title": "Botón de oro mirando una hoja", "date": "25/12/25", "description": "Botón de oro (Sicalis flaveola)" },
+    "dsc-0118": { "order": 8, "title": "Botón de oro posando para la cámara", "date": "25/12/25", "description": "Botón de oro (Sicalis flaveola)" },
+    "dsc-0122": { "order": 9, "title": "Chisco farmeando aura", "date": "25/12/25", "description": "Chisco (Mimus longicaudatus)" },
+    "dsc-0132": { "order": 10, "title": "Dos Botones de oro pasándola bien", "date": "25/12/25", "description": "Botón de oro (Sicalis flaveola)" },
+    "dsc-0137": { "order": 11, "title": "Botón de oro mirando pensativamente", "date": "25/12/25", "description": "Botón de oro (Sicalis flaveola)" },
+    "dsc-0145": { "order": 12, "title": "Botón de oro orándole a diosito", "date": "25/12/25", "description": "Botón de oro (Sicalis flaveola)" },
+    "dsc-0155": { "order": 13, "title": "Guardacaballo siendo el más capo", "date": "25/12/25", "description": "Guardacaballo (Crotophaga sulcirostris)" },
+    "dsc-0159": { "order": 14, "title": "Guardacaballo pisando grass", "date": "25/12/25", "description": "Guardacaballo (Crotophaga sulcirostris)" },
+    "dsc-0161": { "order": 15, "title": "Botones de oro chismeando en un árbol", "date": "25/12/25", "description": "Botón de oro (Sicalis flaveola)" },
+    "dsc-0163": { "order": 16, "title": "Botones de oro chismeando en un árbol (cont.)", "date": "25/12/25", "description": "Botón de oro (Sicalis flaveola)" },
+    "dsc-0175": { "order": 17, "title": "Guardacaballo chilleando en el agua", "date": "25/12/25", "description": "Guardacaballo (Crotophaga sulcirostris)" },
+    "dsc-0813": { "order": 18, "title": "Chisco chisqueando", "date": "16/11/25", "description": "Chisco (Mimus longicaudatus)" },
+    "dsc-0814": { "order": 19, "title": "Chisco camuflado", "date": "16/11/25", "description": "Chisco (Mimus longicaudatus)" },
+    "dsc-0826": { "order": 20, "title": "Chisco (de cerca)", "date": "16/11/25", "description": "Chisco (Mimus longicaudatus)" },
+    "dsc-0829": { "order": 21, "title": "Chisco creyéndose Batman", "date": "17/11/25", "description": "Chisco (Mimus longicaudatus)" }
 }
