@@ -50,7 +50,7 @@ function renderGallery() {
 
     gallery.innerHTML = images.map((img, index) => `
         <div class="gallery-item" style="--reveal-delay: ${Math.min(index * REVEAL_STEP_MS, REVEAL_MAX_DELAY_MS)}ms" onclick="openLightbox(${index})">
-            <img src="${img.src}" alt="${escapeHtml(img.title)}">
+            <img src="${img.src}" alt="${escapeHtml(img.title)}" loading="lazy">
             <div class="gallery-item-title">${escapeHtml(img.title)}</div>
         </div>
     `).join('');
@@ -87,9 +87,11 @@ function openLightbox(index) {
     const lightbox = document.getElementById('lightbox');
     const img = document.getElementById('lightbox-img');
     img.src = images[index].src;
+    img.alt = `Photo: ${images[index].title}`;
     renderCaption(images[index]);
     lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
+    lightbox.focus();
 }
 
 function closeLightbox() {
@@ -102,6 +104,7 @@ function nextImage() {
     currentImageIndex = (currentImageIndex + 1) % images.length;
     const img = images[currentImageIndex];
     document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox-img').alt = `Photo: ${img.title}`;
     renderCaption(img);
 }
 
@@ -109,8 +112,27 @@ function prevImage() {
     currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
     const img = images[currentImageIndex];
     document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox-img').alt = `Photo: ${img.title}`;
     renderCaption(img);
 }
+
+// Touch swipe support
+let touchStartX = 0;
+let touchEndX = 0;
+
+document.addEventListener('touchstart', (e) => {
+    if (document.getElementById('lightbox').classList.contains('active')) {
+        touchStartX = e.changedTouches[0].screenX;
+    }
+}, false);
+
+document.addEventListener('touchend', (e) => {
+    if (document.getElementById('lightbox').classList.contains('active')) {
+        touchEndX = e.changedTouches[0].screenX;
+        if (touchStartX - touchEndX > 50) nextImage();
+        if (touchEndX - touchStartX > 50) prevImage();
+    }
+}, false);
 
 // Keyboard navigation
 document.addEventListener('keydown', (e) => {

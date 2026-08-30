@@ -25,13 +25,13 @@
         <!-- Gallery items will be generated here -->
     </div>
 
-    <div class="lightbox" id="lightbox">
-        <button class="lightbox-close" onclick="closeLightbox()">×</button>
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+        <button class="lightbox-close" aria-label="Close photo viewer" onclick="closeLightbox()">×</button>
         <div class="lightbox-content">
             <div class="lightbox-image-row">
-                <button class="lightbox-nav lightbox-prev" onclick="prevImage()">‹</button>
+                <button class="lightbox-nav lightbox-prev" aria-label="Previous photo" onclick="prevImage()">‹</button>
                 <img id="lightbox-img" src="" alt="">
-                <button class="lightbox-nav lightbox-next" onclick="nextImage()">›</button>
+                <button class="lightbox-nav lightbox-next" aria-label="Next photo" onclick="nextImage()">›</button>
             </div>
             <div class="lightbox-caption" id="lightbox-caption"></div>
         </div>
