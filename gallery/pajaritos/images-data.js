@@ -21,5 +21,6 @@ const images = [
     { id: 20, src: 'images/dsc-0826.jpg', title: 'Dsc 0826' },
     { id: 21, src: 'images/dsc-0829.jpg', title: 'Dsc 0829' },
     { id: 22, src: 'images/dsc-9785.jpg', title: 'Dsc 9785' },
-    { id: 23, src: 'images/dsc-6767.jpg', title: 'Dsc 6767' },
+    { id: 23, src: 'images/img-9798.jpg', title: 'Img 9798' },
+    { id: 24, src: 'images/dsc-6767.jpg', title: 'Dsc 6767' },
 ];
