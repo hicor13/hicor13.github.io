@@ -33,8 +33,13 @@ function applyMetadata(metadata) {
         img.description = meta.description || '';
         img.order = meta.order !== undefined && meta.order !== null && meta.order !== ''
             ? Number(meta.order)
-            : index;
+            : index + 1;
     });
+    // order 0 hides a photo from the gallery entirely (see scripts/gallery.py load --order-by).
+    // Mutate images in place rather than reassigning it — it's declared `const` in images-data.js.
+    const visible = images.filter((img) => img.order !== 0);
+    images.length = 0;
+    images.push(...visible);
     images.sort((a, b) => a.order - b.order);
 }
 
