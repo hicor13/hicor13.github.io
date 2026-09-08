@@ -70,6 +70,16 @@ body {
   max-width: 48rem;
 }
 
+/* Overrides the generic .reveal transform (an ID selector always wins,
+   regardless of source order): the plate only fades in on load, it
+   doesn't also slide up — .hero-title's own letter-spacing/font-size
+   settle (below) is the plate's one deliberate motion, not a second one
+   layered on top of it. */
+#hero-plate.reveal {
+  transform: none;
+  transition: opacity var(--reveal-duration) ease-out var(--reveal-delay, 0ms);
+}
+
 .hero-text {
   display: flex;
   flex-direction: column;
@@ -96,7 +106,8 @@ body {
   margin: 0;
   text-align: left;
   text-align-last: left;
-  transition: letter-spacing var(--reveal-duration) ease-out;
+  transition: letter-spacing var(--reveal-duration) ease-out,
+              font-size var(--reveal-duration) ease-out;
 }
 
 body.is-ready .hero-title {
@@ -113,10 +124,13 @@ body.is-ready .hero-title {
 
 .hero-nav {
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  flex-wrap: wrap;
   gap: 0.75rem;
   justify-content: center;
+  position: sticky;
+  top: 1rem;
+  z-index: 10;
+  padding: 1rem 1.5rem;
 }
 
 .nav-pill {
@@ -130,7 +144,7 @@ body.is-ready .hero-title {
   transition: background 200ms ease, border-color 200ms ease;
 }
 
-.nav-pill.is-active {
+.nav-pill:hover {
   background: var(--accent);
   color: var(--accent-fg);
   border-color: var(--accent);
@@ -172,6 +186,7 @@ main {
 .content-section {
   padding: 4rem 0;
   border-top: 1px solid var(--pill-border);
+  scroll-margin-top: 6rem; /* keeps the section heading clear of the sticky nav */
 }
 
 .project-grid {
@@ -254,12 +269,6 @@ main {
 
   body.is-ready .hero-title {
     font-size: 1.75rem;
-  }
-
-  .hero-nav {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
   }
 }
 
