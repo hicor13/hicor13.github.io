@@ -202,15 +202,15 @@ main {
   text-decoration: none;
 }
 
-/* --- Mobile compact "MC" variant (wireframe screen 2) --- */
+/* --- Mobile compact name variant (wireframe screen 2) --- */
 @media (max-width: 30rem) {
   .hero-title { display: none; }
   .hero-plate::before {
-    content: "MC";
+    content: "Mario Cornejo";
     display: block;
-    font-size: 1.5rem;
-    letter-spacing: 0.2em;
-    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    letter-spacing: 0.05em;
+    margin: 2.5rem 0 1.5rem;
   }
   .hero-nav { flex-direction: column; align-items: stretch; }
 }
