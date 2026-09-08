@@ -55,17 +55,9 @@ body {
   left: 1.5rem;
   right: 1.5rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   font-size: 0.85rem;
   letter-spacing: 0.05em;
-}
-
-.hero-menu-toggle {
-  background: none;
-  border: none;
-  font: inherit;
-  cursor: pointer;
-  color: var(--fg);
 }
 
 .hero-plate {
@@ -106,28 +98,8 @@ body.is-ready .hero-title {
   flex-wrap: wrap;
   gap: 0.75rem;
   justify-content: center;
-  visibility: visible;
-  /* Delay is 0 here so re-showing the nav makes it focusable immediately
-     (while opacity fades in); the hidden state below carries its own
-     250ms delay so it stays focusable throughout the fade-out instead. */
-  transition: opacity 250ms ease, visibility 0s;
 }
 
-.hero-nav[data-menu-hidden="true"] {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 250ms ease, visibility 0s 250ms;
-}
-
-.hero-nav[data-menu-hidden="true"] .nav-pill {
-  opacity: 0;
-  transform: translateY(-8px);
-}
-
-/* All transitioned properties for .nav-pill must be listed in this single
-   declaration — a second `transition` rule at equal-or-higher specificity
-   would silently replace, not merge, this list. */
 .nav-pill {
   padding: 0.5rem 1.25rem;
   border: 1px solid var(--pill-border);
@@ -136,8 +108,7 @@ body.is-ready .hero-title {
   color: var(--fg);
   text-decoration: none;
   font-size: 0.9rem;
-  transition: background 200ms ease, border-color 200ms ease,
-              opacity 200ms ease, transform 200ms ease;
+  transition: background 200ms ease, border-color 200ms ease;
 }
 
 .nav-pill.is-active {
@@ -152,6 +123,17 @@ body.is-ready .hero-title {
   font: inherit;
   color: var(--muted);
   cursor: pointer;
+}
+
+.lang-toggle .lang-es,
+.lang-toggle .lang-en {
+  font-weight: 400;
+}
+
+.lang-toggle[data-lang="es"] .lang-es,
+.lang-toggle[data-lang="en"] .lang-en {
+  font-weight: 700;
+  color: var(--fg);
 }
 
 main {
@@ -248,8 +230,7 @@ main {
 }
 
 /* Must remain the last rules in this file — relies on source order, not
-   higher specificity, to override .reveal/.hero-title/.hero-nav/.nav-pill
-   above. */
+   higher specificity, to override .reveal/.hero-title/.nav-pill above. */
 @media (prefers-reduced-motion: reduce) {
   .reveal {
     transition: none;
@@ -259,7 +240,6 @@ main {
   .hero-title {
     transition: none;
   }
-  .hero-nav,
   .nav-pill {
     transition: none;
   }

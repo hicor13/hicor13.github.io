@@ -89,34 +89,13 @@ function initNavScrollSpy() {
   sections.forEach((section) => observer.observe(section));
 }
 
-function initMenuToggle() {
-  const button = document.querySelector('.hero-menu-toggle');
-  const nav = document.getElementById('hero-nav');
-  if (!button || !nav) return;
-
-  button.addEventListener('click', () => {
-    const isHidden = nav.getAttribute('data-menu-hidden') === 'true';
-    const willHide = !isHidden;
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    nav.setAttribute('data-menu-hidden', String(willHide));
-    button.setAttribute('aria-expanded', String(isHidden));
-    nav.querySelectorAll('.nav-pill').forEach((pill, index) => {
-      if (willHide && !reducedMotion) {
-        pill.style.transitionDelay = `${index * 40}ms`;
-      } else {
-        pill.style.transitionDelay = '';
-      }
-    });
-  });
-}
-
 function initLangToggleStub() {
   const button = document.querySelector('.lang-toggle');
   if (!button) return;
   button.addEventListener('click', () => {
-    button.textContent = button.textContent.trim() === 'ES / EN' ? 'EN / ES' : 'ES / EN';
     button.dataset.lang = button.dataset.lang === 'es' ? 'en' : 'es';
-    // Mockup only: no real translation wired up yet.
+    // Mockup only: no real translation wired up yet — CSS bolds whichever
+    // span matches the current data-lang.
   });
 }
 
@@ -134,7 +113,6 @@ function init() {
   initScrollReveal();
   initNavSmoothScroll();
   initNavScrollSpy();
-  initMenuToggle();
   initLangToggleStub();
   initCvDownloadStub();
 }
