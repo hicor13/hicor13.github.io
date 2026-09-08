@@ -45,7 +45,7 @@ body {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 2rem;
+  gap: 7rem;
   position: relative;
   padding: 2rem 1.5rem;
 }
@@ -93,20 +93,21 @@ body {
   font-size: 1.75rem;
   letter-spacing: 0.6em;
   margin: 0;
-  text-align: justify;
-  text-align-last: justify;
+  text-align: left;
+  text-align-last: left;
   transition: letter-spacing var(--reveal-duration) ease-out;
 }
 
 body.is-ready .hero-title {
   letter-spacing: 0.05em;
+  font-size: 3rem;
 }
 
 .hero-subtitle {
   color: var(--muted);
   margin: 0;
-  text-align: justify;
-  text-align-last: justify;
+  text-align: left;
+  text-align-last: left;
 }
 
 .hero-nav {
