@@ -39,8 +39,13 @@ body {
 }
 
 .hero {
-  min-height: 100vh;
-  min-height: 100svh;
+  /* Shorter than a full screen by roughly .hero-nav's own height, so
+     the nav (a sibling right after this element, kept outside it so
+     position:sticky below can hold it across the whole page rather than
+     just within this 100vh/100svh box) lands in the bottom portion of
+     the first screen instead of needing a scroll to reach it. */
+  min-height: calc(100vh - 6rem);
+  min-height: calc(100svh - 6rem);
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -70,14 +75,16 @@ body {
   max-width: 48rem;
 }
 
-/* Overrides the generic .reveal transform (an ID selector always wins,
-   regardless of source order): the plate only fades in on load, it
-   doesn't also slide up — .hero-title's own letter-spacing/font-size
-   settle (below) is the plate's one deliberate motion, not a second one
-   layered on top of it. */
+/* Overrides the generic .reveal hidden/fade state entirely (an ID
+   selector always wins, regardless of source order): the plate is fully
+   visible from first paint, no opacity or position motion of its own.
+   .hero-title's own letter-spacing/font-size settle (below) is the
+   hero's one deliberate animation — nesting a plate-level fade under it
+   would be a second, redundant motion on the same text. */
 #hero-plate.reveal {
+  opacity: 1;
   transform: none;
-  transition: opacity var(--reveal-duration) ease-out var(--reveal-delay, 0ms);
+  transition: none;
 }
 
 .hero-text {
@@ -244,6 +251,10 @@ main {
   .hero {
     flex-direction: column;
     gap: 2rem;
+    /* Nav pills can wrap to two rows at this width, so it needs more
+       headroom than the desktop subtraction to still land on-screen. */
+    min-height: calc(100vh - 9rem);
+    min-height: calc(100svh - 9rem);
   }
 
   .hero-plate {
