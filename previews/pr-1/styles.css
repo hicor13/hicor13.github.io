@@ -40,6 +40,7 @@ body {
 
 .hero {
   min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -223,17 +224,43 @@ main {
   text-decoration: none;
 }
 
-/* --- Mobile compact name variant (wireframe screen 2) --- */
-@media (max-width: 30rem) {
-  .hero-title { display: none; }
-  .hero-plate::before {
-    content: "Mario Cornejo";
-    display: block;
-    font-size: 1.25rem;
-    letter-spacing: 0.05em;
-    margin: 2.5rem 0 1.5rem;
+/* --- Mobile: stack plate contents, single-row nav --- */
+@media (max-width: 40rem) {
+  .hero {
+    flex-direction: column;
+    gap: 2rem;
   }
-  .hero-nav { flex-direction: column; align-items: stretch; }
+
+  .hero-plate {
+    flex-direction: column;
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .hero-portrait {
+    width: 10rem;
+  }
+
+  .hero-text {
+    align-items: center;
+    max-width: 100%;
+  }
+
+  .hero-title,
+  .hero-subtitle {
+    text-align: center;
+    text-align-last: center;
+  }
+
+  body.is-ready .hero-title {
+    font-size: 1.75rem;
+  }
+
+  .hero-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
 
 .reveal {
