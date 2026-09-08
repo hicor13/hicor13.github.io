@@ -1,3 +1,16 @@
+function initHeroIntro() {
+  const heroPlate = document.getElementById('hero-plate');
+  if (!heroPlate) return;
+  // Two rAFs: one to let the initial (hidden) styles paint, one to flip the
+  // class on the next frame so the CSS transition actually runs instead of
+  // being coalesced with the initial paint.
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      heroPlate.classList.add('is-visible');
+    });
+  });
+}
+
 function initScrollReveal() {
   const targets = document.querySelectorAll('.reveal:not(#hero-plate)');
   if (!('IntersectionObserver' in window)) {
@@ -63,20 +76,11 @@ function initLangToggle() {
   });
 }
 
-function initCvDownloadStub() {
-  const link = document.getElementById('cv-download');
-  if (!link) return;
-  link.addEventListener('click', (event) => {
-    event.preventDefault();
-    // Mockup only: no real PDF to download yet.
-  });
-}
-
 function init() {
+  initHeroIntro();
   initScrollReveal();
   initNavSmoothScroll();
   initLangToggle();
-  initCvDownloadStub();
 }
 
 document.addEventListener('DOMContentLoaded', init);

@@ -8,7 +8,9 @@
 		:root { color-scheme: dark; }
 		* { box-sizing: border-box; }
 		html, body { height: 100%; margin: 0; }
-		body { background: #202124; font-family: system-ui, sans-serif; overflow: hidden; }
+		/* 100vh on mobile includes the area behind the collapsing address
+		   bar, which clips the bottom of the viewer; 100svh accounts for it. */
+		body { height: 100svh; background: #202124; font-family: system-ui, sans-serif; overflow: hidden; }
 		.viewer { height: 100%; display: flex; flex-direction: column; }
 		header {
 			min-height: 56px; padding: 0 16px; display: flex; align-items: center;
@@ -34,6 +36,13 @@
 </head>
 <body>
 	<div class="viewer">
+		<header>
+			<h1>Mario Cornejo — Resume</h1>
+			<div class="actions">
+				<a href="/media/documents/resume.pdf" download>Download</a>
+				<a href="/media/documents/resume.pdf" target="_blank" rel="noopener">Open in new tab</a>
+			</div>
+		</header>
 		<main>
 			<iframe src="/media/documents/resume.pdf" title="Resume PDF viewer">
 				<div class="fallback">

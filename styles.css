@@ -75,16 +75,19 @@ body {
   max-width: 48rem;
 }
 
-/* Overrides the generic .reveal hidden/fade state entirely (an ID
-   selector always wins, regardless of source order): the plate is fully
-   visible from first paint, no opacity or position motion of its own.
-   .hero-title's own letter-spacing/font-size settle (below) is the
-   hero's one deliberate animation — nesting a plate-level fade under it
-   would be a second, redundant motion on the same text. */
+/* The hero's one deliberate on-load motion: a subtle opacity+slide. This
+   is the ONLY animation on the hero — .hero-title itself is fully static
+   (no letter-spacing/font-size transition), so there is nothing else to
+   layer on top of this and no risk of it reading as a "double" motion. */
 #hero-plate.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 500ms ease-out, transform 500ms ease-out;
+}
+
+#hero-plate.reveal.is-visible {
   opacity: 1;
-  transform: none;
-  transition: none;
+  transform: translateY(0);
 }
 
 .hero-text {
@@ -228,13 +231,6 @@ main {
   font-size: 0.85rem;
 }
 
-
-#about { scroll-margin-top: 12vh; }
-#projects { scroll-margin-top: 10vh; }
-#notes { scroll-margin-top: 7vh; }
-#cv { scroll-margin-top: 2vh; }
-#contact { scroll-margin-top: 36vh; }
-
 .card-link {
   display: block; /* Makes the anchor behave like a block element */
   text-decoration: none; /* Removes default link underline */
@@ -341,16 +337,6 @@ main {
 
 .contact-link:hover {
   text-decoration: underline;
-}
-
-.cv-download {
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 0.6rem 1.5rem;
-  border: 1px solid var(--pill-border);
-  border-radius: 999px;
-  color: var(--fg);
-  text-decoration: none;
 }
 
 /* --- Mobile: stack plate contents, single-row nav --- */
