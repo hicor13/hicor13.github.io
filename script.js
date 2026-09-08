@@ -63,32 +63,6 @@ function initNavSmoothScroll() {
   });
 }
 
-function initNavScrollSpy() {
-  const sections = ['about', 'projects', 'notes', 'cv']
-    .map((id) => document.getElementById(id))
-    .filter(Boolean);
-  const pills = document.querySelectorAll('.nav-pill[href^="#"]');
-
-  if (!('IntersectionObserver' in window) || sections.length === 0) return;
-
-  const setActive = (id) => {
-    pills.forEach((pill) => {
-      pill.classList.toggle('is-active', pill.getAttribute('href') === `#${id}`);
-    });
-  };
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) setActive(entry.target.id);
-      });
-    },
-    { threshold: 0, rootMargin: '-50% 0px -50% 0px' }
-  );
-
-  sections.forEach((section) => observer.observe(section));
-}
-
 function initLangToggle() {
   const button = document.querySelector('.lang-toggle');
   if (!button) return;
@@ -116,7 +90,6 @@ function init() {
   initHeroIntro();
   initScrollReveal();
   initNavSmoothScroll();
-  initNavScrollSpy();
   initLangToggle();
   initCvDownloadStub();
 }
