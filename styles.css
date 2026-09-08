@@ -380,6 +380,7 @@ main {
     overflow: hidden;
     position: relative;
     padding: 1.25rem;
+    font-size: 0.7rem;
   }
 
   /* Fades the clipped content at the bottom edge so the card reads as a
@@ -392,6 +393,37 @@ main {
     inset: auto 0 0 0;
     height: 3.5rem;
     background: linear-gradient(to bottom, transparent, #f7f6f3);
+  }
+
+  .cv-card-name {
+    font-size: 1.1rem;
+  }
+
+  .cv-card-tagline {
+    font-size: 0.55rem;
+  }
+
+  .cv-card-meta {
+    font-size: 0.65rem;
+  }
+
+  .cv-card-block h3 {
+    font-size: 0.6rem;
+    margin-bottom: 0.3rem;
+    padding-bottom: 0.2rem;
+  }
+
+  .cv-card-block {
+    margin-bottom: 0.75rem;
+  }
+
+  .cv-card-block > p {
+    font-size: 0.7rem;
+    line-height: 1.35;
+  }
+
+  .cv-card-row {
+    font-size: 0.65rem;
   }
 
   .cv-card-row {
