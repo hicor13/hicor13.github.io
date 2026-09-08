@@ -1,48 +1,126 @@
 <!DOCTYPE html>
-<html lang="es-PE">
-    <head>
-        <title>
-            Mario Cornejo (the website)
-        </title>
-        <meta name="theme-color" content="#3E4D3D">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="shortcut icon" href="media/img/favicon.png" type="image/x-icon">
-        <link rel="stylesheet" href="libs/personal/base.css">
-        <link rel="stylesheet" href="libs/personal/header_style.css">
-        <link rel="stylesheet" href="libs/personal/main_index.css">
-        <script src="libs/personal/index.js" defer></script>
-        <meta property="og:title" content="mariocornejo.com (Mario Cornejo punto com)" />
-        <meta property="og:description" content="Si lees esto, es porque eres curioso." />
-        <meta property="og:image" content="https://mariocornejo.com/media/img/profile_pic.png"/>
-        <meta property="og:url" content="https://mariocornejo.com"/>
-        <meta property="og:type" content="website"/>
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mario Cornejo — Business Management &amp; Data Analytics</title>
+  <link rel="stylesheet" href="styles.css">
+  <noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-topbar">
+      <span>MARIO CORNEJO</span>
+      <button class="hero-menu-toggle" type="button" aria-expanded="true" aria-controls="hero-nav">
+        Menú <span aria-hidden="true">/</span> Menu
+      </button>
+    </div>
 
-    </head>
-    <body>
-        <nav class="site-nav">
-            <ul id="routing">
-                <li><a href="index.html">mariocornejo.com</a></li>
-            </ul>
-            
-            <ul id="sections">
-                <li><a href="/sections/info/twiiter/twitter.html">resume</a></li>
-                <li><a href="gallery/pajaritos/index.html">gallery</a></li>
-                <li><a href="/sections/blog/">blog</a></li>
-            </ul>
-        </nav>
+    <div class="hero-plate reveal" id="hero-plate">
+      <div class="ph-img hero-portrait" role="img" aria-label="Retrato de Mario Cornejo (placeholder)"></div>
+      <h1 class="hero-title">Mario Roy Cornejo Bellido</h1>
+      <p class="hero-subtitle">Business Management &amp; Data Analytics</p>
+    </div>
 
+    <nav class="hero-nav" id="hero-nav">
+      <a class="nav-pill" href="#about">About</a>
+      <a class="nav-pill" href="#projects">Projects</a>
+      <a class="nav-pill" href="#notes">Notes</a>
+      <a class="nav-pill" href="#cv">CV ↓</a>
+    </nav>
 
-        <audio id="mySound" src="/media/audio/meg.mp3"></audio>
-        <div class="animation-box" id="dog-box">
-            <a href="https://www.linkedin.com/in/hicor13/" target="_blank">
-                <img id="annoying-dog" src="/media/img/annoying.gif" alt="Animated dog character with a mischievous expression, bouncing or moving around in a playful manner against a simple background">
-            </a>
-        </div>
+    <button class="lang-toggle" type="button" data-lang="es">ES / EN</button>
+  </header>
 
-    </body>
+  <main>
+    <section id="about" class="content-section reveal">
+      <h2>About</h2>
+      <p>
+        Profesional con 3 años de experiencia en optimización de procesos operacionales y análisis
+        empresarial. En INDRA Servicios redujo tiempos de ciclo operacional significativamente sin
+        presupuesto adicional. Formación en Administración de Negocios (SUNEDU certificado),
+        desarrollando Python y SQL. Mejor encaje: Growth Operations Specialist, Business Analyst
+        u Operations Analyst.
+      </p>
+      <h3>Educación</h3>
+      <p>
+        Licenciado en Administración de Negocios · Universidad Privada San Juan Bautista, Ica, Perú
+        — certificado SUNEDU · dic 2022
+      </p>
+      <h3>Certificaciones</h3>
+      <ul>
+        <li class="reveal">Inglés B2 First (Cambridge)</li>
+        <li class="reveal">MOS Associate (en progreso)</li>
+        <li class="reveal">CS50 SQL, Harvard (módulo 2)</li>
+        <li class="reveal">Japonés Básico I (APJ)</li>
+      </ul>
+      <h3>Habilidades</h3>
+      <p>
+        Excel avanzado, Power Query, Google Workspace, Adobe CC, Claude Code, Linux, Docker,
+        Python (básico), SQL (CS50 Harvard, módulo 2). Idiomas: español nativo, inglés avanzado
+        (+B2 certificado), japonés básico.
+      </p>
+    </section>
+
+    <section id="projects" class="content-section reveal">
+      <h2>Projects</h2>
+      <div class="project-grid">
+        <article class="project-card reveal">
+          <a href="gallery/pajaritos/index.html">
+            <div class="ph-img project-thumb" role="img" aria-label="Placeholder de proyecto: Pajaritos"></div>
+            <h3>Pajaritos — Bird Photography Gallery</h3>
+          </a>
+          <p>Galería estática de fotografía de aves. Sitio propio, sin dependencias externas.</p>
+        </article>
+        <article class="project-card reveal">
+          <div class="ph-img project-thumb" role="img" aria-label="Placeholder de proyecto: Automatización QA"></div>
+          <h3>Automatización de reportería (INDRA)</h3>
+          <p>Migración de Excel Power Query a SQL + Python/scraping; ciclo de QA de 4+ horas a ~25 minutos.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="notes" class="content-section reveal">
+      <h2>Notes</h2>
+      <ul class="timeline">
+        <li class="reveal">
+          <span class="timeline-role">Digital Channels Assistant</span> · CR Cobranzas, Lima, Perú
+          <span class="timeline-date">mar 2026 – presente</span>
+          <p>Automatización de reportería (Excel Power Query → SQL + Python/scraping); envíos masivos por
+            canales digitales; resolución de cuellos de botella operativos.</p>
+        </li>
+        <li class="reveal">
+          <span class="timeline-role">Quality Assurance Analyst</span> · INDRA Servicios Perú
+          <span class="timeline-date">oct 2025 – ene 2026</span>
+          <p>Reducción del ciclo de QA de 4+ horas a ~25 minutos (90% más rápido); rediseño del proceso
+            sin presupuesto adicional.</p>
+        </li>
+        <li class="reveal">
+          <span class="timeline-role">Administrative Assistant &amp; Marketing Designer</span> ·
+          Clínica Veterinaria Mi Mascota, Ica, Perú
+          <span class="timeline-date">may 2022 – oct 2024</span>
+          <p>Reportería gerencial para toma de decisiones; rediseño de branding y gestión de redes sociales.</p>
+        </li>
+        <li class="reveal">
+          <span class="timeline-role">Supervision &amp; Coordination Specialist</span> · Marketing Alterno, Ica, Perú
+          <span class="timeline-date">nov – dic 2024</span>
+        </li>
+        <li class="reveal">
+          <span class="timeline-role">Front Desk Receptionist</span> · Hotel Matryoshka, Ica, Perú
+          <span class="timeline-date">dic 2019 – mar 2020</span>
+        </li>
+      </ul>
+    </section>
+
+    <section id="cv" class="content-section reveal">
+      <h2>CV</h2>
+      <p>Contacto: <a href="mailto:cornejomariob@gmail.com">cornejomariob@gmail.com</a> ·
+        <a href="https://wa.me/51979001717">+51 979 001 717</a> ·
+        <a href="https://linkedin.com/in/hicor13">linkedin.com/in/hicor13</a></p>
+      <a class="cv-download" id="cv-download" href="#" aria-disabled="true">Descargar CV (PDF) — placeholder</a>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
 </html>
