@@ -1,17 +1,3 @@
-function initHeroIntro() {
-  const heroPlate = document.getElementById('hero-plate');
-
-  // Two rAFs: one to let the initial (hidden) styles paint, one to flip the
-  // classes on the next frame so the CSS transition actually runs instead of
-  // being coalesced with the initial paint.
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      document.body.classList.add('is-ready');
-      if (heroPlate) heroPlate.classList.add('is-visible');
-    });
-  });
-}
-
 function initScrollReveal() {
   const targets = document.querySelectorAll('.reveal:not(#hero-plate)');
   if (!('IntersectionObserver' in window)) {
@@ -87,7 +73,6 @@ function initCvDownloadStub() {
 }
 
 function init() {
-  initHeroIntro();
   initScrollReveal();
   initNavSmoothScroll();
   initLangToggle();

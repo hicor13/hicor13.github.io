@@ -108,18 +108,11 @@ body {
 }
 
 .hero-title {
-  font-size: 1.75rem;
-  letter-spacing: 0.6em;
+  font-size: 3rem;
+  letter-spacing: 0.05em;
   margin: 0;
   text-align: left;
   text-align-last: left;
-  transition: letter-spacing var(--reveal-duration) ease-out,
-              font-size var(--reveal-duration) ease-out;
-}
-
-body.is-ready .hero-title {
-  letter-spacing: 0.05em;
-  font-size: 3rem;
 }
 
 .hero-subtitle {
@@ -278,7 +271,7 @@ main {
     text-align-last: center;
   }
 
-  body.is-ready .hero-title {
+  .hero-title {
     font-size: 1.75rem;
   }
 }
@@ -303,15 +296,12 @@ main {
 }
 
 /* Must remain the last rules in this file — relies on source order, not
-   higher specificity, to override .reveal/.hero-title/.nav-pill above. */
+   higher specificity, to override .reveal/.nav-pill above. */
 @media (prefers-reduced-motion: reduce) {
   .reveal {
     transition: none;
     opacity: 1;
     transform: none;
-  }
-  .hero-title {
-    transition: none;
   }
   .nav-pill {
     transition: none;
