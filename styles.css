@@ -185,7 +185,6 @@ main {
 
 .content-section {
   padding: 4rem 0;
-  border-top: 1px solid var(--pill-border);
   scroll-margin-top: 6rem; /* keeps the section heading clear of the sticky nav */
 }
 
@@ -229,6 +228,25 @@ main {
   font-size: 0.85rem;
 }
 
+
+#about { scroll-margin-top: 12vh; }
+#projects { scroll-margin-top: 10vh; }
+#notes { scroll-margin-top: 7vh; }
+#cv { scroll-margin-top: 2vh; }
+#contact { scroll-margin-top: 36vh; }
+
+.card-link {
+  display: block; /* Makes the anchor behave like a block element */
+  text-decoration: none; /* Removes default link underline */
+  color: inherit; /* Keeps text color matching your layout */
+}
+.cv-card:hover {
+  cursor: pointer;
+  background-color: #e3e3df;
+  border-color: #8a8a86;
+  box-shadow: 0 8px 20px rgba(59, 59, 62, 0.912);
+  transform: translateY(-3px);
+}
 /* Styled to read as a printed document, so it deliberately stays on
    fixed light paper tones rather than the theme's --bg/--fg variables —
    it should look the same whether the site is in light or dark mode. */
@@ -302,6 +320,8 @@ main {
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem 2rem;
+  align-items: center;
+  justify-content: center;
 }
 
 .contact-link {
