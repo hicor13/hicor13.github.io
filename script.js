@@ -89,13 +89,17 @@ function initNavScrollSpy() {
   sections.forEach((section) => observer.observe(section));
 }
 
-function initLangToggleStub() {
+function initLangToggle() {
   const button = document.querySelector('.lang-toggle');
   if (!button) return;
   button.addEventListener('click', () => {
-    button.dataset.lang = button.dataset.lang === 'es' ? 'en' : 'es';
-    // Mockup only: no real translation wired up yet — CSS bolds whichever
-    // span matches the current data-lang.
+    const newLang = button.dataset.lang === 'es' ? 'en' : 'es';
+    button.dataset.lang = newLang;
+    // CSS shows/hides every [data-i18n-es]/[data-i18n-en] pair based on
+    // this attribute, and bolds the matching ES/EN label on the button
+    // itself.
+    document.documentElement.lang = newLang;
+    document.documentElement.dataset.lang = newLang;
   });
 }
 
@@ -113,7 +117,7 @@ function init() {
   initScrollReveal();
   initNavSmoothScroll();
   initNavScrollSpy();
-  initLangToggleStub();
+  initLangToggle();
   initCvDownloadStub();
 }
 

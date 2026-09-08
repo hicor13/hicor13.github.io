@@ -72,8 +72,8 @@ body {
 }
 
 .hero-portrait {
-  width: 8rem;
-  height: 8rem;
+  width: 15rem;
+  /* height: 8rem; */
   margin: 0 auto 1.5rem;
 }
 
@@ -134,6 +134,11 @@ body.is-ready .hero-title {
 .lang-toggle[data-lang="en"] .lang-en {
   font-weight: 700;
   color: var(--fg);
+}
+
+html[data-lang="es"] [data-i18n-en],
+html[data-lang="en"] [data-i18n-es] {
+  display: none;
 }
 
 main {

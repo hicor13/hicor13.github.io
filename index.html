@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,19 +10,22 @@
 <body>
   <header class="hero">
     <div class="hero-topbar">
-      <span>MARIO CORNEJO</span>
+      <span>mariocornejo.com</span>
     </div>
 
     <div class="hero-plate reveal" id="hero-plate">
+      <img class="ph-img hero-portrait" role="img" src="/assets/img/mario.png" aria-label="Retrato de Mario Cornejo (placeholder)">
       <div class="ph-img hero-portrait" role="img" aria-label="Retrato de Mario Cornejo (placeholder)"></div>
       <h1 class="hero-title">Mario Roy Cornejo Bellido</h1>
-      <p class="hero-subtitle">Business Management &amp; Data Analytics</p>
+      <p class="hero-subtitle">
+        <span data-i18n-es>Gestión de Negocios y Análisis de Datos</span><span data-i18n-en>Business Management &amp; Data Analytics</span>
+      </p>
     </div>
 
     <nav class="hero-nav" id="hero-nav">
-      <a class="nav-pill" href="#about">About</a>
-      <a class="nav-pill" href="#projects">Projects</a>
-      <a class="nav-pill" href="#notes">Notes</a>
+      <a class="nav-pill" href="#about"><span data-i18n-es>Sobre mí</span><span data-i18n-en>About</span></a>
+      <a class="nav-pill" href="#projects"><span data-i18n-es>Proyectos</span><span data-i18n-en>Projects</span></a>
+      <a class="nav-pill" href="#notes"><span data-i18n-es>Notas</span><span data-i18n-en>Notes</span></a>
       <a class="nav-pill" href="#cv">CV ↓</a>
     </nav>
 
@@ -33,90 +36,133 @@
 
   <main>
     <section id="about" class="content-section reveal">
-      <h2>About</h2>
+      <h2><span data-i18n-es>Sobre mí</span><span data-i18n-en>About</span></h2>
       <p>
-        Profesional con 3 años de experiencia en optimización de procesos operacionales y análisis
-        empresarial. En INDRA Servicios redujo tiempos de ciclo operacional significativamente sin
-        presupuesto adicional. Formación en Administración de Negocios (SUNEDU certificado),
-        desarrollando Python y SQL. Mejor encaje: Growth Operations Specialist, Business Analyst
-        u Operations Analyst.
+        <span data-i18n-es>
+          Profesional con 3 años de experiencia en optimización de procesos operacionales y análisis
+          empresarial. En INDRA Servicios redujo tiempos de ciclo operacional significativamente sin
+          presupuesto adicional. Formación en Administración de Negocios (SUNEDU certificado),
+          desarrollando Python y SQL. Mejor encaje: Growth Operations Specialist, Business Analyst
+          u Operations Analyst.
+        </span>
+        <span data-i18n-en>
+          A professional with 3 years of experience in operational process optimization and business
+          analysis. At INDRA Servicios, cut operational cycle times significantly with no additional
+          budget. Background in Business Administration (SUNEDU-certified), building Python and SQL
+          skills. Best fit: Growth Operations Specialist, Business Analyst, or Operations Analyst.
+        </span>
       </p>
-      <h3>Educación</h3>
+      <h3><span data-i18n-es>Educación</span><span data-i18n-en>Education</span></h3>
       <p>
-        Licenciado en Administración de Negocios · Universidad Privada San Juan Bautista, Ica, Perú
-        — certificado SUNEDU · dic 2022
+        <span data-i18n-es>
+          Licenciado en Administración de Negocios · Universidad Privada San Juan Bautista, Ica, Perú
+          — certificado SUNEDU · dic 2022
+        </span>
+        <span data-i18n-en>
+          Bachelor's in Business Administration · Universidad Privada San Juan Bautista, Ica, Peru
+          — SUNEDU-certified · Dec 2022
+        </span>
       </p>
-      <h3>Certificaciones</h3>
+      <h3><span data-i18n-es>Certificaciones</span><span data-i18n-en>Certifications</span></h3>
       <ul>
-        <li class="reveal">Inglés B2 First (Cambridge)</li>
-        <li class="reveal">MOS Associate (en progreso)</li>
-        <li class="reveal">CS50 SQL, Harvard (módulo 2)</li>
-        <li class="reveal">Japonés Básico I (APJ)</li>
+        <li class="reveal"><span data-i18n-es>Inglés B2 First (Cambridge)</span><span data-i18n-en>English B2 First (Cambridge)</span></li>
+        <li class="reveal"><span data-i18n-es>MOS Associate (en progreso)</span><span data-i18n-en>MOS Associate (in progress)</span></li>
+        <li class="reveal"><span data-i18n-es>CS50 SQL, Harvard (módulo 2)</span><span data-i18n-en>CS50 SQL, Harvard (module 2)</span></li>
+        <li class="reveal"><span data-i18n-es>Japonés Básico I (APJ)</span><span data-i18n-en>Basic Japanese I (APJ)</span></li>
       </ul>
-      <h3>Habilidades</h3>
+      <h3><span data-i18n-es>Habilidades</span><span data-i18n-en>Skills</span></h3>
       <p>
-        Excel avanzado, Power Query, Google Workspace, Adobe CC, Claude Code, Linux, Docker,
-        Python (básico), SQL (CS50 Harvard, módulo 2). Idiomas: español nativo, inglés avanzado
-        (+B2 certificado), japonés básico.
+        <span data-i18n-es>
+          Excel avanzado, Power Query, Google Workspace, Adobe CC, Claude Code, Linux, Docker,
+          Python (básico), SQL (CS50 Harvard, módulo 2). Idiomas: español nativo, inglés avanzado
+          (+B2 certificado), japonés básico.
+        </span>
+        <span data-i18n-en>
+          Advanced Excel, Power Query, Google Workspace, Adobe CC, Claude Code, Linux, Docker,
+          Python (basic), SQL (CS50 Harvard, module 2). Languages: native Spanish, advanced English
+          (B2-certified), basic Japanese.
+        </span>
       </p>
     </section>
 
     <section id="projects" class="content-section reveal">
-      <h2>Projects</h2>
+      <h2><span data-i18n-es>Proyectos</span><span data-i18n-en>Projects</span></h2>
       <div class="project-grid">
         <article class="project-card reveal">
           <a href="gallery/pajaritos/index.html">
             <div class="ph-img project-thumb" role="img" aria-label="Placeholder de proyecto: Pajaritos"></div>
             <h3>Pajaritos — Bird Photography Gallery</h3>
           </a>
-          <p>Galería estática de fotografía de aves. Sitio propio, sin dependencias externas.</p>
+          <p>
+            <span data-i18n-es>Galería estática de fotografía de aves. Sitio propio, sin dependencias externas.</span>
+            <span data-i18n-en>Static bird-photography gallery site, self-built with no external dependencies.</span>
+          </p>
         </article>
         <article class="project-card reveal">
           <div class="ph-img project-thumb" role="img" aria-label="Placeholder de proyecto: Automatización QA"></div>
-          <h3>Automatización de reportería (INDRA)</h3>
-          <p>Migración de Excel Power Query a SQL + Python/scraping; ciclo de QA de 4+ horas a ~25 minutos.</p>
+          <h3><span data-i18n-es>Automatización de reportería (INDRA)</span><span data-i18n-en>Reporting automation (INDRA)</span></h3>
+          <p>
+            <span data-i18n-es>Migración de Excel Power Query a SQL + Python/scraping; ciclo de QA de 4+ horas a ~25 minutos.</span>
+            <span data-i18n-en>Migrated reporting from Excel Power Query to SQL + Python/scraping; cut the QA cycle from 4+ hours to ~25 minutes.</span>
+          </p>
         </article>
       </div>
     </section>
 
     <section id="notes" class="content-section reveal">
-      <h2>Notes</h2>
+      <h2><span data-i18n-es>Notas</span><span data-i18n-en>Notes</span></h2>
       <ul class="timeline">
         <li class="reveal">
-          <span class="timeline-role">Digital Channels Assistant</span> · CR Cobranzas, Lima, Perú
-          <span class="timeline-date">mar 2026 – presente</span>
-          <p>Automatización de reportería (Excel Power Query → SQL + Python/scraping); envíos masivos por
-            canales digitales; resolución de cuellos de botella operativos.</p>
+          <span class="timeline-role">Digital Channels Assistant</span> · CR Cobranzas, Lima, <span data-i18n-es>Perú</span><span data-i18n-en>Peru</span>
+          <span class="timeline-date"><span data-i18n-es>mar 2026 – presente</span><span data-i18n-en>Mar 2026 – present</span></span>
+          <p>
+            <span data-i18n-es>Automatización de reportería (Excel Power Query → SQL + Python/scraping); envíos masivos por
+              canales digitales; resolución de cuellos de botella operativos.</span>
+            <span data-i18n-en>Automated reporting (Excel Power Query → SQL + Python/scraping); ran mass sends across
+              digital channels; resolved operational bottlenecks.</span>
+          </p>
         </li>
         <li class="reveal">
-          <span class="timeline-role">Quality Assurance Analyst</span> · INDRA Servicios Perú
-          <span class="timeline-date">oct 2025 – ene 2026</span>
-          <p>Reducción del ciclo de QA de 4+ horas a ~25 minutos (90% más rápido); rediseño del proceso
-            sin presupuesto adicional.</p>
+          <span class="timeline-role">Quality Assurance Analyst</span> · INDRA Servicios <span data-i18n-es>Perú</span><span data-i18n-en>Peru</span>
+          <span class="timeline-date"><span data-i18n-es>oct 2025 – ene 2026</span><span data-i18n-en>Oct 2025 – Jan 2026</span></span>
+          <p>
+            <span data-i18n-es>Reducción del ciclo de QA de 4+ horas a ~25 minutos (90% más rápido); rediseño del proceso
+              sin presupuesto adicional.</span>
+            <span data-i18n-en>Cut the QA cycle from 4+ hours to ~25 minutes (90% faster); redesigned the process with
+              no additional budget.</span>
+          </p>
         </li>
         <li class="reveal">
           <span class="timeline-role">Administrative Assistant &amp; Marketing Designer</span> ·
-          Clínica Veterinaria Mi Mascota, Ica, Perú
-          <span class="timeline-date">may 2022 – oct 2024</span>
-          <p>Reportería gerencial para toma de decisiones; rediseño de branding y gestión de redes sociales.</p>
+          Clínica Veterinaria Mi Mascota, Ica, <span data-i18n-es>Perú</span><span data-i18n-en>Peru</span>
+          <span class="timeline-date"><span data-i18n-es>may 2022 – oct 2024</span><span data-i18n-en>May 2022 – Oct 2024</span></span>
+          <p>
+            <span data-i18n-es>Reportería gerencial para toma de decisiones; rediseño de branding y gestión de redes sociales.</span>
+            <span data-i18n-en>Produced management reporting for decision-making; redesigned branding and managed social media.</span>
+          </p>
         </li>
         <li class="reveal">
-          <span class="timeline-role">Supervision &amp; Coordination Specialist</span> · Marketing Alterno, Ica, Perú
-          <span class="timeline-date">nov – dic 2024</span>
+          <span class="timeline-role">Supervision &amp; Coordination Specialist</span> · Marketing Alterno, Ica, <span data-i18n-es>Perú</span><span data-i18n-en>Peru</span>
+          <span class="timeline-date"><span data-i18n-es>nov – dic 2024</span><span data-i18n-en>Nov – Dec 2024</span></span>
         </li>
         <li class="reveal">
-          <span class="timeline-role">Front Desk Receptionist</span> · Hotel Matryoshka, Ica, Perú
-          <span class="timeline-date">dic 2019 – mar 2020</span>
+          <span class="timeline-role">Front Desk Receptionist</span> · Hotel Matryoshka, Ica, <span data-i18n-es>Perú</span><span data-i18n-en>Peru</span>
+          <span class="timeline-date"><span data-i18n-es>dic 2019 – mar 2020</span><span data-i18n-en>Dec 2019 – Mar 2020</span></span>
         </li>
       </ul>
     </section>
 
     <section id="cv" class="content-section reveal">
       <h2>CV</h2>
-      <p>Contacto: <a href="mailto:cornejomariob@gmail.com">cornejomariob@gmail.com</a> ·
+      <p>
+        <span data-i18n-es>Contacto:</span><span data-i18n-en>Contact:</span>
+        <a href="mailto:cornejomariob@gmail.com">cornejomariob@gmail.com</a> ·
         <a href="https://wa.me/51979001717">+51 979 001 717</a> ·
-        <a href="https://linkedin.com/in/hicor13">linkedin.com/in/hicor13</a></p>
-      <a class="cv-download" id="cv-download" href="#" aria-disabled="true">Descargar CV (PDF) — placeholder</a>
+        <a href="https://linkedin.com/in/hicor13">linkedin.com/in/hicor13</a>
+      </p>
+      <a class="cv-download" id="cv-download" href="#" aria-disabled="true">
+        <span data-i18n-es>Descargar CV (PDF) — placeholder</span><span data-i18n-en>Download CV (PDF) — placeholder</span>
+      </a>
     </section>
   </main>
 
