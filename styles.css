@@ -229,6 +229,100 @@ main {
   font-size: 0.85rem;
 }
 
+/* Styled to read as a printed document, so it deliberately stays on
+   fixed light paper tones rather than the theme's --bg/--fg variables —
+   it should look the same whether the site is in light or dark mode. */
+.cv-card {
+  background: #f7f6f3;
+  color: #1a1a1a;
+  border: 1px solid #d8d6d1;
+  border-radius: 12px;
+  padding: 2rem;
+  font-family: Georgia, "Times New Roman", serif;
+  margin-bottom: 1.5rem;
+}
+
+.cv-card-header {
+  text-align: center;
+  border-bottom: 2px solid #1a1a1a;
+  padding-bottom: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.cv-card-name {
+  margin: 0 0 0.35rem;
+  font-size: 1.4rem;
+  letter-spacing: 0.06em;
+}
+
+.cv-card-tagline {
+  margin: 0 0 0.5rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: #6b6b6b;
+}
+
+.cv-card-meta {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #6b6b6b;
+}
+
+.cv-card-block {
+  margin-bottom: 1.25rem;
+}
+
+.cv-card-block:last-child {
+  margin-bottom: 0;
+}
+
+.cv-card-block h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  border-bottom: 1px solid #d8d6d1;
+  padding-bottom: 0.35rem;
+}
+
+.cv-card-block > p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.cv-card-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.85rem;
+  padding: 0.15rem 0;
+}
+
+.contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 2rem;
+}
+
+.contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.contact-link svg {
+  width: 1.4em;
+  height: 1.4em;
+  flex-shrink: 0;
+}
+
+.contact-link:hover {
+  text-decoration: underline;
+}
+
 .cv-download {
   display: inline-block;
   margin-top: 1rem;
@@ -273,6 +367,15 @@ main {
 
   .hero-title {
     font-size: 1.75rem;
+  }
+
+  .cv-card {
+    padding: 1.25rem;
+  }
+
+  .cv-card-row {
+    flex-direction: column;
+    gap: 0.1rem;
   }
 }
 
