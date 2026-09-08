@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+Allow: /images/
+Disallow: 
+
+# Allow AI scrapers and search engines
+User-agent: GPTBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+Sitemap: https://mariocornejo.com/gallery/pajaritos/sitemap.xml
+
+# Crawl delay (ms) - be respectful
+Crawl-delay: 1

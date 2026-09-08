@@ -1,0 +1,88 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-image: url(/media/img/netherrack.png);
+    background-attachment: fixed;
+    background-size: 100px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+p{
+    margin: 0;
+    color:black;
+}
+header h1{
+    margin: 0;
+    color:white;
+    background-color: rgb(54, 54, 54);
+    padding-top: 50px;
+    padding-bottom: 50px;
+    flex-direction: row;
+    padding-left: 50px;
+}
+.nav_style a{
+    text-decoration: none;
+    color:white;
+    display: unset;
+    margin: 0;
+    background-color: rgb(51, 51, 51);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+.nav_style{
+    font-size: 20px;
+    background-color: black;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin-top: 0px;
+    margin-bottom: 30px;
+}
+.nav_style a:hover{
+    color:black;
+    background-color: rgb(224, 224, 224);
+}
+#caca{
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+    height: max-content;
+    width: fit-content;
+}
+main{
+padding:15px;
+    margin: 0;
+    height:fit-content;
+    background-color: black;
+
+}
+main p{
+    color:white;
+    font-size: medium;
+    text-align: justify;
+}
+
+.pie{
+    font-family: 'Segoe UI';
+    font-size: 11px;
+    text-align: center;
+    box-sizing: border-box;
+    margin-top: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;  
+    background-color: black;
+}
+.pie p, img, a{
+    margin-top: 10px;
+    color: white;
+}
+
+@media only screen and (max-device-width: 480px) {
+.nav_style a{
+    display: block;
+    margin:10px;
+}
+}
