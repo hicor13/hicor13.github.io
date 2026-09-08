@@ -1,0 +1,105 @@
+name: PR Preview
+
+# Publishes every PR's files to previews/pr-<number>/ on main, which the
+# site's existing GitHub Pages deployment already serves live at
+# https://hicor13.github.io/previews/pr-<number>/ — no separate Pages site,
+# no secrets. Removes the folder again when the PR closes.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: pr-preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    if: github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          path: pr-src
+
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main-repo
+
+      - name: Sync preview folder
+        run: |
+          PREVIEW_DIR="main-repo/previews/pr-${{ github.event.pull_request.number }}"
+          rm -rf "$PREVIEW_DIR"
+          mkdir -p "$PREVIEW_DIR"
+          rsync -a --exclude='.git' --exclude='.github' --exclude='previews' pr-src/ "$PREVIEW_DIR/"
+
+      - name: Commit and push preview
+        run: |
+          cd main-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "previews/pr-${{ github.event.pull_request.number }}"
+          if git diff --cached --quiet; then
+            echo "No preview changes to publish"
+          else
+            git commit -m "Update PR #${{ github.event.pull_request.number }} preview"
+            git push origin main
+          fi
+
+      - name: Comment preview link
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            const url = `https://hicor13.github.io/previews/pr-${prNumber}/`;
+            const marker = '<!-- pr-preview-link -->';
+            const body = `${marker}\n🔗 **Preview:** ${url}\n\n_Updates automatically on every push to this PR._`;
+            const comments = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+            });
+            const existing = comments.data.find((c) => c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body,
+              });
+            }
+
+  cleanup:
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Remove preview folder
+        run: |
+          PREVIEW_DIR="previews/pr-${{ github.event.pull_request.number }}"
+          if [ -d "$PREVIEW_DIR" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git rm -r "$PREVIEW_DIR"
+            git commit -m "Remove PR #${{ github.event.pull_request.number }} preview"
+            git push origin main
+          fi
