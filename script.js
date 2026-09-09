@@ -54,9 +54,15 @@ function initNavSmoothScroll() {
       const target = document.getElementById(targetId);
       if (!target) return;
       event.preventDefault();
-      target.scrollIntoView({
+      // Computing the destination ourselves (rather than letting
+      // scrollIntoView apply scroll-margin-top) avoids a cross-browser
+      // quirk where smooth-behavior scrollIntoView can land short of the
+      // scroll-margin offset.
+      const scrollMarginTop = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
+      const top = target.getBoundingClientRect().top + window.scrollY - scrollMarginTop;
+      window.scrollTo({
+        top,
         behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-        block: 'start',
       });
     });
   });
@@ -98,12 +104,29 @@ function initThemeToggle() {
   });
 }
 
+function initScrollOffset() {
+  const nav = document.getElementById('hero-nav');
+  if (!nav) return;
+  // Measures the sticky nav's actual rendered box (its own height plus its
+  // sticky `top` gap) instead of guessing a fixed rem value, so section
+  // anchors land clear of the nav at any screen size/breakpoint.
+  const update = () => {
+    const stickyTop = parseFloat(getComputedStyle(nav).top) || 0;
+    const offset = stickyTop + nav.getBoundingClientRect().height + 16;
+    document.documentElement.style.setProperty('--nav-offset', `${offset}px`);
+  };
+  update();
+  window.addEventListener('resize', update);
+  window.addEventListener('orientationchange', update);
+}
+
 function init() {
   initHeroIntro();
   initScrollReveal();
   initNavSmoothScroll();
   initLangToggle();
   initThemeToggle();
+  initScrollOffset();
 }
 
 document.addEventListener('DOMContentLoaded', init);

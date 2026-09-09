@@ -245,7 +245,10 @@ main {
 
 .content-section {
   padding: 4rem 0;
-  scroll-margin-top: 6rem; /* keeps the section heading clear of the sticky nav */
+  /* --nav-offset is the sticky nav's real measured height (JS), so this
+     clears it exactly at any screen size instead of guessing a fixed
+     rem value that's right at one breakpoint and wrong at others. */
+  scroll-margin-top: var(--nav-offset, 6rem);
 }
 
 .project-grid {
