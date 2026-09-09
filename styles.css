@@ -413,7 +413,17 @@ main {
 @media (max-width: 40rem) {
   .hero {
     flex-direction: column;
+    /* justify-content:center (from the base rule) centers this column's
+       one flex child — .hero-plate — vertically. When the stacked
+       portrait+text is taller than the container that overflows equally
+       above and below, ignoring padding-top entirely and pushing the
+       portrait up underneath .hero-topbar/.lang-toggle/.theme-toggle
+       (all position:absolute, so out of flow and unaffected by centering).
+       flex-start avoids that: the plate always starts below the
+       generous padding-top instead of getting recentered over it. */
+    justify-content: flex-start;
     gap: 2rem;
+    padding-top: 4.5rem;
     /* Stacked hero + wrapped pill row used to need more headroom than the
        desktop subtraction; kept even though pills are now one row so the
        nav still lands comfortably below the stacked portrait/title. */
