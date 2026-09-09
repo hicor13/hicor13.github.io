@@ -55,11 +55,11 @@ class SiteTopbar extends HTMLElement {
         }
       </style>
       <div class="site-topbar-row">
-        <button class="site-topbar-theme" type="button">
+        <button class="site-topbar-theme" type="button" aria-label="Cambiar tema / Switch theme">
           <span class="site-topbar-theme-light">☀</span> / <span class="site-topbar-theme-dark">☾</span>
         </button>
         <a class="site-topbar-domain" href="https://mariocornejo.com">mariocornejo.com</a>
-        <button class="site-topbar-lang" type="button">
+        <button class="site-topbar-lang" type="button" aria-label="Cambiar idioma / Switch language">
           <span class="site-topbar-lang-es">ES</span> / <span class="site-topbar-lang-en">EN</span>
         </button>
       </div>
@@ -108,6 +108,10 @@ customElements.define('site-topbar', SiteTopbar);
 
 class SiteFooter extends HTMLElement {
   connectedCallback() {
+    // Optional "base" attribute prefixes the site-nav column's #anchor hrefs — empty on
+    // the page these anchors actually live on (index.html), or e.g. "/index.html" when
+    // <site-footer> is used on a different page (the pajaritos gallery) so links resolve
+    // there instead of to a same-page anchor that doesn't exist.
     const base = this.getAttribute('base') || '';
 
     this.innerHTML = `
@@ -180,6 +184,7 @@ class SiteFooter extends HTMLElement {
         site-footer .site-footer-legal {
           border-top: 1px solid var(--pill-border, #3a362f);
           padding-top: 1rem;
+          margin-top: 0;
           margin-bottom: 1.5rem;
           color: var(--muted, #9c9488);
           font-size: 0.8rem;
@@ -193,9 +198,14 @@ class SiteFooter extends HTMLElement {
           color: var(--muted, #9c9488);
           white-space: pre;
         }
-        html[data-lang="es"] site-footer [data-i18n-en],
+        site-footer [data-i18n-en] {
+          display: none;
+        }
         html[data-lang="en"] site-footer [data-i18n-es] {
           display: none;
+        }
+        html[data-lang="en"] site-footer [data-i18n-en] {
+          display: inline;
         }
       </style>
       <div class="site-footer-card">
@@ -232,7 +242,7 @@ class SiteFooter extends HTMLElement {
 
         <p class="site-footer-legal">© 2026 Mario Cornejo · mariocornejo.com · cornejomariob@gmail.com</p>
 
-        <pre class="site-footer-ascii">                                     _.--""--._
+        <pre class="site-footer-ascii" aria-hidden="true">                                     _.--""--._
                               _.-'"              \`'-._
                         _.-'"        .   .            \`'-._
                   _.-'"         .        .     .           \`'-.
