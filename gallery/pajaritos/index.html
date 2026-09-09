@@ -11,6 +11,13 @@
     <meta name="googlebot" content="index, follow, noodp">
     <link rel="canonical" href="https://mariocornejo.com/gallery/pajaritos/">
     <link rel="stylesheet" href="styles.css">
+    <script src="/libs/personal/site-chrome.js"></script>
+    <script>
+      try {
+        var storedTheme = localStorage.getItem('theme');
+        if (storedTheme) document.documentElement.setAttribute('data-theme', storedTheme);
+      } catch (e) {}
+    </script>
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -54,6 +61,7 @@
 </head>
 <body>
     <header>
+        <site-topbar></site-topbar>
         <h1>MARIO CORNEJO</h1>
         <p class="subtitle">Pajaritos Album</p>
     </header>
