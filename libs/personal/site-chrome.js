@@ -118,13 +118,13 @@ class SiteFooter extends HTMLElement {
       <style>
         site-footer {
           display: block;
-          margin: 4rem 1.5rem 2rem;
+          margin: 0rem 0rem 2rem;
         }
         site-footer .site-footer-card {
-          max-width: 48rem;
           margin: 0 auto;
-          border: 1px solid var(--pill-border, #3a362f);
-          border-radius: 12px;
+          border-top: 1px solid var(--pill-border, #3a362f);
+          border-bottom: 1px solid var(--pill-border, #3a362f);
+
           /* Opaque, not translucent like .nav-pill — this card sits far
              down the page, well past the hero, but .parallax-bg is
              position:fixed and covers the whole page including here.
@@ -222,11 +222,6 @@ class SiteFooter extends HTMLElement {
           <span data-i18n-es>Gestión de Negocios y Análisis de Datos</span><span data-i18n-en>Business Management &amp; Data Analytics</span>
         </p>
 
-        <div class="site-footer-clock">
-          <span class="site-footer-clock-time"></span>
-          <span class="site-footer-clock-place">Lima, Perú</span>
-        </div>
-
         <div class="site-footer-columns">
           <div>
             <h3><span data-i18n-es>SITIO</span><span data-i18n-en>SITE</span></h3>
@@ -248,29 +243,7 @@ class SiteFooter extends HTMLElement {
           </div>
         </div>
 
-        <p class="site-footer-legal">© 2026 Mario Cornejo · mariocornejo.com · cornejomariob@gmail.com</p>
-
-        <pre class="site-footer-ascii" aria-hidden="true">                                     _.--""--._
-                              _.-'"              \`'-._
-                        _.-'"        .   .            \`'-._
-                  _.-'"         .        .     .           \`'-.
-            _.-="                    .        .       .        "=-._
-      _.-="                 .    .         .        .      .        "=-.
-.-'"     .    .    .    .          .    .        .    .      .   .       "'-.
-                        _,,ww,,_        _,,ww,,_
-                    ,#""    "  ""#,  ,#""    "  ""#,
-                   #"  o     o    "##"  o     o    "#
-                  #   .' PALM \`.   ##   .' PALM \`.   #
-      ~~~~~~~~~~~#____________________________________#~~~~~~~~~~~
-     ~~~~~~~~~~~~~~~   o a s i s   l a g o o n   ~~~~~~~~~~~~~~~~~~
-      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                  __n_n__                          __n_n__
-              .-"\`  ||  \`"-.                    .-"\`  ||  \`"-.
-             ( o)==[  ]==(o )                   ( o)==[  ]==(o )
-              \`""-.__||__.-""\`                   \`""-.__||__.-""\`
-- - - - - - - - - - - - - - - - - I C A - - - - - - - - - - - - - - - -</pre>
-      </div>
-    `;
+        <p class="site-footer-legal">© 2026 Mario Cornejo · mariocornejo.com · cornejomariob@gmail.com</p>`;
 
     this.initClock();
   }
