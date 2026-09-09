@@ -125,7 +125,15 @@ class SiteFooter extends HTMLElement {
           margin: 0 auto;
           border: 1px solid var(--pill-border, #3a362f);
           border-radius: 12px;
-          background: var(--pill-bg, rgba(33, 31, 27, 0.45));
+          /* Opaque, not translucent like .nav-pill — this card sits far
+             down the page, well past the hero, but .parallax-bg is
+             position:fixed and covers the whole page including here.
+             A translucent background let its drifting blobs bleed
+             through unevenly (visible seam wherever a blob's gradient
+             edge landed); --footer-bg is a solid color pre-blended to
+             match the translucent look on a plain background, so it's
+             immune to whatever's fixed behind it at any scroll position. */
+          background: var(--footer-bg, #1c1a17);
           padding: 2rem;
           color: var(--fg, #ece8e0);
         }

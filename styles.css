@@ -23,6 +23,10 @@
   --lava-1: #ebf4f5;
   --lava-2: color-mix(in srgb, #ebf4f5, #b5c6e0);
   --lava-3: #b5c6e0;
+  /* Opaque equivalent of --pill-bg (translucent white over --bg), used
+     only by <site-footer>'s card — see the comment in site-chrome.js
+     for why that panel needs a solid color instead of translucency. */
+  --footer-bg: #fbfbfa;
 }
 
 /* Same ink-on-paper relationship as light mode, inverted — no new hue
@@ -46,6 +50,7 @@
     --lava-1: #0e1c26;
     --lava-2: #2a454b;
     --lava-3: #294861;
+    --footer-bg: #1c1a17;
   }
 }
 
@@ -65,6 +70,7 @@
   --lava-1: #0e1c26;
   --lava-2: #2a454b;
   --lava-3: #294861;
+  --footer-bg: #1c1a17;
 }
 
 * { box-sizing: border-box; }
