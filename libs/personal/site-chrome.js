@@ -172,21 +172,6 @@ class SiteFooter extends HTMLElement {
           color: var(--muted, #9c9488);
           font-size: 0.9rem;
         }
-        site-footer .site-footer-clock {
-          display: flex;
-          align-items: baseline;
-          gap: 0.75rem;
-          margin-bottom: 2rem;
-          font-variant-numeric: tabular-nums;
-        }
-        site-footer .site-footer-clock-time {
-          font-size: 1.1rem;
-          font-weight: 700;
-        }
-        site-footer .site-footer-clock-place {
-          color: var(--muted, #9c9488);
-          font-size: 0.8rem;
-        }
         site-footer .site-footer-columns {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
@@ -222,15 +207,6 @@ class SiteFooter extends HTMLElement {
           margin-bottom: 1.5rem;
           color: var(--muted, #9c9488);
           font-size: 0.8rem;
-        }
-        site-footer .site-footer-ascii {
-          margin: 0;
-          overflow-x: auto;
-          font-family: ui-monospace, Menlo, Consolas, monospace;
-          font-size: clamp(5px, 1.4vw, 10px);
-          line-height: 1.15;
-          color: var(--muted, #9c9488);
-          white-space: pre;
         }
         site-footer [data-i18n-en] {
           display: none;
@@ -269,31 +245,9 @@ class SiteFooter extends HTMLElement {
           </div>
         </div>
 
-        <p class="site-footer-legal">© 2026 Mario Cornejo · mariocornejo.com · cornejomariob@gmail.com</p>`;
-
-    this.initClock();
-  }
-
-  initClock() {
-    const el = this.querySelector('.site-footer-clock-time');
-    const formatter = new Intl.DateTimeFormat('en-GB', {
-      timeZone: 'America/Lima',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false,
-    });
-
-    const tick = () => {
-      el.textContent = formatter.format(new Date());
-    };
-
-    tick();
-    this._clockInterval = setInterval(tick, 1000);
-  }
-
-  disconnectedCallback() {
-    clearInterval(this._clockInterval);
+        <p class="site-footer-legal">© 2026 Mario Cornejo · mariocornejo.com · cornejomariob@gmail.com</p>
+      </div>
+    `;
   }
 }
 
