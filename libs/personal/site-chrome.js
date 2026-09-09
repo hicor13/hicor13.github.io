@@ -105,3 +105,179 @@ class SiteTopbar extends HTMLElement {
 }
 
 customElements.define('site-topbar', SiteTopbar);
+
+class SiteFooter extends HTMLElement {
+  connectedCallback() {
+    const base = this.getAttribute('base') || '';
+
+    this.innerHTML = `
+      <style>
+        site-footer {
+          display: block;
+          margin: 4rem 1.5rem 2rem;
+        }
+        site-footer .site-footer-card {
+          max-width: 48rem;
+          margin: 0 auto;
+          border: 1px solid var(--pill-border, #3a362f);
+          border-radius: 12px;
+          background: var(--pill-bg, rgba(33, 31, 27, 0.45));
+          padding: 2rem;
+          color: var(--fg, #ece8e0);
+        }
+        site-footer h2 {
+          margin: 0 0 0.25rem;
+          font-size: 1.1rem;
+        }
+        site-footer .site-footer-tagline {
+          margin: 0 0 1.5rem;
+          color: var(--muted, #9c9488);
+          font-size: 0.9rem;
+        }
+        site-footer .site-footer-clock {
+          display: flex;
+          align-items: baseline;
+          gap: 0.75rem;
+          margin-bottom: 2rem;
+          font-variant-numeric: tabular-nums;
+        }
+        site-footer .site-footer-clock-time {
+          font-size: 1.1rem;
+          font-weight: 700;
+        }
+        site-footer .site-footer-clock-place {
+          color: var(--muted, #9c9488);
+          font-size: 0.8rem;
+        }
+        site-footer .site-footer-columns {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+          gap: 1.5rem;
+          margin-bottom: 2rem;
+        }
+        site-footer .site-footer-columns h3 {
+          margin: 0 0 0.75rem;
+          font-size: 0.75rem;
+          letter-spacing: 0.1em;
+          color: var(--muted, #9c9488);
+        }
+        site-footer .site-footer-columns ul {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+        site-footer .site-footer-columns a {
+          color: var(--fg, #ece8e0);
+          text-decoration: none;
+          font-size: 0.9rem;
+        }
+        site-footer .site-footer-columns a:hover {
+          text-decoration: underline;
+        }
+        site-footer .site-footer-legal {
+          border-top: 1px solid var(--pill-border, #3a362f);
+          padding-top: 1rem;
+          margin-bottom: 1.5rem;
+          color: var(--muted, #9c9488);
+          font-size: 0.8rem;
+        }
+        site-footer .site-footer-ascii {
+          margin: 0;
+          overflow-x: auto;
+          font-family: ui-monospace, Menlo, Consolas, monospace;
+          font-size: clamp(5px, 1.4vw, 10px);
+          line-height: 1.15;
+          color: var(--muted, #9c9488);
+          white-space: pre;
+        }
+        html[data-lang="es"] site-footer [data-i18n-en],
+        html[data-lang="en"] site-footer [data-i18n-es] {
+          display: none;
+        }
+      </style>
+      <div class="site-footer-card">
+        <h2>Mario Cornejo · mariocornejo.com</h2>
+        <p class="site-footer-tagline">
+          <span data-i18n-es>Gestión de Negocios y Análisis de Datos</span><span data-i18n-en>Business Management &amp; Data Analytics</span>
+        </p>
+
+        <div class="site-footer-clock">
+          <span class="site-footer-clock-time"></span>
+          <span class="site-footer-clock-place">Lima, Perú</span>
+        </div>
+
+        <div class="site-footer-columns">
+          <div>
+            <h3><span data-i18n-es>SITIO</span><span data-i18n-en>SITE</span></h3>
+            <ul>
+              <li><a href="${base}#about"><span data-i18n-es>Sobre mí</span><span data-i18n-en>About</span></a></li>
+              <li><a href="${base}#projects"><span data-i18n-es>Proyectos</span><span data-i18n-en>Projects</span></a></li>
+              <li><a href="${base}#notes"><span data-i18n-es>Notas</span><span data-i18n-en>Notes</span></a></li>
+              <li><a href="${base}#cv"><span data-i18n-es>Curriculum Vitae</span><span data-i18n-en>Resume</span></a></li>
+              <li><a href="${base}#contact"><span data-i18n-es>Contacto</span><span data-i18n-en>Contact</span></a></li>
+            </ul>
+          </div>
+          <div>
+            <h3><span data-i18n-es>CONTACTO</span><span data-i18n-en>CONTACT</span></h3>
+            <ul>
+              <li><a href="https://linkedin.com/in/hicor13">LinkedIn</a></li>
+              <li><a href="mailto:cornejomariob@gmail.com">Email</a></li>
+              <li><a href="https://wa.me/51979001717">WhatsApp</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="site-footer-legal">© 2026 Mario Cornejo · mariocornejo.com · cornejomariob@gmail.com</p>
+
+        <pre class="site-footer-ascii">                                     _.--""--._
+                              _.-'"              \`'-._
+                        _.-'"        .   .            \`'-._
+                  _.-'"         .        .     .           \`'-.
+            _.-="                    .        .       .        "=-._
+      _.-="                 .    .         .        .      .        "=-.
+.-'"     .    .    .    .          .    .        .    .      .   .       "'-.
+                        _,,ww,,_        _,,ww,,_
+                    ,#""    "  ""#,  ,#""    "  ""#,
+                   #"  o     o    "##"  o     o    "#
+                  #   .' PALM \`.   ##   .' PALM \`.   #
+      ~~~~~~~~~~~#____________________________________#~~~~~~~~~~~
+     ~~~~~~~~~~~~~~~   o a s i s   l a g o o n   ~~~~~~~~~~~~~~~~~~
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                  __n_n__                          __n_n__
+              .-"\`  ||  \`"-.                    .-"\`  ||  \`"-.
+             ( o)==[  ]==(o )                   ( o)==[  ]==(o )
+              \`""-.__||__.-""\`                   \`""-.__||__.-""\`
+- - - - - - - - - - - - - - - - - I C A - - - - - - - - - - - - - - - -</pre>
+      </div>
+    `;
+
+    this.initClock();
+  }
+
+  initClock() {
+    const el = this.querySelector('.site-footer-clock-time');
+    const formatter = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'America/Lima',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    });
+
+    const tick = () => {
+      el.textContent = formatter.format(new Date());
+    };
+
+    tick();
+    this._clockInterval = setInterval(tick, 1000);
+  }
+
+  disconnectedCallback() {
+    clearInterval(this._clockInterval);
+  }
+}
+
+customElements.define('site-footer', SiteFooter);
