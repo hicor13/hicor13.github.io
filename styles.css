@@ -14,7 +14,7 @@
   --reveal-distance: 24px;
   --reveal-duration: 600ms;
   /* Placeholder intensity — tweak this one value to adjust the portrait glow. */
-  --portrait-glow: 0 0 80px .5px rgba(255, 249, 238, 0.103);
+  --portrait-glow: 0 0 80px .5px rgba(255, 249, 238, 0.142);
 }
 
 /* Same ink-on-paper relationship as light mode, inverted — no new hue
@@ -179,9 +179,13 @@ body {
 }
 
 .nav-pill:hover {
-  background: linear-gradient(180deg, var(--pill-sheen), transparent 65%), var(--accent);
+  background: var(--accent);
   color: var(--accent-fg);
   border-color: var(--accent);
+}
+
+.nav-abbr {
+  display: none;
 }
 
 .lang-toggle {
@@ -410,8 +414,9 @@ main {
   .hero {
     flex-direction: column;
     gap: 2rem;
-    /* Nav pills can wrap to two rows at this width, so it needs more
-       headroom than the desktop subtraction to still land on-screen. */
+    /* Stacked hero + wrapped pill row used to need more headroom than the
+       desktop subtraction; kept even though pills are now one row so the
+       nav still lands comfortably below the stacked portrait/title. */
     min-height: calc(100vh - 9rem);
     min-height: calc(100svh - 9rem);
   }
@@ -420,6 +425,45 @@ main {
     flex-direction: column;
     text-align: center;
     max-width: 100%;
+  }
+
+  /* Tighter pills + a "CV" abbreviation for Curriculum Vitae/Resume so
+     all five nav pills stay on one row instead of wrapping (fits, still
+     centered, from ~360px up — see the sub-360px override further down
+     for the rare narrower screen). */
+  .hero-nav {
+    gap: 0.3rem;
+    padding: 1rem 0.5rem;
+  }
+
+  .nav-pill {
+    padding: 0.4rem 0.5rem;
+    font-size: 0.68rem;
+  }
+
+  .nav-pill-cv .nav-full {
+    display: none;
+  }
+
+  .nav-pill-cv .nav-abbr {
+    display: inline;
+  }
+
+  /* Safety net for screens narrower than ~360px (e.g. the original
+     iPhone SE) where the compacted pills above still don't quite fit:
+     scroll sideways instead of wrapping to a second row. Left-aligned
+     because centered content that overflows a scroll container can
+     clip its start unreachable in some browsers. */
+  @media (max-width: 22rem) {
+    .hero-nav {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      justify-content: flex-start;
+    }
+
+    .nav-pill {
+      flex-shrink: 0;
+    }
   }
 
   .hero-portrait {
