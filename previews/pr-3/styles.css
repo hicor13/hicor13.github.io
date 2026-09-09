@@ -1,0 +1,553 @@
+:root {
+  color-scheme: light dark;
+  --bg: #f7f6f3;
+  --fg: #1a1a1a;
+  --muted: #6b6b6b;
+  --pill-bg: rgba(255, 255, 255, 0.55);
+  --pill-border: #d8d6d1;
+  --pill-sheen: rgba(255, 255, 255, 0.75);
+  --pill-depth: rgba(26, 26, 26, 0.08);
+  --accent: #1a1a1a;
+  --accent-fg: #ffffff;
+  --ph-a: #e3e1dc;
+  --ph-b: #d8d6d1;
+  --reveal-distance: 24px;
+  --reveal-duration: 600ms;
+  /* Placeholder intensity — tweak this one value to adjust the portrait glow. */
+  --portrait-glow: 0 0 80px .5px rgba(255, 249, 238, 0.142);
+}
+
+/* Same ink-on-paper relationship as light mode, inverted — no new hue
+   introduced, just which value sits on which. */
+@media (prefers-color-scheme: dark) {
+  /* :not([data-theme="light"]) lets an explicit light choice below win
+     even when the OS itself is in dark mode. */
+  :root:not([data-theme="light"]) {
+    --bg: #171613;
+    --fg: #ece8e0;
+    --muted: #9c9488;
+    --pill-bg: rgba(33, 31, 27, 0.45);
+    --pill-border: #3a362f;
+    --pill-sheen: rgba(255, 255, 255, 0.14);
+    --pill-depth: rgba(0, 0, 0, 0.4);
+    --accent: #ece8e0;
+    --accent-fg: #171613;
+    --ph-a: #2a2822;
+    --ph-b: #201e19;
+  }
+}
+
+/* Manual toggle override — wins regardless of OS preference. */
+:root[data-theme="dark"] {
+  --bg: #171613;
+  --fg: #ece8e0;
+  --muted: #9c9488;
+  --pill-bg: rgba(33, 31, 27, 0.45);
+  --pill-border: #3a362f;
+  --pill-sheen: rgba(255, 255, 255, 0.14);
+  --pill-depth: rgba(0, 0, 0, 0.4);
+  --accent: #ece8e0;
+  --accent-fg: #171613;
+  --ph-a: #2a2822;
+  --ph-b: #201e19;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.hero {
+  /* Shorter than a full screen by roughly .hero-nav's own height, so
+     the nav (a sibling right after this element, kept outside it so
+     position:sticky below can hold it across the whole page rather than
+     just within this 100vh/100svh box) lands in the bottom portion of
+     the first screen instead of needing a scroll to reach it. */
+  min-height: calc(100vh - 6rem);
+  min-height: calc(100svh - 6rem);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 7rem;
+  position: relative;
+  padding: 2rem 1.5rem;
+}
+
+.hero-plate {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  gap: 1.5rem;
+  max-width: 48rem;
+}
+
+/* The hero's one deliberate on-load motion: a subtle opacity+slide. This
+   is the ONLY animation on the hero — .hero-title itself is fully static
+   (no letter-spacing/font-size transition), so there is nothing else to
+   layer on top of this and no risk of it reading as a "double" motion. */
+#hero-plate.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 500ms ease-out, transform 500ms ease-out;
+}
+
+#hero-plate.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: clamp(18rem, 10rem + 25vw, 26rem);
+}
+
+.ph-img {
+  background: repeating-linear-gradient(45deg, var(--ph-a), var(--ph-a) 10px, var(--ph-b) 10px, var(--ph-b) 20px);
+  border: 1px solid var(--pill-border);
+  border-radius: 4px;
+}
+
+.hero-portrait {
+  /* Scales with the viewport instead of staying fixed, so it shrinks in
+     step with .hero-text below rather than forcing that column to
+     absorb the whole squeeze between the mobile breakpoint and desktop. */
+  width: clamp(10rem, 6rem + 10vw, 15rem);
+  /* height: 8rem; */
+  margin: 0;
+  flex-shrink: 0;
+  box-shadow: var(--portrait-glow);
+}
+
+.hero-title {
+  font-size: clamp(2rem, 1.2rem + 3vw, 3rem);
+  letter-spacing: 0.05em;
+  margin: 0;
+  text-align: left;
+  text-align-last: left;
+}
+
+.hero-subtitle {
+  color: var(--muted);
+  margin: 0;
+  text-align: left;
+  text-align-last: left;
+}
+
+.hero-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  position: sticky;
+  top: 1rem;
+  z-index: 10;
+  padding: 1rem 1.5rem;
+}
+
+.nav-pill {
+  padding: 0.5rem 1.25rem;
+  border: 1px solid var(--pill-border);
+  border-top-color: var(--pill-sheen);
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--pill-sheen), transparent 5%), var(--pill-bg);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+  /* box-shadow: inset 0 1px 0 var(--pill-sheen), 0 4px 14px var(--pill-depth); */
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.nav-pill:hover {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: var(--accent);
+}
+
+.nav-abbr {
+  display: none;
+}
+
+html[data-lang="es"] [data-i18n-en],
+html[data-lang="en"] [data-i18n-es] {
+  display: none;
+}
+
+main {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 0 1.5rem 6rem;
+}
+
+.content-section {
+  padding: 4rem 0;
+  /* --nav-offset is the sticky nav's real measured height (JS), so this
+     clears it exactly at any screen size instead of guessing a fixed
+     rem value that's right at one breakpoint and wrong at others. */
+  scroll-margin-top: var(--nav-offset, 6rem);
+}
+
+.project-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+}
+
+.project-card a {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.project-card a:hover h3 {
+  text-decoration: underline;
+}
+
+.project-thumb {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+}
+
+.project-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.timeline {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.timeline-role {
+  font-weight: 600;
+}
+
+.timeline-date {
+  display: block;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.card-link {
+  display: block; /* Makes the anchor behave like a block element */
+  text-decoration: none; /* Removes default link underline */
+  color: inherit; /* Keeps text color matching your layout */
+}
+.cv-card:hover {
+  cursor: pointer;
+  background-color: #e3e3df;
+  border-color: #8a8a86;
+  box-shadow: 0 8px 20px rgba(59, 59, 62, 0.912);
+  transform: translateY(-3px);
+}
+/* Styled to read as a printed document, so it deliberately stays on
+   fixed light paper tones rather than the theme's --bg/--fg variables —
+   it should look the same whether the site is in light or dark mode. */
+.cv-card {
+  background: #f7f6f3;
+  color: #1a1a1a;
+  border: 1px solid #d8d6d1;
+  border-radius: 12px;
+  padding: 2rem;
+  font-family: Georgia, "Times New Roman", serif;
+  margin-bottom: 1.5rem;
+}
+
+.cv-card-header {
+  text-align: center;
+  border-bottom: 2px solid #1a1a1a;
+  padding-bottom: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.cv-card-name {
+  margin: 0 0 0.35rem;
+  font-size: 1.4rem;
+  letter-spacing: 0.06em;
+}
+
+.cv-card-tagline {
+  margin: 0 0 0.5rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: #6b6b6b;
+}
+
+.cv-card-meta {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #6b6b6b;
+}
+
+.cv-card-block {
+  margin-bottom: 1.25rem;
+}
+
+.cv-card-block:last-child {
+  margin-bottom: 0;
+}
+
+.cv-card-block h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  border-bottom: 1px solid #d8d6d1;
+  padding-bottom: 0.35rem;
+}
+
+.cv-card-block > p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.cv-card-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.85rem;
+  padding: 0.15rem 0;
+}
+
+.contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 2rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.contact-link svg {
+  width: 1.4em;
+  height: 1.4em;
+  flex-shrink: 0;
+}
+
+.contact-link:hover {
+  text-decoration: underline;
+}
+
+.pajaringo {
+  display: inline-flex;
+  width:100%;
+  height:100%;
+}
+/* --- Mobile: stack plate contents, single-row nav --- */
+@media (max-width: 40rem) {
+  .hero {
+    flex-direction: column;
+    /* justify-content:center (from the base rule) centers this column's
+       one flex child — .hero-plate — vertically. When the stacked
+       portrait+text is taller than the container that overflows equally
+       above and below, ignoring padding-top entirely and pushing the
+       portrait up underneath <site-topbar> (position:absolute, so out
+       of flow and unaffected by centering).
+       flex-start avoids that: the plate always starts below the
+       generous padding-top instead of getting recentered over it. */
+    justify-content: flex-start;
+    gap: 2rem;
+    padding-top: 4.5rem;
+    /* Stacked hero + wrapped pill row used to need more headroom than the
+       desktop subtraction; kept even though pills are now one row so the
+       nav still lands comfortably below the stacked portrait/title. */
+    min-height: calc(100vh - 9rem);
+    min-height: calc(100svh - 9rem);
+  }
+
+  .hero-plate {
+    flex-direction: column;
+    text-align: center;
+    max-width: 100%;
+  }
+
+  /* Tighter pills + a "CV" abbreviation for Curriculum Vitae/Resume so
+     all five nav pills stay on one row instead of wrapping (fits, still
+     centered, from ~360px up — see the sub-360px override further down
+     for the rare narrower screen). */
+  .hero-nav {
+    gap: 0.3rem;
+    padding: 1rem 0.5rem;
+  }
+
+  .nav-pill {
+    padding: 0.4rem 0.5rem;
+    font-size: 0.68rem;
+  }
+
+  .nav-pill-cv .nav-full {
+    display: none;
+  }
+
+  .nav-pill-cv .nav-abbr {
+    display: inline;
+  }
+
+  /* Safety net for screens narrower than ~360px (e.g. the original
+     iPhone SE) where the compacted pills above still don't quite fit:
+     scroll sideways instead of wrapping to a second row. Left-aligned
+     because centered content that overflows a scroll container can
+     clip its start unreachable in some browsers. */
+  @media (max-width: 22rem) {
+    .hero-nav {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      justify-content: flex-start;
+    }
+
+    .nav-pill {
+      flex-shrink: 0;
+    }
+  }
+
+  .hero-portrait {
+    width: 18rem;
+  }
+
+  .hero-text {
+    align-items: center;
+    max-width: 100%;
+  }
+
+  .hero-title,
+  .hero-subtitle {
+    text-align: center;
+    text-align-last: center;
+  }
+
+  .hero-title {
+    font-size: 1.75rem;
+  }
+
+  .cv-card {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    position: relative;
+    padding: 1.25rem;
+    font-size: 0.7rem;
+  }
+
+  /* Fades the clipped content at the bottom edge so the card reads as a
+     preview to tap into, not text that was cut off by accident. Uses the
+     card's own fixed paper color (not --bg) since the card stays on that
+     color in both themes. */
+  .cv-card::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 3.5rem;
+    background: linear-gradient(to bottom, transparent, #f7f6f3);
+  }
+
+  .cv-card-name {
+    font-size: 1.1rem;
+  }
+
+  .cv-card-tagline {
+    font-size: 0.55rem;
+  }
+
+  .cv-card-meta {
+    font-size: 0.65rem;
+  }
+
+  .cv-card-block h3 {
+    font-size: 0.6rem;
+    margin-bottom: 0.3rem;
+    padding-bottom: 0.2rem;
+  }
+
+  .cv-card-block {
+    margin-bottom: 0.75rem;
+  }
+
+  .cv-card-block > p {
+    font-size: 0.7rem;
+    line-height: 1.35;
+  }
+
+  .cv-card-row {
+    font-size: 0.65rem;
+  }
+
+  .cv-card-row {
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+}
+
+/* --- Large displays (1440p+): scale the hero plate past its normal cap --- */
+@media (min-width: 90rem) {
+  .hero-plate {
+    max-width: 64rem;
+    gap: 2.5rem;
+  }
+
+  .hero-portrait {
+    width: 20rem;
+  }
+
+  .hero-title {
+    font-size: 4rem;
+  }
+
+  .hero-text {
+    max-width: 34rem;
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(var(--reveal-distance));
+  transition: opacity var(--reveal-duration) ease-out var(--reveal-delay, 0ms),
+              transform var(--reveal-duration) ease-out var(--reveal-delay, 0ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media print {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Must remain the last rules in this file — relies on source order, not
+   higher specificity, to override .reveal/.nav-pill above. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+  .nav-pill {
+    transition: none;
+  }
+}

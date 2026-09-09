@@ -1,0 +1,351 @@
+@font-face {
+    font-family: "Minecrafter";
+    src: url("/media/fonts/minecrafter/minecrafter.reg-webfont.eot");
+    src: url("/media/fonts/minecrafter/minecrafter.reg-webfont.woff") format("woff"),
+    url("/media/fonts/minecrafter/Minecrafter.Reg.otf") format("opentype"),
+    url("/media/fonts/minecrafter/minecrafter.reg-webfont.svg") format("svg");
+}
+
+
+body {
+    background-image: url(/media/img/netherrack.png);
+    background-size: 15vw;
+    background-size: 20vh;
+    background-repeat: repeat;
+    background-attachment: fixed;
+    font-family: 'Minecrafter';
+    margin: 0;
+    letter-spacing: 1.2px;
+}
+
+/*
+#accent {
+    font-style: unset;
+    -webkit-text-emphasis: '\00B4' ; 
+    
+}
+*/
+
+#main-card {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 60%;
+    color: #ffffff;
+    margin:0;
+}
+
+#main-card .main-title {
+    background-color: #000000;
+    font-size: 8vw;
+    word-wrap: break-word;
+    padding: 10px;
+    padding-top: 30px;
+    align-content: center;
+}
+#main-card .main-subtitle {
+    background-color: #000000;
+    font-size: 45px;
+    color: #868686;
+    padding-top: 25px;
+    
+}
+#main-card .main-domain {
+    background-color: #000000;
+    font-size: 30px;
+    transition: 1.35s;
+    padding: 10px;
+    cursor: pointer;
+    color:rgb(255, 80, 80);
+    
+}
+
+
+#main-card .main-domain, .btn:hover {
+    color:rgb(241, 85, 189);
+    transform: scale(1.1);
+}
+
+.text {
+    margin: 15px;
+    border-radius: 7px;
+    padding: 20px;
+    box-shadow: 10px 10px 15px #000000ad;
+    cursor: default;
+    transition: cubic-bezier(1, 0, 0, 1);
+}
+
+.caca{
+    font-family: 'Minecrafter';
+    color:rgb(255, 80, 80);
+    background-color: #000000;
+    font-size: 30px;
+    border: 0;
+}
+
+/**/
+
+.custom-model-main {
+    text-align: center;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0; /* z-index: 1050; */
+    -webkit-overflow-scrolling: touch;
+    outline: 0;
+    opacity: 0;
+    -webkit-transition: opacity 0.15s linear, z-index 0.15;
+    -o-transition: opacity 0.15s linear, z-index 0.15;
+    transition: opacity 0.15s linear, z-index 0.15;
+    z-index: -1;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  
+  .model-open {
+    z-index: 99999;
+    opacity: 1;
+    overflow: hidden;
+  }
+  .custom-model-inner {
+    -webkit-transform: translate(0, -25%);
+    -ms-transform: translate(0, -25%);
+    transform: translate(0, -25%);
+    -webkit-transition: -webkit-transform 0.3s ease-out;
+    -o-transition: -o-transform 0.3s ease-out;
+    transition: -webkit-transform 0.3s ease-out;
+    -o-transition: transform 0.3s ease-out;
+    transition: transform 0.3s ease-out;
+    transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;
+    display: inline-block;
+    vertical-align: middle;
+    width: 60%;
+    margin: 30px auto;
+    max-width: 97%;
+  }
+  
+  .custom-model-wrap {
+      color: rgb(109, 255, 95);
+      font-size:45px;
+      line-height:1.1;
+      text-shadow: #000000(0, 0, 0, 0.2);
+      display: block;
+      width: 100%;
+      position: relative;
+      background-color: rgb(29, 29, 29);
+      border: 2px thick #999;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
+      -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+      background-clip: padding-box;
+      outline: 0;
+      text-align: center;
+      padding: 20px;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      max-height: calc(100vh - 70px);
+      overflow-y: auto;
+    }
+    .custom-model-wrap p{
+        color: rgb(231, 231, 231);
+        font-size:30px;
+    }
+    
+    
+    
+    .model-open .custom-model-inner {
+        -webkit-transform: translate(0, 0);
+        -ms-transform: translate(0, 0);
+        transform: translate(0, 0);
+        position: relative;
+        z-index: 999;
+    }
+    .model-open .bg-overlay {
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 99;
+    }
+    .bg-overlay {
+        background: rgba(0, 0, 0, 0);
+        height: 100vh;
+        width: 100%;
+        position: fixed;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 0;
+        -webkit-transition: background 0.15s linear;
+        -o-transition: background 0.15s linear;
+        transition: background 0.15s linear;
+    }
+    .close-btn {
+        position: absolute;
+        right: 0;
+        top: -30px;
+        cursor: pointer;
+        z-index: 99;
+        font-size: 30px;
+        color: #fff;
+    }
+    
+    @media only screen and (max-device-height: 480px) {
+
+        #main-card .main-title {
+            background-color: #000000;
+            font-size: 75px;
+            padding: 10px;
+            padding-top: 25px;
+        }
+        
+        .text {
+            margin: 10px;
+        }
+
+        .custom-model-inner {
+
+            width: 90%;
+
+
+          }
+          
+        .custom-model-wrap p{
+            color: rgb(231, 231, 231);
+            font-size:30px;
+        }
+        #main-card .main-subtitle {
+            font-size: 35px;
+            color: #868686;
+        }
+        
+        #main-card .main-domain {
+            font-size: 20px;
+            transition: 0.35s;
+            padding: 15px;
+            cursor: pointer;
+            color:rgb(255, 80, 80);
+        }
+        #main-card {
+                
+            width: 69vw;
+        }
+
+        .custom-model-wrap {
+            font-size: 35px;
+            }
+        }
+        
+        .caca{
+            font-family: 'Minecrafter';
+            color:rgb(255, 80, 80);
+            background-color: #000000;
+            font-size: 25px;
+            border: 0;
+        }
+        
+
+
+        @media only screen and (max-device-width: 480px) {
+            
+            #main-card {
+                
+                width: 95vw;
+            }
+
+            .text {
+                margin: 20px;
+            }
+
+            #main-card .main-title {
+                font-size: 120px;
+                line-height:1.1;
+                padding: 15px;
+                padding-top: 25px;
+            }
+            #main-card .main-subtitle {
+                font-size: 45px;
+                color: #868686;
+            }
+            #main-card .main-domain {
+                font-size: 30px;
+                transition: 0.35s;
+                padding: 10px;
+                cursor: pointer;
+                color:rgb(255, 80, 80);
+            }
+            
+            .custom-model-inner {
+                
+                width: 80%;
+                
+            }
+            
+            
+            .close-btn {
+                position: absolute;
+                right: 0;
+                top: -60px;
+                cursor: pointer;
+                z-index: 99;
+                font-size: 60px;
+                color: #fff;
+            }    
+        
+            .caca{
+                font-family: 'Minecrafter';
+                color:rgb(255, 80, 80);
+                background-color: #000000;
+                font-size: 50px;
+                border: 0;
+            }
+            
+        
+        }
+        
+        
+            @media screen and (min-width:800px){
+                .custom-model-main:before {
+                    content: "";
+                    display: inline-block;
+                    height: auto;
+                    vertical-align: middle;
+                    margin-right: -0px;
+                    height: 100%;
+                }
+            }
+            @media screen and (max-width:799px){
+                .custom-model-inner{margin-top: 45px;}
+                
+        
+        
+        
+        
+        
+        
+        
+        
+        @media screen and (min-width:800px){
+            .custom-model-main:before {
+                content: "";
+                display: inline-block;
+                height: auto;
+                vertical-align: middle;
+                margin-right: -0px;
+                height: 100%;
+            }
+        }
+        @media screen and (max-width:799px){
+            .custom-model-inner{margin-top: 45px;}
+        }
+        
+    }
+
+
+    
