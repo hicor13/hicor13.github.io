@@ -473,12 +473,17 @@ main {
      for the rare narrower screen). */
   .hero-nav {
     gap: 0.3rem;
-    padding: 1rem 0.5rem;
+    /* Extra bottom padding (vs. the 1rem top) so there's breathing room
+       below the pills on the initial screen, before any scroll — the
+       --hero-nav-h measurement (JS) picks this up automatically since
+       it's part of the nav's own rendered box, so .hero still shrinks
+       to keep hero + nav summing to exactly one viewport. */
+    padding: 1rem 0.5rem 1.75rem;
   }
 
   .nav-pill {
     padding: 0.4rem 0.5rem;
-    font-size: 0.68rem;
+    font-size: 0.85rem;
   }
 
   .nav-pill-cv .nav-full {
