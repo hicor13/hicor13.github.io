@@ -70,13 +70,23 @@ function initNavSmoothScroll() {
 
 function initScrollOffset() {
   const nav = document.getElementById('hero-nav');
+  const section = document.querySelector('.content-section');
   if (!nav) return;
   // Measures the sticky nav's actual rendered box (its own height plus its
   // sticky `top` gap) instead of guessing a fixed rem value, so section
   // anchors land clear of the nav at any screen size/breakpoint.
   const update = () => {
     const stickyTop = parseFloat(getComputedStyle(nav).top) || 0;
-    const offset = stickyTop + nav.getBoundingClientRect().height + 16;
+    const navClearance = stickyTop + nav.getBoundingClientRect().height + 16;
+    // .content-section already has its own top padding, which lands
+    // between the nav and the heading once scroll-margin-top places the
+    // section. Reserving the full nav height on top of that padding
+    // double-counts the gap — headings ended up ~nav-height further below
+    // the nav than needed. Only reserve what the padding doesn't already
+    // cover, so the section's own padding supplies most/all of the
+    // clearance instead of stacking a second one underneath it.
+    const sectionPaddingTop = section ? parseFloat(getComputedStyle(section).paddingTop) || 0 : 0;
+    const offset = Math.max(0, navClearance - sectionPaddingTop);
     document.documentElement.style.setProperty('--nav-offset', `${offset}px`);
   };
   update();
