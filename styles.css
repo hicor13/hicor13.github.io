@@ -16,11 +16,13 @@
   /* Placeholder intensity — tweak this one value to adjust the portrait glow. */
   --portrait-glow: 0 0 80px .5px rgba(255, 249, 238, 0.142);
   /* Lava-lamp background blobs — the one place on the page that steps
-     outside the ink-on-paper palette, so it stays deliberately separate
-     from --ph-a/--ph-b/--accent rather than reusing those neutral tokens. */
-  --lava-1: #ff9d5c;
-  --lava-2: #b98bff;
-  --lava-3: #4fc7c0;
+     outside the ink-on-paper palette. Colors: coolors.co/gradient/ebf4f5-b5c6e0
+     (2 stops — --lava-2 is their midpoint, so the 3-blob layout below
+     reads as that same 2-color gradient instead of needing a separate
+     2- vs 3-color version per theme). */
+  --lava-1: #ebf4f5;
+  --lava-2: color-mix(in srgb, #ebf4f5, #b5c6e0);
+  --lava-3: #b5c6e0;
 }
 
 /* Same ink-on-paper relationship as light mode, inverted — no new hue
@@ -40,9 +42,10 @@
     --accent-fg: #171613;
     --ph-a: #2a2822;
     --ph-b: #201e19;
-    --lava-1: #ff7a3d;
-    --lava-2: #8f5cff;
-    --lava-3: #2fd6c5;
+    /* Lava blobs (dark): coolors.co/gradient/0e1c26-2a454b-294861 */
+    --lava-1: #0e1c26;
+    --lava-2: #2a454b;
+    --lava-3: #294861;
   }
 }
 
@@ -59,9 +62,9 @@
   --accent-fg: #171613;
   --ph-a: #2a2822;
   --ph-b: #201e19;
-  --lava-1: #ff7a3d;
-  --lava-2: #8f5cff;
-  --lava-3: #2fd6c5;
+  --lava-1: #0e1c26;
+  --lava-2: #2a454b;
+  --lava-3: #294861;
 }
 
 * { box-sizing: border-box; }
@@ -84,7 +87,6 @@ body {
 .parallax-layer {
   position: absolute;
   inset: -20% -20%;
-  will-change: transform;
 }
 
 .parallax-blob {
@@ -133,10 +135,22 @@ body {
   /* Shorter than a full screen by roughly .hero-nav's own height, so
      the nav (a sibling right after this element, kept outside it so
      position:sticky below can hold it across the whole page rather than
-     just within this 100vh/100svh box) lands in the bottom portion of
-     the first screen instead of needing a scroll to reach it. */
-  min-height: calc(100vh - 6rem);
-  min-height: calc(100svh - 6rem);
+     just within this box) lands in the bottom portion of the first
+     screen instead of needing a scroll to reach it.
+     --hero-nav-h is the nav's real measured height (JS, same pass as
+     --nav-offset) — a hardcoded rem guess here went stale against the
+     nav's actual height (pill count/padding differs per breakpoint),
+     leaving a gap that exposed the next section on some devices.
+     100dvh is last (wins when supported) because 100svh alone freezes
+     the hero at the viewport's *smallest* state (toolbar expanded); on
+     iOS Safari, once the toolbar auto-hides during scroll the real
+     viewport grows past that frozen size, leaving a static gap below
+     the hero that exposes the next section — and that gap's size
+     changes as the toolbar collapses/expands, reading as the layout
+     "moving". dvh tracks the live viewport instead of freezing on it. */
+  min-height: calc(100vh - var(--hero-nav-h, 6rem));
+  min-height: calc(100svh - var(--hero-nav-h, 6rem));
+  min-height: calc(100dvh - var(--hero-nav-h, 6rem));
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -207,35 +221,6 @@ body {
   margin: 0;
   text-align: left;
   text-align-last: left;
-}
-
-/* Liquid-glass letterforms: the glyphs become a frosted window onto the
-   .parallax-layer blobs behind them (background-clip: text + backdrop-filter),
-   instead of a bordered panel. Falls back to plain --fg/--muted text where
-   either feature is unsupported. Fill opacity is 96%, not lower — a lighter
-   fill (tested at 82%) went unreadable in light mode once combined with
-   backdrop-filter's own blend. */
-@supports (background-clip: text) and ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .hero-title,
-  .hero-subtitle {
-    color: transparent;
-    backdrop-filter: blur(6px) saturate(160%);
-    -webkit-backdrop-filter: blur(6px) saturate(160%);
-  }
-
-  /* background-clip must come AFTER the background shorthand — the
-     shorthand resets background-clip to its border-box default. */
-  .hero-title {
-    background: color-mix(in srgb, var(--fg) 96%, transparent);
-    -webkit-background-clip: text;
-    background-clip: text;
-  }
-
-  .hero-subtitle {
-    background: color-mix(in srgb, var(--muted) 96%, transparent);
-    -webkit-background-clip: text;
-    background-clip: text;
-  }
 }
 
 .hero-nav {
@@ -469,11 +454,11 @@ main {
     justify-content: flex-start;
     gap: 2rem;
     padding-top: 4.5rem;
-    /* Stacked hero + wrapped pill row used to need more headroom than the
-       desktop subtraction; kept even though pills are now one row so the
-       nav still lands comfortably below the stacked portrait/title. */
-    min-height: calc(100vh - 9rem);
-    min-height: calc(100svh - 9rem);
+    /* Same --hero-nav-h/dvh reasoning as the base rule above; 9rem is
+       only the pre-JS/no-JS fallback for this stacked layout. */
+    min-height: calc(100vh - var(--hero-nav-h, 9rem));
+    min-height: calc(100svh - var(--hero-nav-h, 9rem));
+    min-height: calc(100dvh - var(--hero-nav-h, 9rem));
   }
 
   .hero-plate {

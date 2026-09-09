@@ -11,32 +11,16 @@ function initHeroIntro() {
   });
 }
 
-function initParallaxBg() {
-  const layers = document.querySelectorAll('.parallax-layer');
-  if (!layers.length) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-  const apply = () => {
-    const y = window.scrollY;
-    layers.forEach((layer) => {
-      const depth = parseFloat(layer.dataset.depth) || 0;
-      layer.style.transform = `translateY(${y * depth}px)`;
-    });
-  };
-
-  window.addEventListener('scroll', apply, { passive: true });
-  apply();
-}
-
 function initResumeModal() {
   const trigger = document.querySelector('.card-link[href*="resume"]');
   const modal = document.getElementById('resume-modal');
   if (!trigger || !modal) return;
 
   const iframe = modal.querySelector('iframe');
-  // #view=FitH scales the PDF to the iframe's width instead of opening at
-  // the PDF viewer's own default zoom, which ran wider than the modal.
-  const PDF_SRC = '/media/documents/resume.pdf#view=FitH';
+  // #view=Fit shrinks the whole page to fit both dimensions of the iframe
+  // (FitH only matched the width, so a tall page still overflowed
+  // vertically and needed its own scroll inside the panel).
+  const PDF_SRC = '/media/documents/resume.pdf#view=Fit';
 
   const open = () => {
     if (!iframe.src) iframe.src = PDF_SRC;
@@ -130,8 +114,9 @@ function initScrollOffset() {
   // sticky `top` gap) instead of guessing a fixed rem value, so section
   // anchors land clear of the nav at any screen size/breakpoint.
   const update = () => {
+    const navHeight = nav.getBoundingClientRect().height;
     const stickyTop = parseFloat(getComputedStyle(nav).top) || 0;
-    const navClearance = stickyTop + nav.getBoundingClientRect().height + 16;
+    const navClearance = stickyTop + navHeight + 16;
     // .content-section already has its own top padding, which lands
     // between the nav and the heading once scroll-margin-top places the
     // section. Reserving the full nav height on top of that padding
@@ -142,6 +127,10 @@ function initScrollOffset() {
     const sectionPaddingTop = section ? parseFloat(getComputedStyle(section).paddingTop) || 0 : 0;
     const offset = Math.max(0, navClearance - sectionPaddingTop);
     document.documentElement.style.setProperty('--nav-offset', `${offset}px`);
+    // .hero's min-height subtracts this (its own rendered height, no
+    // sticky-top gap) so hero + nav sum to one viewport instead of a
+    // hardcoded rem guess going stale against the nav's real height.
+    document.documentElement.style.setProperty('--hero-nav-h', `${navHeight}px`);
   };
   update();
   window.addEventListener('resize', update);
@@ -150,7 +139,6 @@ function initScrollOffset() {
 
 function init() {
   initHeroIntro();
-  initParallaxBg();
   initResumeModal();
   initScrollReveal();
   initNavSmoothScroll();
