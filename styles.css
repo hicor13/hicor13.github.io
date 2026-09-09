@@ -79,17 +79,6 @@ body {
   padding: 2rem 1.5rem;
 }
 
-.hero-topbar {
-  position: absolute;
-  top: 1.5rem;
-  left: 1.5rem;
-  right: 1.5rem;
-  display: flex;
-  justify-content: center;
-  font-size: 0.85rem;
-  letter-spacing: 0.05em;
-}
-
 .hero-plate {
   display: flex;
   align-items: center;
@@ -186,50 +175,6 @@ body {
 
 .nav-abbr {
   display: none;
-}
-
-.lang-toggle {
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  background: none;
-  border: none;
-  font: inherit;
-  color: var(--muted);
-  cursor: pointer;
-}
-
-.lang-toggle .lang-es,
-.lang-toggle .lang-en {
-  font-weight: 400;
-}
-
-.lang-toggle[data-lang="es"] .lang-es,
-.lang-toggle[data-lang="en"] .lang-en {
-  font-weight: 700;
-  color: var(--fg);
-}
-
-.theme-toggle {
-  position: absolute;
-  top: 1.5rem;
-  left: 1.5rem;
-  background: none;
-  border: none;
-  font: inherit;
-  color: var(--muted);
-  cursor: pointer;
-}
-
-.theme-toggle .theme-light,
-.theme-toggle .theme-dark {
-  font-weight: 400;
-}
-
-.theme-toggle[data-theme="light"] .theme-light,
-.theme-toggle[data-theme="dark"] .theme-dark {
-  font-weight: 700;
-  color: var(--fg);
 }
 
 html[data-lang="es"] [data-i18n-en],
@@ -420,8 +365,8 @@ main {
        one flex child — .hero-plate — vertically. When the stacked
        portrait+text is taller than the container that overflows equally
        above and below, ignoring padding-top entirely and pushing the
-       portrait up underneath .hero-topbar/.lang-toggle/.theme-toggle
-       (all position:absolute, so out of flow and unaffected by centering).
+       portrait up underneath <site-topbar> (position:absolute, so out
+       of flow and unaffected by centering).
        flex-start avoids that: the plate always starts below the
        generous padding-top instead of getting recentered over it. */
     justify-content: flex-start;

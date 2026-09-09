@@ -68,42 +68,6 @@ function initNavSmoothScroll() {
   });
 }
 
-function initLangToggle() {
-  const button = document.querySelector('.lang-toggle');
-  if (!button) return;
-  button.addEventListener('click', () => {
-    const newLang = button.dataset.lang === 'es' ? 'en' : 'es';
-    button.dataset.lang = newLang;
-    // CSS shows/hides every [data-i18n-es]/[data-i18n-en] pair based on
-    // this attribute, and bolds the matching ES/EN label on the button
-    // itself.
-    document.documentElement.lang = newLang;
-    document.documentElement.dataset.lang = newLang;
-  });
-}
-
-function initThemeToggle() {
-  const button = document.querySelector('.theme-toggle');
-  if (!button) return;
-
-  const current = () => {
-    const stored = document.documentElement.getAttribute('data-theme');
-    if (stored) return stored;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  };
-
-  button.dataset.theme = current();
-
-  button.addEventListener('click', () => {
-    const next = current() === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
-    button.dataset.theme = next;
-    try {
-      localStorage.setItem('theme', next);
-    } catch (e) {}
-  });
-}
-
 function initScrollOffset() {
   const nav = document.getElementById('hero-nav');
   if (!nav) return;
@@ -124,8 +88,6 @@ function init() {
   initHeroIntro();
   initScrollReveal();
   initNavSmoothScroll();
-  initLangToggle();
-  initThemeToggle();
   initScrollOffset();
 }
 
