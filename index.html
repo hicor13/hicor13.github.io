@@ -4,24 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mario Cornejo — Business Management &amp; Data Analytics</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20260909i">
+  <script src="/libs/personal/site-chrome.js?v=20260909h"></script>
+  <script>
+    try {
+      var storedTheme = localStorage.getItem('theme');
+      if (storedTheme) document.documentElement.setAttribute('data-theme', storedTheme);
+    } catch (e) {}
+  </script>
 
   <noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
 </head>
 <body>
   <div class="parallax-bg" aria-hidden="true">
-    <div class="parallax-layer" data-depth="0.04"></div>
-    <div class="parallax-layer" data-depth="0.09"></div>
-    <div class="parallax-layer" data-depth="0.16"></div>
+    <div class="parallax-layer" data-depth="0.04"><div class="parallax-blob"></div></div>
+    <div class="parallax-layer" data-depth="0.09"><div class="parallax-blob"></div></div>
+    <div class="parallax-layer" data-depth="0.16"><div class="parallax-blob"></div></div>
   </div>
 
   <header class="hero">
-    <div class="hero-topbar">
-      <span>mariocornejo.com</span>
-    </div>
+    <site-topbar></site-topbar>
 
     <div class="hero-plate reveal" id="hero-plate">
-      <img class="ph-img hero-portrait" role="img" src="/assets/img/mario.jpg" aria-label="Retrato de Mario Cornejo (placeholder)">
+      <img id="portrait" class="ph-img hero-portrait" role="img" src="/assets/img/mario.jpg" aria-label="Retrato de Mario Cornejo (placeholder)">
       <div class="hero-text">
         <h1 class="hero-title">Mario Roy Cornejo Bellido</h1>
         <p class="hero-subtitle">
@@ -29,17 +34,13 @@
         </p>
       </div>
     </div>
-
-    <button class="lang-toggle" type="button" data-lang="es">
-      <span class="lang-es">ES</span> / <span class="lang-en">EN</span>
-    </button>
   </header>
 
   <nav class="hero-nav" id="hero-nav">
     <a class="nav-pill" href="#about"><span data-i18n-es>Sobre mí</span><span data-i18n-en>About</span></a>
     <a class="nav-pill" href="#projects"><span data-i18n-es>Proyectos</span><span data-i18n-en>Projects</span></a>
     <a class="nav-pill" href="#notes"><span data-i18n-es>Notas</span><span data-i18n-en>Notes</span></a>
-    <a class="nav-pill" href="#cv">CV</a>
+    <a class="nav-pill nav-pill-cv" href="#cv"><span class="nav-full" data-i18n-es>Curriculum Vitae</span><span class="nav-full" data-i18n-en>Resume</span><span class="nav-abbr">CV</span></a>
     <a class="nav-pill" href="#contact"><span data-i18n-es>Contacto</span><span data-i18n-en>Contact</span></a>
   </nav>
 
@@ -99,7 +100,9 @@
       <div class="project-grid">
         <article class="project-card reveal">
           <a href="/gallery/pajaritos/index.html">
-            <div class="ph-img project-thumb" role="img" aria-label="Placeholder de proyecto: Pajaritos"></div>
+            <div class="ph-img project-thumb" role="img" aria-label="Placeholder de proyecto: Pajaritos">
+              <img class="pajaringo" role="img" src="/gallery/pajaritos/images/dsc-0155.jpg">
+            </div>
             <h3>Pajaritos — Bird Photography Gallery</h3>
           </a>
           <p>
@@ -162,7 +165,7 @@
     </section>
     
     <section id="cv" class="content-section reveal">
-      <h2>CV</h2>
+      <h2><span data-i18n-es>Curriculum Vitae</span><span data-i18n-en>Resume</span></h2>
       <a class="card-link" href="/media/documents/resume/index.html">
         <div class="cv-card reveal">
           <div class="cv-card-header">
@@ -258,6 +261,8 @@
     </section>
   </main>
 
+  <site-footer></site-footer>
+
   <div class="resume-modal" id="resume-modal" aria-hidden="true">
     <div class="resume-modal-backdrop" data-modal-dismiss></div>
     <div class="resume-modal-panel" role="dialog" aria-modal="true" aria-label="Resume preview">
@@ -269,6 +274,6 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=20260909i"></script>
 </body>
 </html>

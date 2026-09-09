@@ -1,3 +1,78 @@
+:root {
+  color-scheme: light dark;
+  --bg: #f7f6f3;
+  --fg: #1a1a1a;
+  --muted: #6b6b6b;
+  --pill-bg: rgba(255, 255, 255, 0.55);
+  --pill-border: #d8d6d1;
+  --pill-sheen: rgba(255, 255, 255, 0.75);
+  --pill-depth: rgba(26, 26, 26, 0.08);
+  --accent: #1a1a1a;
+  --accent-fg: #ffffff;
+  --ph-a: #e3e1dc;
+  --ph-b: #d8d6d1;
+  --reveal-distance: 24px;
+  --reveal-duration: 600ms;
+  /* Placeholder intensity — tweak this one value to adjust the portrait glow. */
+  --portrait-glow: 0 0 80px .5px rgba(255, 249, 238, 0.142);
+  /* Lava-lamp background blobs — the one place on the page that steps
+     outside the ink-on-paper palette, so it stays deliberately separate
+     from --ph-a/--ph-b/--accent rather than reusing those neutral tokens. */
+  --lava-1: #ff9d5c;
+  --lava-2: #b98bff;
+  --lava-3: #4fc7c0;
+}
+
+/* Same ink-on-paper relationship as light mode, inverted — no new hue
+   introduced, just which value sits on which. */
+@media (prefers-color-scheme: dark) {
+  /* :not([data-theme="light"]) lets an explicit light choice below win
+     even when the OS itself is in dark mode. */
+  :root:not([data-theme="light"]) {
+    --bg: #171613;
+    --fg: #ece8e0;
+    --muted: #9c9488;
+    --pill-bg: rgba(33, 31, 27, 0.45);
+    --pill-border: #3a362f;
+    --pill-sheen: rgba(255, 255, 255, 0.14);
+    --pill-depth: rgba(0, 0, 0, 0.4);
+    --accent: #ece8e0;
+    --accent-fg: #171613;
+    --ph-a: #2a2822;
+    --ph-b: #201e19;
+    --lava-1: #ff7a3d;
+    --lava-2: #8f5cff;
+    --lava-3: #2fd6c5;
+  }
+}
+
+/* Manual toggle override — wins regardless of OS preference. */
+:root[data-theme="dark"] {
+  --bg: #171613;
+  --fg: #ece8e0;
+  --muted: #9c9488;
+  --pill-bg: rgba(33, 31, 27, 0.45);
+  --pill-border: #3a362f;
+  --pill-sheen: rgba(255, 255, 255, 0.14);
+  --pill-depth: rgba(0, 0, 0, 0.4);
+  --accent: #ece8e0;
+  --accent-fg: #171613;
+  --ph-a: #2a2822;
+  --ph-b: #201e19;
+  --lava-1: #ff7a3d;
+  --lava-2: #8f5cff;
+  --lava-3: #2fd6c5;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+}
+
 .parallax-bg {
   position: fixed;
   inset: 0;
@@ -8,63 +83,50 @@
 
 .parallax-layer {
   position: absolute;
-  inset: -15% -15%;
+  inset: -20% -20%;
   will-change: transform;
 }
 
-.parallax-layer:nth-child(1) {
-  background: radial-gradient(45rem 30rem at 20% 20%, var(--ph-a), transparent 70%);
+.parallax-blob {
+  position: absolute;
+  inset: 0;
+  animation: lava-drift 26s ease-in-out infinite;
+}
+
+.parallax-layer:nth-child(1) .parallax-blob {
+  background: radial-gradient(46rem 36rem at 22% 26%, var(--lava-1), transparent 62%);
+  opacity: 0.55;
+  filter: blur(4px);
+  animation-duration: 22s;
+}
+
+.parallax-layer:nth-child(2) .parallax-blob {
+  background: radial-gradient(40rem 34rem at 80% 16%, var(--lava-2), transparent 62%);
   opacity: 0.5;
+  filter: blur(4px);
+  animation-duration: 30s;
+  animation-direction: reverse;
 }
 
-.parallax-layer:nth-child(2) {
-  background: radial-gradient(38rem 26rem at 85% 15%, var(--ph-b), transparent 70%);
+.parallax-layer:nth-child(3) .parallax-blob {
+  background: radial-gradient(38rem 32rem at 46% 72%, var(--lava-3), transparent 64%);
   opacity: 0.45;
+  filter: blur(4px);
+  animation-duration: 18s;
 }
 
-.parallax-layer:nth-child(3) {
-  background: radial-gradient(30rem 22rem at 50% 65%, var(--accent), transparent 70%);
-  opacity: 0.1;
+@keyframes lava-drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  25%  { transform: translate(12%, 14%) scale(1.25); }
+  50%  { transform: translate(-10%, 8%) scale(0.82); }
+  75%  { transform: translate(9%, -12%) scale(1.18); }
+  100% { transform: translate(0, 0) scale(1); }
 }
 
-:root {
-  color-scheme: light dark;
-  --bg: #f7f6f3;
-  --fg: #1a1a1a;
-  --muted: #6b6b6b;
-  --pill-bg: #ffffff;
-  --pill-border: #d8d6d1;
-  --accent: #1a1a1a;
-  --accent-fg: #ffffff;
-  --ph-a: #e3e1dc;
-  --ph-b: #d8d6d1;
-  --reveal-distance: 24px;
-  --reveal-duration: 600ms;
-}
-
-/* Same ink-on-paper relationship as light mode, inverted — no new hue
-   introduced, just which value sits on which. */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #171613;
-    --fg: #ece8e0;
-    --muted: #9c9488;
-    --pill-bg: #211f1b;
-    --pill-border: #3a362f;
-    --accent: #ece8e0;
-    --accent-fg: #171613;
-    --ph-a: #2a2822;
-    --ph-b: #201e19;
+@media (prefers-reduced-motion: reduce) {
+  .parallax-blob {
+    animation: none;
   }
-}
-
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-  background: var(--bg);
-  color: var(--fg);
 }
 
 .hero {
@@ -83,17 +145,6 @@ body {
   gap: 7rem;
   position: relative;
   padding: 2rem 1.5rem;
-}
-
-.hero-topbar {
-  position: absolute;
-  top: 1.5rem;
-  left: 1.5rem;
-  right: 1.5rem;
-  display: flex;
-  justify-content: center;
-  font-size: 0.85rem;
-  letter-spacing: 0.05em;
 }
 
 .hero-plate {
@@ -123,7 +174,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  max-width: 26rem;
+  max-width: clamp(18rem, 10rem + 25vw, 26rem);
 }
 
 .ph-img {
@@ -133,14 +184,18 @@ body {
 }
 
 .hero-portrait {
-  width: 15rem;
+  /* Scales with the viewport instead of staying fixed, so it shrinks in
+     step with .hero-text below rather than forcing that column to
+     absorb the whole squeeze between the mobile breakpoint and desktop. */
+  width: clamp(10rem, 6rem + 10vw, 15rem);
   /* height: 8rem; */
   margin: 0;
   flex-shrink: 0;
+  box-shadow: var(--portrait-glow);
 }
 
 .hero-title {
-  font-size: 3rem;
+  font-size: clamp(2rem, 1.2rem + 3vw, 3rem);
   letter-spacing: 0.05em;
   margin: 0;
   text-align: left;
@@ -154,11 +209,12 @@ body {
   text-align-last: left;
 }
 
-/* Liquid-glass letterforms: the glyphs themselves become a frosted
-   window onto the .parallax-layer gradients behind them (via
-   background-clip: text + backdrop-filter), instead of a bordered
-   panel. Falls back to plain --fg/--muted text where either feature
-   is unsupported (Firefox lacks backdrop-filter as of this writing). */
+/* Liquid-glass letterforms: the glyphs become a frosted window onto the
+   .parallax-layer blobs behind them (background-clip: text + backdrop-filter),
+   instead of a bordered panel. Falls back to plain --fg/--muted text where
+   either feature is unsupported. Fill opacity is 96%, not lower — a lighter
+   fill (tested at 82%) went unreadable in light mode once combined with
+   backdrop-filter's own blend. */
 @supports (background-clip: text) and ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .hero-title,
   .hero-subtitle {
@@ -196,12 +252,16 @@ body {
 .nav-pill {
   padding: 0.5rem 1.25rem;
   border: 1px solid var(--pill-border);
+  border-top-color: var(--pill-sheen);
   border-radius: 999px;
-  background: var(--pill-bg);
+  background: linear-gradient(180deg, var(--pill-sheen), transparent 5%), var(--pill-bg);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+  /* box-shadow: inset 0 1px 0 var(--pill-sheen), 0 4px 14px var(--pill-depth); */
   color: var(--fg);
   text-decoration: none;
   font-size: 0.9rem;
-  transition: background 200ms ease, border-color 200ms ease;
+  transition: background 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
 }
 
 .nav-pill:hover {
@@ -210,26 +270,8 @@ body {
   border-color: var(--accent);
 }
 
-.lang-toggle {
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  background: none;
-  border: none;
-  font: inherit;
-  color: var(--muted);
-  cursor: pointer;
-}
-
-.lang-toggle .lang-es,
-.lang-toggle .lang-en {
-  font-weight: 400;
-}
-
-.lang-toggle[data-lang="es"] .lang-es,
-.lang-toggle[data-lang="en"] .lang-en {
-  font-weight: 700;
-  color: var(--fg);
+.nav-abbr {
+  display: none;
 }
 
 html[data-lang="es"] [data-i18n-en],
@@ -245,7 +287,10 @@ main {
 
 .content-section {
   padding: 4rem 0;
-  scroll-margin-top: 6rem; /* keeps the section heading clear of the sticky nav */
+  /* --nav-offset is the sticky nav's real measured height (JS), so this
+     clears it exactly at any screen size instead of guessing a fixed
+     rem value that's right at one breakpoint and wrong at others. */
+  scroll-margin-top: var(--nav-offset, 6rem);
 }
 
 .project-grid {
@@ -268,6 +313,14 @@ main {
   width: 100%;
   aspect-ratio: 4 / 3;
   margin-bottom: 0.75rem;
+  overflow: hidden;
+}
+
+.project-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .timeline {
@@ -396,13 +449,29 @@ main {
   text-decoration: underline;
 }
 
+.pajaringo {
+  display: inline-flex;
+  width:100%;
+  height:100%;
+}
 /* --- Mobile: stack plate contents, single-row nav --- */
 @media (max-width: 40rem) {
   .hero {
     flex-direction: column;
+    /* justify-content:center (from the base rule) centers this column's
+       one flex child — .hero-plate — vertically. When the stacked
+       portrait+text is taller than the container that overflows equally
+       above and below, ignoring padding-top entirely and pushing the
+       portrait up underneath <site-topbar> (position:absolute, so out
+       of flow and unaffected by centering).
+       flex-start avoids that: the plate always starts below the
+       generous padding-top instead of getting recentered over it. */
+    justify-content: flex-start;
     gap: 2rem;
-    /* Nav pills can wrap to two rows at this width, so it needs more
-       headroom than the desktop subtraction to still land on-screen. */
+    padding-top: 4.5rem;
+    /* Stacked hero + wrapped pill row used to need more headroom than the
+       desktop subtraction; kept even though pills are now one row so the
+       nav still lands comfortably below the stacked portrait/title. */
     min-height: calc(100vh - 9rem);
     min-height: calc(100svh - 9rem);
   }
@@ -413,8 +482,47 @@ main {
     max-width: 100%;
   }
 
+  /* Tighter pills + a "CV" abbreviation for Curriculum Vitae/Resume so
+     all five nav pills stay on one row instead of wrapping (fits, still
+     centered, from ~360px up — see the sub-360px override further down
+     for the rare narrower screen). */
+  .hero-nav {
+    gap: 0.3rem;
+    padding: 1rem 0.5rem;
+  }
+
+  .nav-pill {
+    padding: 0.4rem 0.5rem;
+    font-size: 0.68rem;
+  }
+
+  .nav-pill-cv .nav-full {
+    display: none;
+  }
+
+  .nav-pill-cv .nav-abbr {
+    display: inline;
+  }
+
+  /* Safety net for screens narrower than ~360px (e.g. the original
+     iPhone SE) where the compacted pills above still don't quite fit:
+     scroll sideways instead of wrapping to a second row. Left-aligned
+     because centered content that overflows a scroll container can
+     clip its start unreachable in some browsers. */
+  @media (max-width: 22rem) {
+    .hero-nav {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      justify-content: flex-start;
+    }
+
+    .nav-pill {
+      flex-shrink: 0;
+    }
+  }
+
   .hero-portrait {
-    width: 10rem;
+    width: 18rem;
   }
 
   .hero-text {
@@ -433,7 +541,54 @@ main {
   }
 
   .cv-card {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    position: relative;
     padding: 1.25rem;
+    font-size: 0.7rem;
+  }
+
+  /* Fades the clipped content at the bottom edge so the card reads as a
+     preview to tap into, not text that was cut off by accident. Uses the
+     card's own fixed paper color (not --bg) since the card stays on that
+     color in both themes. */
+  .cv-card::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 3.5rem;
+    background: linear-gradient(to bottom, transparent, #f7f6f3);
+  }
+
+  .cv-card-name {
+    font-size: 1.1rem;
+  }
+
+  .cv-card-tagline {
+    font-size: 0.55rem;
+  }
+
+  .cv-card-meta {
+    font-size: 0.65rem;
+  }
+
+  .cv-card-block h3 {
+    font-size: 0.6rem;
+    margin-bottom: 0.3rem;
+    padding-bottom: 0.2rem;
+  }
+
+  .cv-card-block {
+    margin-bottom: 0.75rem;
+  }
+
+  .cv-card-block > p {
+    font-size: 0.7rem;
+    line-height: 1.35;
+  }
+
+  .cv-card-row {
+    font-size: 0.65rem;
   }
 
   .cv-card-row {
@@ -516,6 +671,26 @@ main {
   .resume-modal-panel {
     width: 95vw;
     height: 80vh;
+  }
+}
+
+/* --- Large displays (1440p+): scale the hero plate past its normal cap --- */
+@media (min-width: 90rem) {
+  .hero-plate {
+    max-width: 64rem;
+    gap: 2.5rem;
+  }
+
+  .hero-portrait {
+    width: 20rem;
+  }
+
+  .hero-title {
+    font-size: 4rem;
+  }
+
+  .hero-text {
+    max-width: 34rem;
   }
 }
 

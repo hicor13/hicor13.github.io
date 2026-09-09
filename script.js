@@ -34,7 +34,9 @@ function initResumeModal() {
   if (!trigger || !modal) return;
 
   const iframe = modal.querySelector('iframe');
-  const PDF_SRC = '/media/documents/resume.pdf';
+  // #view=FitH scales the PDF to the iframe's width instead of opening at
+  // the PDF viewer's own default zoom, which ran wider than the modal.
+  const PDF_SRC = '/media/documents/resume.pdf#view=FitH';
 
   const open = () => {
     if (!iframe.src) iframe.src = PDF_SRC;
@@ -106,26 +108,44 @@ function initNavSmoothScroll() {
       const target = document.getElementById(targetId);
       if (!target) return;
       event.preventDefault();
-      target.scrollIntoView({
+      // Computing the destination ourselves (rather than letting
+      // scrollIntoView apply scroll-margin-top) avoids a cross-browser
+      // quirk where smooth-behavior scrollIntoView can land short of the
+      // scroll-margin offset.
+      const scrollMarginTop = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
+      const top = target.getBoundingClientRect().top + window.scrollY - scrollMarginTop;
+      window.scrollTo({
+        top,
         behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-        block: 'start',
       });
     });
   });
 }
 
-function initLangToggle() {
-  const button = document.querySelector('.lang-toggle');
-  if (!button) return;
-  button.addEventListener('click', () => {
-    const newLang = button.dataset.lang === 'es' ? 'en' : 'es';
-    button.dataset.lang = newLang;
-    // CSS shows/hides every [data-i18n-es]/[data-i18n-en] pair based on
-    // this attribute, and bolds the matching ES/EN label on the button
-    // itself.
-    document.documentElement.lang = newLang;
-    document.documentElement.dataset.lang = newLang;
-  });
+function initScrollOffset() {
+  const nav = document.getElementById('hero-nav');
+  const section = document.querySelector('.content-section');
+  if (!nav) return;
+  // Measures the sticky nav's actual rendered box (its own height plus its
+  // sticky `top` gap) instead of guessing a fixed rem value, so section
+  // anchors land clear of the nav at any screen size/breakpoint.
+  const update = () => {
+    const stickyTop = parseFloat(getComputedStyle(nav).top) || 0;
+    const navClearance = stickyTop + nav.getBoundingClientRect().height + 16;
+    // .content-section already has its own top padding, which lands
+    // between the nav and the heading once scroll-margin-top places the
+    // section. Reserving the full nav height on top of that padding
+    // double-counts the gap — headings ended up ~nav-height further below
+    // the nav than needed. Only reserve what the padding doesn't already
+    // cover, so the section's own padding supplies most/all of the
+    // clearance instead of stacking a second one underneath it.
+    const sectionPaddingTop = section ? parseFloat(getComputedStyle(section).paddingTop) || 0 : 0;
+    const offset = Math.max(0, navClearance - sectionPaddingTop);
+    document.documentElement.style.setProperty('--nav-offset', `${offset}px`);
+  };
+  update();
+  window.addEventListener('resize', update);
+  window.addEventListener('orientationchange', update);
 }
 
 function init() {
@@ -134,7 +154,7 @@ function init() {
   initResumeModal();
   initScrollReveal();
   initNavSmoothScroll();
-  initLangToggle();
+  initScrollOffset();
 }
 
 document.addEventListener('DOMContentLoaded', init);
