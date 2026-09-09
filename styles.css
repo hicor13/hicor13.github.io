@@ -642,10 +642,32 @@ main {
   color: var(--fg);
 }
 
-.resume-modal-panel iframe {
+/* Own PDF.js canvas rendering instead of the browser's native PDF
+   viewer (iframe + #view=Fit) — that always drew its own toolbar
+   (zoom/print/download controls), which Safari ignores every attempt
+   to suppress via URL fragment. Each page is a plain <canvas>, so
+   there's no viewer chrome at all: just a scrollable stack at 100%
+   panel width. */
+.resume-pdf-pages {
   flex: 1;
   width: 100%;
-  border: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: var(--pill-bg);
+  padding: 0.75rem;
+}
+
+.resume-pdf-pages canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 auto 0.75rem;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.resume-pdf-pages canvas:last-child {
+  margin-bottom: 0;
 }
 
 .resume-modal-full {

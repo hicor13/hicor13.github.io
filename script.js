@@ -16,17 +16,67 @@ function initResumeModal() {
   const modal = document.getElementById('resume-modal');
   if (!trigger || !modal) return;
 
-  const iframe = modal.querySelector('iframe');
-  // #view=Fit shrinks the whole page to fit both dimensions of the iframe
-  // (FitH only matched the width, so a tall page still overflowed
-  // vertically and needed its own scroll inside the panel).
-  const PDF_SRC = '/media/documents/resume.pdf#view=Fit';
+  const pagesContainer = modal.querySelector('.resume-pdf-pages');
+  const PDF_SRC = '/media/documents/resume.pdf';
+  // Own rendering via PDF.js instead of the browser's native PDF viewer
+  // (iframe + #view=Fit): that always drew its own toolbar, which Safari
+  // ignores every attempt to suppress via URL fragment. Rendering each
+  // page to a plain <canvas> means there's no viewer chrome at all, and
+  // it always matches the real resume.pdf (no separate export step).
+  const PDFJS_VERSION = '6.3.289';
+  const PDFJS_BASE = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}`;
+
+  let renderPromise = null;
+  let renderedWidth = 0;
+
+  const renderPages = async () => {
+    const pdfjsLib = await import(`${PDFJS_BASE}/pdf.min.mjs`);
+    pdfjsLib.GlobalWorkerOptions.workerSrc = `${PDFJS_BASE}/pdf.worker.min.mjs`;
+
+    const pdf = await pdfjsLib.getDocument({ url: PDF_SRC }).promise;
+    const containerWidth = pagesContainer.clientWidth;
+    // Rendered at CSS width * devicePixelRatio, then displayed at
+    // width:100% (CSS) — crisp on retina instead of a fixed raster size.
+    const dpr = window.devicePixelRatio || 1;
+    renderedWidth = containerWidth;
+
+    pagesContainer.replaceChildren();
+    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+      const page = await pdf.getPage(pageNum);
+      const scale = (containerWidth / page.getViewport({ scale: 1 }).width) * dpr;
+      const viewport = page.getViewport({ scale });
+      const canvas = document.createElement('canvas');
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      pagesContainer.appendChild(canvas);
+      await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
+    }
+  };
+
+  const ensureRendered = () => {
+    // Re-render (not just re-open) if the panel's width changed enough
+    // since the last render (e.g. orientation change) to look blurry
+    // or leave letterboxing at the new width.
+    const widthChanged = Math.abs(pagesContainer.clientWidth - renderedWidth) > 8;
+    if (!renderPromise || widthChanged) {
+      renderPromise = renderPages().catch((error) => {
+        renderPromise = null; // allow retry on next open
+        pagesContainer.replaceChildren();
+        const message = document.createElement('p');
+        message.style.padding = '1rem';
+        message.textContent = 'No se pudo cargar la vista previa. Usa "Ver documento completo".';
+        pagesContainer.appendChild(message);
+        console.error('Resume PDF render failed:', error);
+      });
+    }
+    return renderPromise;
+  };
 
   const open = () => {
-    if (!iframe.src) iframe.src = PDF_SRC;
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+    ensureRendered();
   };
 
   const close = () => {
@@ -46,6 +96,10 @@ function initResumeModal() {
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && modal.classList.contains('is-open')) close();
+  });
+
+  window.addEventListener('orientationchange', () => {
+    if (modal.classList.contains('is-open')) ensureRendered();
   });
 }
 
