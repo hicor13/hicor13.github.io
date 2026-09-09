@@ -76,11 +76,34 @@ function initLangToggle() {
   });
 }
 
+function initThemeToggle() {
+  const button = document.querySelector('.theme-toggle');
+  if (!button) return;
+
+  const current = () => {
+    const stored = document.documentElement.getAttribute('data-theme');
+    if (stored) return stored;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  };
+
+  button.dataset.theme = current();
+
+  button.addEventListener('click', () => {
+    const next = current() === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    button.dataset.theme = next;
+    try {
+      localStorage.setItem('theme', next);
+    } catch (e) {}
+  });
+}
+
 function init() {
   initHeroIntro();
   initScrollReveal();
   initNavSmoothScroll();
   initLangToggle();
+  initThemeToggle();
 }
 
 document.addEventListener('DOMContentLoaded', init);

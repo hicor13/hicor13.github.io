@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mario Cornejo — Business Management &amp; Data Analytics</title>
   <link rel="stylesheet" href="styles.css?v=20260908c">
+  <script>
+    try {
+      var storedTheme = localStorage.getItem('theme');
+      if (storedTheme) document.documentElement.setAttribute('data-theme', storedTheme);
+    } catch (e) {}
+  </script>
 
   <noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
 </head>
@@ -26,6 +32,10 @@
 
     <button class="lang-toggle" type="button" data-lang="es">
       <span class="lang-es">ES</span> / <span class="lang-en">EN</span>
+    </button>
+
+    <button class="theme-toggle" type="button">
+      <span class="theme-light">☀</span> / <span class="theme-dark">☾</span>
     </button>
   </header>
 

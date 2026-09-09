@@ -18,7 +18,9 @@
 /* Same ink-on-paper relationship as light mode, inverted — no new hue
    introduced, just which value sits on which. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  /* :not([data-theme="light"]) lets an explicit light choice below win
+     even when the OS itself is in dark mode. */
+  :root:not([data-theme="light"]) {
     --bg: #171613;
     --fg: #ece8e0;
     --muted: #9c9488;
@@ -31,6 +33,21 @@
     --ph-a: #2a2822;
     --ph-b: #201e19;
   }
+}
+
+/* Manual toggle override — wins regardless of OS preference. */
+:root[data-theme="dark"] {
+  --bg: #171613;
+  --fg: #ece8e0;
+  --muted: #9c9488;
+  --pill-bg: rgba(33, 31, 27, 0.45);
+  --pill-border: #3a362f;
+  --pill-sheen: rgba(255, 255, 255, 0.14);
+  --pill-depth: rgba(0, 0, 0, 0.4);
+  --accent: #ece8e0;
+  --accent-fg: #171613;
+  --ph-a: #2a2822;
+  --ph-b: #201e19;
 }
 
 * { box-sizing: border-box; }
@@ -98,7 +115,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  max-width: 26rem;
+  max-width: clamp(18rem, 10rem + 25vw, 26rem);
 }
 
 .ph-img {
@@ -108,14 +125,17 @@ body {
 }
 
 .hero-portrait {
-  width: 15rem;
+  /* Scales with the viewport instead of staying fixed, so it shrinks in
+     step with .hero-text below rather than forcing that column to
+     absorb the whole squeeze between the mobile breakpoint and desktop. */
+  width: clamp(10rem, 6rem + 10vw, 15rem);
   /* height: 8rem; */
   margin: 0;
   flex-shrink: 0;
 }
 
 .hero-title {
-  font-size: 3rem;
+  font-size: clamp(2rem, 1.2rem + 3vw, 3rem);
   letter-spacing: 0.05em;
   margin: 0;
   text-align: left;
@@ -179,6 +199,28 @@ body {
 
 .lang-toggle[data-lang="es"] .lang-es,
 .lang-toggle[data-lang="en"] .lang-en {
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  background: none;
+  border: none;
+  font: inherit;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.theme-toggle .theme-light,
+.theme-toggle .theme-dark {
+  font-weight: 400;
+}
+
+.theme-toggle[data-theme="light"] .theme-light,
+.theme-toggle[data-theme="dark"] .theme-dark {
   font-weight: 700;
   color: var(--fg);
 }
