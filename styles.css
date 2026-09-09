@@ -419,6 +419,7 @@ main {
   gap: 1.5rem 2rem;
   align-items: center;
   justify-content: center;
+  margin-top: 1.5rem;
 }
 
 .contact-link {
