@@ -25,12 +25,34 @@
     },
   };
 
+  const PLACEHOLDERS = {
+    es: 'Tu nombre',
+    en: 'Your name',
+  };
+
   function currentLang() {
     return document.documentElement.lang === 'en' ? 'en' : 'es';
   }
 
   function defaultArtistName() {
     return currentLang() === 'en' ? 'Anonymous' : 'Anónimo';
+  }
+
+  // The page's ES/EN toggle (garabatos/styles.css's
+  // [data-i18n-es]/[data-i18n-en] rule) only affects visible text
+  // content via CSS — it can't reach an <input>'s placeholder attribute.
+  // Watching documentElement's lang/data-lang keeps this one attribute
+  // in sync without needing its own click listener on the toggle button
+  // (which lives inside <site-topbar>, a separate custom element).
+  function watchPlaceholderLang(nameInput) {
+    const sync = () => {
+      nameInput.placeholder = PLACEHOLDERS[currentLang()];
+    };
+    sync();
+    new MutationObserver(sync).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['lang', 'data-lang'],
+    });
   }
 
   // localStorage can throw (private browsing, strict site-data settings,
@@ -64,6 +86,7 @@
     if (!canvasEl || !brushInput || !clearBtn || !saveBtn || !nameInput || !statusEl || !gridEl) return;
 
     const painter = Garabatos.initCanvas(canvasEl, brushInput);
+    watchPlaceholderLang(nameInput);
 
     clearBtn.addEventListener('click', () => {
       painter.clear();
