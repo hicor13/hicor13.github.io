@@ -12,15 +12,25 @@
   <meta property="og:url" content="https://mariocornejo.com/garabatos/index.html">
 
   <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="stylesheet" href="/styles.css?v=20260909i">
-  <link rel="stylesheet" href="/garabatos/styles.css?v=20260909a">
+  <!-- pv1: unlinked from the main site's /styles.css design tokens on
+       purpose — this page is going its own visual direction (90s/retro),
+       same precedent as gallery/pajaritos staying token-free. All colors
+       in garabatos/styles.css below now fall back to their own hardcoded
+       defaults instead of the main site's light/dark theme. -->
+  <link rel="stylesheet" href="/garabatos/styles.css?v=20260909f">
   <script src="/libs/personal/site-chrome.js?v=20260909h"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
 </head>
 <body>
+  <!-- pv1 retro scaffold: fixed WordArt-style glow badge, centered just
+       below <site-topbar>'s "mariocornejo.com" text. Additive, doesn't
+       replace the real content below. -->
+  <div class="retro-wordart" id="retro-wordart">
+    <span data-i18n-es>GARABATOS</span><span data-i18n-en>DOODLES</span>
+  </div>
+
   <header class="garabatos-header">
     <site-topbar></site-topbar>
-    <h1><span data-i18n-es>Garabatos</span><span data-i18n-en>Doodles</span></h1>
     <p class="garabatos-intro">
       <span data-i18n-es>Raspa la superficie negra para revelar el color de abajo. Dibuja algo y déjalo en la galería.</span>
       <span data-i18n-en>Scratch the black surface to reveal the color underneath. Draw something and leave it in the gallery.</span>
@@ -38,7 +48,7 @@
         <button type="button" id="clear-btn">
           <span data-i18n-es>Borrar</span><span data-i18n-en>Clear</span>
         </button>
-        <input type="text" id="artist-name" maxlength="40" placeholder="Tu nombre / Your name">
+        <input type="text" id="artist-name" maxlength="40" placeholder="Tu nombre">
         <button type="button" id="save-btn" class="garabatos-save">
           <span data-i18n-es>Guardar</span><span data-i18n-en>Save</span>
         </button>
@@ -54,8 +64,8 @@
 
   <site-footer base="/index.html"></site-footer>
 
-  <script src="/garabatos/canvas.js?v=20260909a"></script>
+  <script src="/garabatos/canvas.js?v=20260909b"></script>
   <script src="/garabatos/gallery.js?v=20260909a"></script>
-  <script src="/garabatos/script.js?v=20260909a"></script>
+  <script src="/garabatos/script.js?v=20260909b"></script>
 </body>
 </html>
