@@ -57,61 +57,64 @@
 
   // #retro-wordart lives inside .garabatos-header and uses position:sticky
   // there — sticky's "stuck" range is bounded by its own parent's box.
-  // CSS starts pushing it back out of the stuck position as soon as the
-  // header runs low on remaining room below it — NOT a clean release
-  // right as the header ends; it starts sliding up (and off-screen, well
-  // before the header's actual bottom edge) earlier than that. An
-  // IntersectionObserver on a sentinel at the header's end fires too
-  // late to catch this — confirmed by scrolling in 10px steps and
-  // watching the badge go to top:-65px (fully invisible) before the
-  // sentinel-based pin ever engaged.
   //
-  // Real fix: compute the exact scrollY where sticky runs out of room —
-  // (header's bottom, in document coordinates) minus (the stuck offset)
-  // minus (the badge's own height) — from actual measurements, matching
-  // CSS's own release condition instead of guessing at it. Comparing
-  // window.scrollY against that threshold on every scroll switches to
-  // .retro-wordart--pinned (position:fixed, same visual spot) at exactly
-  // the moment CSS would otherwise start moving it away, so there's no
-  // gap where it goes missing. Measured once on load and on resize —
-  // deliberately NOT while scrolling, since toggling pinned changes
-  // whether the badge occupies flow space (position:fixed removes it),
-  // which would shift the header's own measured height and create a
-  // feedback loop if re-measured mid-scroll.
+  // Root cause of a visible jump (found via 1px-step measurement, not
+  // guessed): CSS doesn't hold the badge at a clean top:1rem until some
+  // sharp release point — once the header starts running low on room
+  // below it, sticky continuously SLIDES it up (1:1 with scroll), well
+  // before the header's bottom edge. Two earlier attempts to predict that
+  // release point in advance (an IntersectionObserver on an end-of-header
+  // sentinel, then a formula computed from header/margin/height
+  // measurements) each fired at the wrong scrollY, so switching to
+  // .retro-wordart--pinned (position:fixed, hardcoded top:1rem) snapped
+  // the badge from wherever CSS had already slid it to (confirmed as far
+  // as top:-4.4px, i.e. partly above the viewport) to the fixed 16px
+  // target — a real ~15px jump every time, not a timing fluke.
+  //
+  // Fix: stop predicting, measure instead. Every scroll, read the
+  // badge's actual live position (getBoundingClientRect().top) while
+  // still in sticky mode; the instant CSS's own value would reach the
+  // pinned state's own rendered position, switch to pinned right then —
+  // by definition the same position CSS just had it at, so there's
+  // nothing to jump. Unpinning (scrolling back up) reverses at the same
+  // scrollY pinning engaged at, which is exact by construction rather
+  // than a second formula to get wrong.
+  //
+  // The pinned target itself is MEASURED, not assumed to be the CSS
+  // top:1rem (16px) value — a second bug, found the same way as the
+  // first: .retro-wordart has its own rotate(-4deg) transform, which
+  // shifts getBoundingClientRect()'s rendered box away from the raw CSS
+  // top value (confirmed: CSS said top:16px, actual rendered top was
+  // ~10.57px). Using 16 as the comparison threshold made the pin engage
+  // too early, since the sticky element's natural resting position
+  // never actually reaches 16 in the first place. Briefly applying
+  // .retro-wordart--pinned once at init to measure its real rendered
+  // top sidesteps this entirely — correct regardless of whatever the
+  // rotation/transform happens to be, no angle math needed.
   function initWordartPin() {
     const wordart = document.getElementById('retro-wordart');
-    const header = document.querySelector('.garabatos-header');
-    if (!wordart || !header) return;
+    if (!wordart) return;
 
-    const STUCK_TOP_PX = 16; // matches .retro-wordart's CSS top:1rem
-    const SAFETY_BUFFER_PX = 8; // triggers pin slightly early rather than risk being late again
-    let pinThreshold = 0;
+    wordart.classList.add('retro-wordart--pinned');
+    const PINNED_TOP_PX = wordart.getBoundingClientRect().top;
+    wordart.classList.remove('retro-wordart--pinned');
 
-    function measure() {
-      const wasPinned = wordart.classList.contains('retro-wordart--pinned');
-      if (wasPinned) wordart.classList.remove('retro-wordart--pinned');
-      const headerBottomDocY = header.getBoundingClientRect().bottom + window.scrollY;
-      const wordartHeight = wordart.getBoundingClientRect().height;
-      // getBoundingClientRect() excludes margin — sticky's release condition
-      // is about the element's full margin box staying within the parent,
-      // so its own margin-bottom (the space it needs below itself) has to
-      // be subtracted too. First attempt at this formula (without this
-      // term) triggered ~30px too late, empirically confirmed by scrolling
-      // in 10px steps and watching exactly where the badge went offscreen
-      // versus where .retro-wordart--pinned actually engaged.
-      const marginBottom = parseFloat(getComputedStyle(wordart).marginBottom) || 0;
-      pinThreshold = headerBottomDocY - STUCK_TOP_PX - wordartHeight - marginBottom - SAFETY_BUFFER_PX;
-      if (wasPinned) wordart.classList.add('retro-wordart--pinned');
-    }
+    let pinEngageScrollY = null;
 
     function onScroll() {
-      wordart.classList.toggle('retro-wordart--pinned', window.scrollY >= pinThreshold);
+      const pinned = wordart.classList.contains('retro-wordart--pinned');
+      if (!pinned) {
+        if (wordart.getBoundingClientRect().top <= PINNED_TOP_PX) {
+          pinEngageScrollY = window.scrollY;
+          wordart.classList.add('retro-wordart--pinned');
+        }
+      } else if (window.scrollY < pinEngageScrollY) {
+        wordart.classList.remove('retro-wordart--pinned');
+      }
     }
 
-    measure();
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', measure);
   }
 
   // localStorage can throw (private browsing, strict site-data settings,
