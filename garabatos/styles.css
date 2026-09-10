@@ -1,14 +1,34 @@
 /* garabatos/styles.css
-   Page-specific rules only — tokens (--bg/--fg/--muted/--pill-*) and the
-   nav-pill/site-topbar/site-footer chrome come from /styles.css, loaded
-   before this file. Garabatos follows the site's real light/dark toggle
-   (unlike gallery/pajaritos, which is deliberately fixed-dark) since a
-   scratch-art board has no reason to ignore the site theme. */
+   pv1: no longer links the main site's /styles.css — every var(--token,
+   fallback) below now always resolves to its fallback value, since
+   nothing defines the token anymore. Going its own visual direction
+   (90s/retro) independent of the main site's design system, same
+   precedent as gallery/pajaritos. Comic Sans is the page's base font per
+   the pv1 brief; swap/extend the stack below as the retro design comes
+   together. */
 
 body {
   background: var(--bg, #f7f6f3);
   color: var(--fg, #1a1a1a);
   margin: 0;
+  font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
+}
+
+/* --- pv1 retro scaffold: empty stubs, yours to design ---
+
+   Modeled on the reference template's two recurring patterns:
+   a WordArt-style glow/outline heading, and a fixed, colorfully-bordered
+   sidebar nav. Both elements exist in garabatos/index.html already
+   (#retro-wordart, #retro-sidebar) but render as nothing until styled —
+   no position, no size, no visuals set here on purpose. */
+
+.retro-wordart {
+  /* e.g. font-family: Impact, sans-serif; text-shadow / -webkit-text-stroke
+     for the neon outline look; position it wherever it should sit. */
+}
+
+.retro-sidebar {
+  /* e.g. position: fixed; a background-image tile; bordered nav items. */
 }
 
 .garabatos-header {
@@ -44,6 +64,13 @@ body {
   cursor: crosshair;
   border-radius: 12px;
   border: 1px solid var(--pill-border, #d8d6d1);
+  /* pv1: canvas.js's PIXEL_SCALE now renders into a backing buffer
+     smaller than this element's displayed size, so the browser has to
+     upscale it — image-rendering controls HOW that upscale looks.
+     pixelated = chunky/blocky (the retro look); without a lower backing
+     resolution this property alone would be a no-op, since nothing
+     would actually be getting scaled up. */
+  image-rendering: pixelated;
 }
 
 .garabatos-controls {

@@ -9,17 +9,30 @@ Garabatos.initCanvas = function initCanvas(canvasEl, brushInput) {
   const ctx = canvasEl.getContext('2d');
   const CSS_WIDTH = 640;
   const CSS_HEIGHT = 400;
+  // pv1: one tunable knob for the retro pixelated look. The backing pixel
+  // buffer is CSS_WIDTH/PIXEL_SCALE × CSS_HEIGHT/PIXEL_SCALE — smaller
+  // than the element's displayed size — so the browser has to upscale it,
+  // and #scratch-canvas's `image-rendering: pixelated` (garabatos/styles.css)
+  // makes that upscale chunky instead of smoothed. Higher PIXEL_SCALE =
+  // bigger/blockier pixels. 1 = back to the original crisp rendering.
+  // All drawing code below still uses plain 0..640/0..400 coordinates
+  // (via ctx.setTransform) regardless of this value — only the actual
+  // backing resolution changes. Saved drawings export at this same low
+  // resolution, so the pixelated look carries into the gallery too.
+  const PIXEL_SCALE = 4;
   let gradientRef = null; // Store the gradient for scratchTo()
   let scratched = false; // True once the visitor has actually drawn something
 
   function paint() {
-    // Fixed internal resolution scaled by devicePixelRatio for sharpness;
+    // Fixed internal resolution scaled by devicePixelRatio for sharpness,
+    // then divided by PIXEL_SCALE for the retro pixelation effect above;
     // setTransform lets every draw call below use plain 0..640/0..400
     // coordinates regardless of the actual pixel buffer size.
     const dpr = window.devicePixelRatio || 1;
-    canvasEl.width = CSS_WIDTH * dpr;
-    canvasEl.height = CSS_HEIGHT * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const bufferScale = dpr / PIXEL_SCALE;
+    canvasEl.width = CSS_WIDTH * bufferScale;
+    canvasEl.height = CSS_HEIGHT * bufferScale;
+    ctx.setTransform(bufferScale, 0, 0, bufferScale, 0, 0);
 
     const gradient = ctx.createLinearGradient(0, 0, CSS_WIDTH, 0);
     gradient.addColorStop(0, '#ff3b30');

@@ -12,12 +12,25 @@
   <meta property="og:url" content="https://mariocornejo.com/garabatos/index.html">
 
   <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="stylesheet" href="/styles.css?v=20260909i">
-  <link rel="stylesheet" href="/garabatos/styles.css?v=20260909a">
+  <!-- pv1: unlinked from the main site's /styles.css design tokens on
+       purpose — this page is going its own visual direction (90s/retro),
+       same precedent as gallery/pajaritos staying token-free. All colors
+       in garabatos/styles.css below now fall back to their own hardcoded
+       defaults instead of the main site's light/dark theme. -->
+  <link rel="stylesheet" href="/garabatos/styles.css?v=20260909b">
   <script src="/libs/personal/site-chrome.js?v=20260909h"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
 </head>
 <body>
+  <!-- pv1 retro scaffold: empty structural hooks, styled in
+       garabatos/styles.css as bare stub rules (no visuals yet). Modeled
+       on the reference template's patterns — a WordArt-style glow heading
+       spot and a fixed sidebar-nav spot — yours to fill in. Neither
+       replaces the real content below; both are additive and empty until
+       styled/populated. -->
+  <div class="retro-wordart" id="retro-wordart"></div>
+  <nav class="retro-sidebar" id="retro-sidebar"></nav>
+
   <header class="garabatos-header">
     <site-topbar></site-topbar>
     <h1><span data-i18n-es>Garabatos</span><span data-i18n-en>Doodles</span></h1>
@@ -54,7 +67,7 @@
 
   <site-footer base="/index.html"></site-footer>
 
-  <script src="/garabatos/canvas.js?v=20260909a"></script>
+  <script src="/garabatos/canvas.js?v=20260909b"></script>
   <script src="/garabatos/gallery.js?v=20260909a"></script>
   <script src="/garabatos/script.js?v=20260909a"></script>
 </body>

@@ -167,6 +167,18 @@ body {
   padding: 2rem 1.5rem;
 }
 
+/* pv1 scaffold: empty hook covering exactly .hero's bounds, stacked above
+   everything inside it (including <site-topbar>, which has no explicit
+   z-index of its own). Invisible and non-interactive until styled —
+   pointer-events stays none so the hero underneath remains usable until
+   this is deliberately turned into something clickable. */
+#hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
 .hero-plate {
   display: flex;
   align-items: center;
