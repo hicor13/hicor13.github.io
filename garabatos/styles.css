@@ -7,6 +7,16 @@
    the pv1 brief; swap/extend the stack below as the retro design comes
    together. */
 
+/* The page's ES/EN toggle only works because of this rule — it used to
+   come from the main /styles.css, which this page no longer links.
+   Without it, both language spans render side by side everywhere
+   (garabatos/script.js's currentLang()/lang toggle still updates
+   html[data-lang], this is just the CSS that reacts to it). */
+html[data-lang="es"] [data-i18n-en],
+html[data-lang="en"] [data-i18n-es] {
+  display: none;
+}
+
 body {
   background: hsla(92, 85%, 68%, 1);
   background: linear-gradient(90deg, hsla(92, 85%, 68%, 1) 0%, hsla(338, 98%, 49%, 1) 100%);
