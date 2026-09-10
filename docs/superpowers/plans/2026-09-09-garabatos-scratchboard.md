@@ -4,9 +4,11 @@
 
 **Goal:** Ship a new `/garabatos/` page where any visitor scratches a black-coated canvas to reveal a rainbow gradient underneath, then saves the drawing to a public gallery visible to every visitor.
 
-**Architecture:** A self-contained static subpage (`garabatos/index.html` + 4 small JS/CSS files), reusing the main site's design tokens and `<site-topbar>`/`<site-footer>` chrome. Canvas mechanic is pure client-side (no backend). Persistence is Firebase Firestore (metadata) + Storage (PNG files), loaded via dynamic `import()` of the modular SDK — no build step, matching this repo's existing PDF.js precedent in `script.js`.
+**Architecture:** A self-contained static subpage (`garabatos/index.html` + 4 small JS/CSS files), reusing the main site's design tokens and `<site-topbar>`/`<site-footer>` chrome. Canvas mechanic is pure client-side (no backend). Persistence is Supabase (Postgres table for metadata + Storage bucket for PNG files), loaded via a CDN `<script>` tag exposing `window.supabase` — no build step.
 
-**Tech Stack:** Vanilla HTML/CSS/JS, Canvas 2D API, Firebase JS SDK v10 (Firestore + Storage) via CDN dynamic import, no npm/bundler.
+**Tech Stack:** Vanilla HTML/CSS/JS, Canvas 2D API, `@supabase/supabase-js` v2 (UMD build) via CDN, no npm/bundler.
+
+**Revision (2026-09-10):** Tasks 1-2 (below) were already implemented and reviewed against the original Firebase-based plan before this revision — their code is backend-agnostic (pure canvas mechanic) and unaffected. Tasks 3-5 were rewritten below after the user hit Firebase's new policy requiring a billing card on file to enable Storage even on the free tier; Supabase's free tier needs no card. See the spec's "Revision (2026-09-10)" note and this plan's ledger for the full ruling.
 
 **Spec:** `docs/superpowers/specs/2026-09-09-garabatos-scratchboard-design.md`
 
@@ -19,10 +21,10 @@ This site has an established, strong norm (carried across many prior sessions on
 - **No commits without explicit instruction.** Do not run `git commit` (or `git push`) for any task below unless the user has explicitly said "commit" or "push" in this session. Work stays uncommitted in the working tree across all 7 tasks.
 - **Two-repo sync.** Every file created/modified below must be created/modified identically in both repos: the source repo (`~/Library/CloudStorage/OneDrive-Personal/Documentos/Proyectos/Resume-Site`, no remote) and the deploy repo (`~/Website/hicor13.github.io/hicor13.github.io`, remote `github-hicor13-pages`). Edit in one, then `cp` to the other — don't hand-edit both separately (drift risk).
 - **Never touch** `/gallery/pajaritos/` or stage any pre-existing unrelated modified file (check `git status` before ever running `git add`).
-- No build tooling, no npm, no bundler. Firebase JS SDK loaded via `import()` inside a plain (non-module) `<script>`, matching the existing PDF.js dynamic-import pattern in `script.js`'s `initResumeModal`.
+- No build tooling, no npm, no bundler. `@supabase/supabase-js` v2 (UMD build) loaded via a plain CDN `<script>` tag exposing `window.supabase.createClient(...)` — no ES module graph needed.
 - Root-relative paths for shared assets (`/libs/personal/site-chrome.js`, `/styles.css`), matching existing site convention.
 - Cache-bust query strings (`?v=YYYYMMDDx`) on new `<script>`/`<link>` tags. Today's date is 2026-09-09; garabatos's own new files start their own suffix sequence at `a` (`?v=20260909a`). The shared `/libs/personal/site-chrome.js` reference uses the CURRENT latest suffix already in `index.html` (`?v=20260909h` — check `index.html`'s own `<script src="/libs/personal/site-chrome.js?v=...">` line before writing Task 1's HTML, in case it has moved past `h` since this plan was written).
-- Firebase config values (`apiKey`, `authDomain`, etc.) go directly into `garabatos/script.js` as a plain object literal — safe and expected per Firebase's own design; access is gated by the security rules (Task 3), not by hiding these values.
+- Supabase project URL + anon public key go directly into `garabatos/script.js` as plain constants — safe and expected per Supabase's own design; access is gated by row-level security policies (Task 3), not by hiding these values.
 - Verify every task locally: `python3 -m http.server 8743` from each repo root, then Playwright (fresh browser context per check, per this session's established testing pattern) against `http://localhost:8743/garabatos/index.html`.
 
 ---
@@ -273,6 +275,8 @@ Do not commit (see Global Constraints).
 
 ### Task 2: Scratch canvas mechanic
 
+**Status: complete.** The `destination-out` approach described below turned out to be broken (a canvas is a flat raster — the opaque wax fill fully overwrites the gradient pixel data, leaving nothing for `destination-out` to reveal). The implementer substituted stroking with the cached original gradient object under `source-over` instead, which was independently verified as correct by task review. See this plan's ledger (`.superpowers/sdd/2026-09-09-garabatos-scratchboard/progress.md`) for the full ruling. Left as originally written below for the historical record — do not re-implement from this text.
+
 **Files:**
 - Create: `garabatos/canvas.js`
 
@@ -417,118 +421,113 @@ Do not commit.
 
 ---
 
-### Task 3: Firebase project + security rules (user-performed)
+### Task 3: Supabase project + row-level security (user-performed)
 
 **Files:** none (external service configuration; no repo files change in this task).
 
 **Interfaces:**
-- Produces: a Firebase web-app config object `{ apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId }` that Task 4 hardcodes into `garabatos/script.js`, and a live Firestore + Storage instance with the rules below already active. Task 4 cannot be verified end-to-end until this task is done.
+- Produces: a Supabase project URL (e.g. `https://abcdefgh.supabase.co`) and anon public key that Task 4/5 hardcode into `garabatos/script.js`, plus a live `drawings` table + Storage bucket with the policies below already active. Task 4 cannot be verified end-to-end until this task is done.
 
-- [ ] **Step 1: Create the Firebase project**
+- [ ] **Step 1: Create the Supabase project**
 
-Ask the user to go to `console.firebase.google.com`, click "Add project," name it (e.g. `mariocornejo-garabatos`), decline Google Analytics (not needed), and finish creation. Free "Spark" plan, no billing/card required.
+Ask the user to go to `supabase.com`, sign up/log in (no card required for the free tier), click "New project," name it (e.g. `mariocornejo-garabatos`), set a database password (any strong value — not needed again for this task), pick any nearby region, and wait for provisioning to finish (~2 minutes).
 
-- [ ] **Step 2: Enable Firestore**
+- [ ] **Step 2: Create the `drawings` table + RLS via the SQL editor**
 
-In the new project's console: Build → Firestore Database → Create database → **production mode** (not test mode — production mode starts deny-all, which the rules below then open up deliberately and narrowly; test mode starts allow-all-for-30-days, which is not what we want) → pick any nearby region (e.g. `us-central1` if unsure).
+Left sidebar → SQL Editor → New query → paste and run:
 
-- [ ] **Step 3: Enable Storage**
+```sql
+create table drawings (
+  id uuid primary key,
+  name text not null check (char_length(name) <= 40),
+  storage_path text not null,
+  created_at timestamptz not null default now()
+);
 
-Build → Storage → Get started → production mode → same region as Firestore.
+alter table drawings enable row level security;
 
-- [ ] **Step 4: Paste the Firestore rules**
+create policy "Public read" on drawings
+  for select using (true);
 
-Firestore Database → Rules tab → replace the default with:
+create policy "Public insert with matching storage path" on drawings
+  for insert with check (
+    storage_path = id::text || '.png'
+  );
 
-```
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /drawings/{drawingId} {
-      allow read: if true;
-      allow create: if
-        request.resource.data.keys().hasOnly(['name', 'storagePath', 'createdAt']) &&
-        request.resource.data.name is string &&
-        request.resource.data.name.size() <= 40 &&
-        request.resource.data.storagePath is string &&
-        request.resource.data.storagePath == 'drawings/' + drawingId + '.png' &&
-        request.resource.data.createdAt == request.time;
-      allow update, delete: if false;
-    }
-  }
-}
+revoke insert on drawings from anon;
+grant insert (id, name, storage_path) on drawings to anon;
 ```
 
-Click Publish.
+- [ ] **Step 3: Create the `drawings` Storage bucket**
 
-- [ ] **Step 5: Paste the Storage rules**
+Left sidebar → Storage → New bucket → name it exactly `drawings` → toggle **Public bucket** ON → Create.
 
-Storage → Rules tab → replace the default with:
+- [ ] **Step 4: Add Storage policies via the SQL editor**
 
-```
-rules_version = '2';
-service firebase.storage {
-  match /b/{bucket}/o {
-    match /drawings/{fileName} {
-      allow read: if true;
-      allow create: if
-        request.resource.size < 2 * 1024 * 1024 &&
-        request.resource.contentType == 'image/png' &&
-        fileName.matches('^[a-zA-Z0-9_-]+[.]png$');
-      allow update, delete: if false;
-    }
-  }
-}
+Back in SQL Editor → New query → paste and run:
+
+```sql
+create policy "Public read for drawings bucket"
+on storage.objects for select
+using (bucket_id = 'drawings');
+
+create policy "Public insert for drawings bucket"
+on storage.objects for insert
+with check (bucket_id = 'drawings');
 ```
 
-Click Publish.
+- [ ] **Step 5: Get the project URL and anon key**
 
-- [ ] **Step 6: Register a web app and get the config**
+Left sidebar → Project Settings (gear icon) → Data API (or "API" depending on dashboard version) → copy the **Project URL** (looks like `https://abcdefgh.supabase.co`) and the **anon public** key (a long JWT-looking string, NOT the `service_role` key — that one must never be used client-side).
 
-Project Overview (gear icon → Project settings, or the `</>` "Add app" icon on the overview page) → Add app → Web → give it any nickname → Firebase hosting: skip → copy the `firebaseConfig` object shown (has `apiKey`, `authDomain`, `projectId`, `storageBucket`, `messagingSenderId`, `appId`).
+- [ ] **Step 6: Hand both values to the assistant**
 
-- [ ] **Step 7: Hand the config to the assistant**
-
-Paste the six-field config object into the conversation. **STOP here and wait for it if not yet provided — do not fabricate placeholder values in Task 4's code.** Task 4 hardcodes these exact values into `garabatos/script.js`.
+Paste the project URL and anon key into the conversation. **STOP here and wait for them if not yet provided — do not fabricate placeholder values in Task 4/5's code.**
 
 ---
 
-### Task 4: Firebase gallery init — fetch and render
+### Task 4: Supabase gallery init — fetch and render
 
 **Files:**
 - Create: `garabatos/gallery.js`
-- Modify: `garabatos/index.html` (add the `<script>` tag was already added in Task 1 — no change needed here unless Task 1's tag list is missing; verify it's present)
+- Modify: `garabatos/index.html` (add a `<script>` tag for the Supabase CDN library, before the `canvas.js`/`gallery.js`/`script.js` tags Task 1 already added)
 
 **Interfaces:**
-- Consumes: Task 3's Firebase config object; `#gallery-grid` (from Task 1).
-- Produces: `window.Garabatos.gallery.init(config, gridElement): Promise<void>` — fetches the latest 60 `drawings` docs and renders them into `gridElement`, or shows the bilingual empty-state message if there are none. `window.Garabatos.gallery.save(blob, name): Promise<{name, storagePath}>` — used by Task 5; not called by this task's own verification (Task 4 only exercises `init`).
+- Consumes: Task 3's Supabase project URL + anon key; `#gallery-grid` (from Task 1).
+- Produces: `window.Garabatos.gallery.init(url, anonKey, gridElement): Promise<void>` — fetches the latest 60 `drawings` rows and renders them into `gridElement`, or shows the bilingual empty-state message if there are none. `window.Garabatos.gallery.save(blob, name): Promise<{name, storagePath}>` — used by Task 5; not called by this task's own verification (Task 4 only exercises `init`).
 
-- [ ] **Step 1: Create `garabatos/gallery.js`**
+- [ ] **Step 1: Add the Supabase CDN script to `garabatos/index.html`**
+
+In the `<head>`, right after the `site-chrome.js` line, add:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+```
+
+This is a UMD build (not an ES module), so it's a plain synchronous `<script>` tag, not a dynamic `import()` — it defines `window.supabase.createClient(...)` immediately when loaded, before `garabatos/gallery.js` runs.
+
+- [ ] **Step 2: Create `garabatos/gallery.js`**
 
 ```js
 // garabatos/gallery.js
 //
-// Firebase glue: Firestore for drawing metadata, Storage for the PNGs.
-// Loaded as a plain (non-module) script; Firebase's modular SDK is
-// ESM-only, so it's pulled in via dynamic import() — same pattern already
-// used for PDF.js in the main site's script.js (initResumeModal).
+// Supabase glue: a Postgres table for drawing metadata, a Storage bucket
+// for the PNGs. Depends on the Supabase UMD script (window.supabase)
+// already being loaded via a <script> tag in index.html's <head>.
 window.Garabatos = window.Garabatos || {};
 
 Garabatos.gallery = (function () {
-  const SDK_VERSION = '10.14.1';
-  const BASE = `https://www.gstatic.com/firebasejs/${SDK_VERSION}`;
-
-  let db, storage, storageBucket, gridEl, firestoreApi, storageApi;
+  let client, projectUrl, gridEl;
 
   function downloadUrlFor(storagePath) {
-    return `https://firebasestorage.googleapis.com/v0/b/${storageBucket}/o/${encodeURIComponent(storagePath)}?alt=media`;
+    return `${projectUrl}/storage/v1/object/public/drawings/${storagePath}`;
   }
 
   function renderCard(drawing) {
     const figure = document.createElement('figure');
     figure.className = 'garabato-card';
     const img = document.createElement('img');
-    img.src = downloadUrlFor(drawing.storagePath);
+    img.src = downloadUrlFor(drawing.storage_path);
     img.alt = drawing.name;
     img.loading = 'lazy';
     const caption = document.createElement('figcaption');
@@ -544,30 +543,20 @@ Garabatos.gallery = (function () {
     if (empty) empty.remove();
   }
 
-  async function init(config, gridElement) {
+  async function init(url, anonKey, gridElement) {
     gridEl = gridElement;
-    storageBucket = config.storageBucket;
+    projectUrl = url;
+    client = window.supabase.createClient(url, anonKey);
 
-    const [{ initializeApp }, firestore, storageMod] = await Promise.all([
-      import(`${BASE}/firebase-app.js`),
-      import(`${BASE}/firebase-firestore.js`),
-      import(`${BASE}/firebase-storage.js`),
-    ]);
-    firestoreApi = firestore;
-    storageApi = storageMod;
+    const { data, error } = await client
+      .from('drawings')
+      .select('name, storage_path, created_at')
+      .order('created_at', { ascending: false })
+      .limit(60);
 
-    const app = initializeApp(config);
-    db = firestore.getFirestore(app);
-    storage = storageMod.getStorage(app);
+    if (error) throw error;
 
-    const q = firestore.query(
-      firestore.collection(db, 'drawings'),
-      firestore.orderBy('createdAt', 'desc'),
-      firestore.limit(60)
-    );
-    const snapshot = await firestore.getDocs(q);
-
-    if (snapshot.empty) {
+    if (data.length === 0) {
       const empty = document.createElement('p');
       empty.className = 'garabatos-empty';
       empty.innerHTML =
@@ -577,25 +566,27 @@ Garabatos.gallery = (function () {
       return;
     }
 
-    snapshot.forEach((docSnap) => {
-      gridEl.appendChild(renderCard(docSnap.data()));
+    data.forEach((drawing) => {
+      gridEl.appendChild(renderCard(drawing));
     });
   }
 
   async function save(blob, name) {
     const id = crypto.randomUUID();
-    const storagePath = `drawings/${id}.png`;
-    const fileRef = storageApi.ref(storage, storagePath);
-    await storageApi.uploadBytes(fileRef, blob, { contentType: 'image/png' });
+    const storagePath = `${id}.png`;
 
-    const drawing = {
-      name,
-      storagePath,
-      createdAt: firestoreApi.serverTimestamp(),
-    };
-    await firestoreApi.setDoc(firestoreApi.doc(db, 'drawings', id), drawing);
+    const { error: uploadError } = await client.storage
+      .from('drawings')
+      .upload(storagePath, blob, { contentType: 'image/png' });
+    if (uploadError) throw uploadError;
 
-    prepend({ name, storagePath });
+    const { error: insertError } = await client
+      .from('drawings')
+      .insert({ id, name, storage_path: storagePath });
+    if (insertError) throw insertError;
+
+    const drawing = { name, storagePath: storagePath };
+    prepend(drawing);
     return drawing;
   }
 
@@ -603,35 +594,29 @@ Garabatos.gallery = (function () {
 })();
 ```
 
-- [ ] **Step 2: Temporarily wire it up to verify (throwaway, removed in Task 5)**
+- [ ] **Step 3: Temporarily wire it up to verify (throwaway, removed in Task 5)**
 
-Add a temporary inline script at the bottom of `garabatos/index.html`, after `gallery.js`'s `<script>` tag, using Task 3's real config:
+Add a temporary inline script at the bottom of `garabatos/index.html`, after `gallery.js`'s `<script>` tag, using Task 3's real values:
 
 ```html
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     Garabatos.gallery.init(
-      {
-        apiKey: 'PASTE_FROM_TASK_3',
-        authDomain: 'PASTE_FROM_TASK_3',
-        projectId: 'PASTE_FROM_TASK_3',
-        storageBucket: 'PASTE_FROM_TASK_3',
-        messagingSenderId: 'PASTE_FROM_TASK_3',
-        appId: 'PASTE_FROM_TASK_3',
-      },
+      'PASTE_URL_FROM_TASK_3',
+      'PASTE_ANON_KEY_FROM_TASK_3',
       document.getElementById('gallery-grid')
     ).catch((error) => console.error('gallery init failed:', error));
   });
 </script>
 ```
 
-- [ ] **Step 3: Verify in a fresh Playwright browser context**
+- [ ] **Step 4: Verify in a fresh Playwright browser context**
 
-Navigate to `http://localhost:8743/garabatos/index.html`. Confirm: no console errors (specifically no `permission-denied` — that would mean Task 3's Firestore rules weren't published correctly, or the `read: if true` line was mistyped); with a freshly created project (no drawings yet), the bilingual empty-state message appears inside `#gallery-grid` ("Sé el primero en dejar un garabato").
+Navigate to `http://localhost:8743/garabatos/index.html`. Confirm: no console errors (specifically no RLS/policy-denied error — that would mean Task 3's `"Public read"` policy wasn't created correctly, or the table name is mistyped); with a freshly created project (no drawings yet), the bilingual empty-state message appears inside `#gallery-grid` ("Sé el primero en dejar un garabato").
 
-- [ ] **Step 4: Remove the temporary Step 2 script**
+- [ ] **Step 5: Remove the temporary Step 3 script**
 
-- [ ] **Step 5: Copy `gallery.js` and the updated `index.html` to the other repo**
+- [ ] **Step 6: Copy `gallery.js` and the updated `index.html` to the other repo**
 
 ```bash
 cp garabatos/gallery.js garabatos/index.html "<other-repo-root>/garabatos/"
@@ -647,26 +632,20 @@ Do not commit.
 - Create: `garabatos/script.js`
 
 **Interfaces:**
-- Consumes: `Garabatos.initCanvas` (Task 2), `Garabatos.gallery.init`/`Garabatos.gallery.save` (Task 4), Task 3's Firebase config, and every DOM ID from Task 1.
+- Consumes: `Garabatos.initCanvas` (Task 2), `Garabatos.gallery.init`/`Garabatos.gallery.save` (Task 4), Task 3's Supabase URL + anon key, and every DOM ID from Task 1.
 - Produces: nothing further consumed by later tasks — this is the final wiring layer.
 
-- [ ] **Step 1: Create `garabatos/script.js`**, using Task 3's real config values in place of the placeholders:
+- [ ] **Step 1: Create `garabatos/script.js`**, using Task 3's real values in place of the placeholders:
 
 ```js
 // garabatos/script.js
 //
-// Orchestrates canvas.js (pure scratch mechanic) and gallery.js (Firebase
+// Orchestrates canvas.js (pure scratch mechanic) and gallery.js (Supabase
 // glue) with the page's own DOM elements, button states, and bilingual
 // status messages.
 
-const FIREBASE_CONFIG = {
-  apiKey: 'PASTE_FROM_TASK_3',
-  authDomain: 'PASTE_FROM_TASK_3',
-  projectId: 'PASTE_FROM_TASK_3',
-  storageBucket: 'PASTE_FROM_TASK_3',
-  messagingSenderId: 'PASTE_FROM_TASK_3',
-  appId: 'PASTE_FROM_TASK_3',
-};
+const SUPABASE_URL = 'PASTE_URL_FROM_TASK_3';
+const SUPABASE_ANON_KEY = 'PASTE_ANON_KEY_FROM_TASK_3';
 
 const SAVE_THROTTLE_MS = 30000;
 const THROTTLE_KEY = 'garabatos-last-save';
@@ -709,7 +688,7 @@ function init() {
     statusEl.textContent = '';
   });
 
-  Garabatos.gallery.init(FIREBASE_CONFIG, gridEl).catch((error) => {
+  Garabatos.gallery.init(SUPABASE_URL, SUPABASE_ANON_KEY, gridEl).catch((error) => {
     console.error('Garabatos gallery failed to load:', error);
   });
 
@@ -748,15 +727,15 @@ Navigate to `http://localhost:8743/garabatos/index.html`. Simulate a scratch (as
 
 - [ ] **Step 3: Verify the throttle**
 
-Immediately click `#save-btn` again (within 30s of Step 2's save). Confirm `#save-status` shows the throttled message ("Espera un momento...") and no second Firestore doc/Storage file was created (re-run Task 4's fetch query, e.g. via the Firebase console's Firestore data viewer, and confirm the `drawings` collection has exactly one new document from this test session, not two).
+Immediately click `#save-btn` again (within 30s of Step 2's save). Confirm `#save-status` shows the throttled message ("Espera un momento...") and no second row/Storage file was created (check via the Supabase dashboard's Table Editor on `drawings`, and confirm exactly one new row from this test session, not two).
 
 - [ ] **Step 4: Verify the empty-name fallback**
 
 Reload the page (bypasses the in-memory throttle only if `localStorage` is cleared — clear it via `localStorage.removeItem('garabatos-last-save')` in the Playwright context first), scratch something, leave `#artist-name` blank, save. Confirm the new gallery card's caption reads "Anónimo" (Spanish, the page's default `lang`).
 
-- [ ] **Step 5: Manually delete the test drawings from Firebase**
+- [ ] **Step 5: Manually delete the test drawings from Supabase**
 
-Via the Firebase Console (Firestore data tab, and Storage's `drawings/` folder), delete the 1-2 test documents/files created in Steps 2-4 so the live gallery starts genuinely empty for real visitors.
+Via the Supabase dashboard (Table Editor → `drawings` for rows, Storage → `drawings` bucket for files), delete the 1-2 test rows/files created in Steps 2-4 so the live gallery starts genuinely empty for real visitors.
 
 - [ ] **Step 6: Copy `script.js` to the other repo**
 
@@ -799,8 +778,8 @@ In the `#projects` section's `<div class="project-grid">`, after the existing "A
     <h3><span data-i18n-es>Garabatos — Tablero de raspado</span><span data-i18n-en>Garabatos — Scratch Board</span></h3>
   </a>
   <p>
-    <span data-i18n-es>Raspa una superficie negra para revelar color debajo y deja tu dibujo en una galería pública. Canvas 2D + Firebase, sin backend propio.</span>
-    <span data-i18n-en>Scratch a black surface to reveal color underneath and leave your drawing in a public gallery. Canvas 2D + Firebase, no custom backend.</span>
+    <span data-i18n-es>Raspa una superficie negra para revelar color debajo y deja tu dibujo en una galería pública. Canvas 2D + Supabase, sin backend propio.</span>
+    <span data-i18n-en>Scratch a black surface to reveal color underneath and leave your drawing in a public gallery. Canvas 2D + Supabase, no custom backend.</span>
   </p>
 </article>
 ```
@@ -846,6 +825,7 @@ Summarize what was built and verified, and that nothing has been committed yet p
 
 ## Self-Review Notes
 
-- **Spec coverage:** canvas mechanic (Task 2), Firebase init/fetch/render (Task 4), save flow + throttle (Task 5), security rules (Task 3), site integration (Task 6), bilingual copy (Tasks 1/5/6), theme support (Task 1's CSS token reuse, verified Task 7) — all spec sections have a task.
+- **Spec coverage:** canvas mechanic (Task 2), Supabase init/fetch/render (Task 4), save flow + throttle (Task 5), row-level security (Task 3), site integration (Task 6), bilingual copy (Tasks 1/5/6), theme support (Task 1's CSS token reuse, verified Task 7) — all spec sections have a task.
+- **Backend pivot (2026-09-10):** Firebase → Supabase after the user hit Firebase's card-required-for-Storage policy. Tasks 1-2 (already complete) are backend-agnostic and unaffected; Tasks 3-5 were rewritten in place.
 - **No-commit constraint:** added explicitly as a Global Constraint and repeated at the end of every task, overriding this skill's normal "commit every step" default — this repo's established norm takes precedence (see "Why inline execution" above).
 - **Type/interface consistency checked:** `Garabatos.initCanvas` return shape (`{clear, exportPNG}`) matches its Task 5 call site; `Garabatos.gallery.init`/`.save` signatures match between Task 4's definition and Task 5's call sites; DOM IDs introduced in Task 1 match every later task's `getElementById` calls verbatim.

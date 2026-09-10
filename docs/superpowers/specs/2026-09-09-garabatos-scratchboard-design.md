@@ -14,22 +14,27 @@ talk to directly from the browser. Decisions locked in during brainstorming
 - Lives at `/garabatos/index.html` as a new subpage, same structural pattern
   as `gallery/pajaritos/` (self-contained folder, own `styles.css`/`script.js`,
   shared `<site-topbar>`/`<site-footer>` chrome from `libs/personal/site-chrome.js`).
-- Backend: **Firebase** (Firestore + Storage, no Cloud Functions) — a
-  backend-as-a-service avoids writing/hosting/maintaining any server code,
-  matching the site's zero-infrastructure constraint. Client SDK is loaded
-  via CDN `import()` from a page-level `<script type="module">`, same dynamic
-  `import()` precedent already used for PDF.js in `script.js`'s resume
-  viewer.
+- Backend: **Supabase** (Postgres table + Storage bucket, no Edge
+  Functions) — a backend-as-a-service avoids writing/hosting/maintaining any
+  server code, matching the site's zero-infrastructure constraint. Client
+  library (`@supabase/supabase-js` v2, UMD build) is loaded via CDN
+  `<script>` tag exposing a `window.supabase.createClient(...)` global — no
+  build step, matches the site's existing no-bundler constraint.
+  **Revision (2026-09-10):** originally speced against Firebase
+  (Firestore + Storage); switched to Supabase after the user hit Firebase's
+  new policy requiring a billing card on file to enable Storage on a new
+  project, even to stay within the free quota. Supabase's free tier needs no
+  card. Firestore/Storage-specific details below are Supabase's Postgres/
+  Storage equivalents, not Firebase's.
 - No login/auth — anonymous public writes, matching "anyone can draw."
-- Moderation: instant publish, manual delete via Firebase Console. No
+- Moderation: instant publish, manual delete via the Supabase dashboard. No
   approval queue, no admin page.
 - Retention: gallery only ever **displays** the most recent 60 drawings
-  (`orderBy(createdAt, desc).limit(60)`). Older docs/files are not deleted —
-  true deletion needs a scheduled Cloud Function, which needs Firebase's
-  paid Blaze plan (billing account attached, even though usage stays $0 at
-  this scale). Staying on the free Spark plan was chosen over literal
-  enforcement of the cap; storage growth is trivial at hobby-site volume
-  (free tier is 5GB — tens of thousands of drawings at this file size).
+  (`order(created_at, desc).limit(60)`). Older rows/files are not deleted —
+  true scheduled deletion needs a Supabase Edge Function or pg_cron job,
+  extra infrastructure not justified at this scale. Storage growth is
+  trivial at hobby-site volume (Supabase free tier: 1GB storage — tens of
+  thousands of drawings at this file size).
 
 ## Scope
 
@@ -60,14 +65,25 @@ layer):
 
 Scratching: `pointerdown`/`pointermove`/`pointerup` listeners (covers mouse,
 touch, and pen in one event family — no separate touch handlers needed).
-While the pointer is down, on each move: `ctx.globalCompositeOperation =
-'destination-out'`, draw a stroked line (round `lineCap`/`lineJoin`) from the
-previous point to the current point at `lineWidth = brushSize * dpr` — a
-line, not just a dot per event, so fast drags don't leave gaps between
-sparse `pointermove` samples. Pointer coordinates are converted from page
-space to canvas-buffer space via the canvas's `getBoundingClientRect()` plus
-the dpr scale factor, same math pattern as `initResumeModal`'s viewport
+While the pointer is down, on each move: draw a stroked line (round
+`lineCap`/`lineJoin`) from the previous point to the current point at
+`lineWidth = brushSize`, using the **same `CanvasGradient` object** created
+for the initial paint as `strokeStyle` under normal `source-over`
+compositing — a line, not just a dot per event, so fast drags don't leave
+gaps between sparse `pointermove` samples. Pointer coordinates are converted
+from page space to canvas-buffer space via the canvas's
+`getBoundingClientRect()`, same math pattern as `initResumeModal`'s viewport
 scaling in the main `script.js`.
+
+**Revision (implementation finding, Task 2):** the plan originally called
+for `ctx.globalCompositeOperation = 'destination-out'` to erase the wax and
+reveal the gradient "underneath." That doesn't work: a canvas is a flat
+raster, and the opaque wax `fillRect` (`source-over`, alpha 1) fully
+overwrites the gradient pixel data on the same buffer — there is no
+preserved layer for `destination-out` to reveal, only the transparent page
+background. The fix (stroking with the cached original gradient object
+directly) produces the identical required visual effect — verified against
+the compositing math and confirmed correct by task review.
 
 Controls:
 - Brush size: `<input type="range" min="4" max="40" value="16">`.
@@ -89,12 +105,14 @@ Controls:
    accidental double-clicks/spam, not a determined bad actor — acceptable at
    this site's traffic level (see Abuse mitigation).
 3. `canvas.toBlob('image/png')` — a `Blob`, not a base64 data URL, for a
-   direct Storage upload (smaller, avoids Firestore's 1MiB document-size
-   limit entirely since the image never touches a Firestore field).
-4. `const id = crypto.randomUUID()`. Upload the blob to Storage path
-   `drawings/${id}.png` via `uploadBytes()`.
-5. On successful upload: `setDoc(doc(db, 'drawings', id), { name,
-   storagePath: 'drawings/${id}.png', createdAt: serverTimestamp() })`.
+   direct Storage upload (smaller, avoids ever needing to fit the image into
+   a database column).
+4. `const id = crypto.randomUUID()`. Upload the blob to the `drawings`
+   Storage bucket under key `${id}.png` via `client.storage.from('drawings').upload(...)`.
+5. On successful upload: insert a row via `client.from('drawings').insert({
+   id, name, storage_path: '${id}.png' })` — `created_at` is a database
+   column default (`now()`), never sent by the client, so there's no
+   client-controllable timestamp to spoof.
 6. On success: write `localStorage.setItem('garabatos-last-save',
    Date.now())`, show a brief confirmation ("¡Guardado!" / "Saved!"),
    prepend the new drawing to the on-page gallery grid without a full
@@ -106,89 +124,92 @@ Controls:
 
 ### Gallery (`garabatos/index.html` gallery section)
 
-On page load: `getDocs(query(collection(db, 'drawings'), orderBy('createdAt',
-'desc'), limit(60)))`. Render each doc as a grid `<img loading="lazy">`,
-`alt`/`title` set to the drawing's `name`. Image `src` is built directly from
-`storagePath` using Firebase Storage's public download URL format —
-`https://firebasestorage.googleapis.com/v0/b/<BUCKET>/o/${encodeURIComponent(storagePath)}?alt=media`
-— which works without a signed token because the Storage security rule
-below makes the `drawings/` path publicly readable; this avoids an extra
-`getDownloadURL()` round-trip per image. Empty state (zero drawings yet):
-"Sé el primero en dejar un garabato" / "Be the first to leave a doodle". No
-pagination beyond the 60-item cap, per Retention above.
+On page load: `client.from('drawings').select('name, storage_path,
+created_at').order('created_at', { ascending: false }).limit(60)`. Render
+each row as a grid `<img loading="lazy">`, `alt`/`title` set to the
+drawing's `name`. Image `src` is built directly from `storage_path` using
+Supabase Storage's public object URL format —
+`https://<project-ref>.supabase.co/storage/v1/object/public/drawings/${storagePath}`
+— which works without a signed token because the bucket is public and the
+Storage policy below scopes public read to the `drawings` bucket. Empty
+state (zero drawings yet): "Sé el primero en dejar un garabato" / "Be the
+first to leave a doodle". No pagination beyond the 60-item cap, per
+Retention above.
 
-### Firebase project setup (one-time, done by the user)
+### Supabase project setup (one-time, done by the user)
 
-I write all code; the user creates the Firebase project (console.firebase.google.com,
-free Spark plan, no card required) and enables Firestore (production mode)
-and Storage, then hands me the web-app config object (`apiKey`,
-`authDomain`, `projectId`, `storageBucket`, `messagingSenderId`, `appId`) —
-these are safe to expose client-side by Firebase's own design; the security
-rules below are what actually gate access, not secrecy of these values.
-I'll provide the exact console click-path and the rules text (below) to
-paste in at that time.
+I write all code; the user creates a free Supabase project (supabase.com,
+no card required), creates the `drawings` table and Storage bucket, and
+pastes in the SQL below to set up row-level security, then hands me the
+project URL and anon public key — these are safe to expose client-side by
+Supabase's own design (RLS is what actually gates access, not secrecy of
+these values). I'll provide the exact dashboard click-path and the SQL text
+(below) to paste in at that time.
 
-### Firestore security rules
+### Database schema + row-level security (SQL editor)
 
-```
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /drawings/{drawingId} {
-      allow read: if true;
-      allow create: if
-        request.resource.data.keys().hasOnly(['name', 'storagePath', 'createdAt']) &&
-        request.resource.data.name is string &&
-        request.resource.data.name.size() <= 40 &&
-        request.resource.data.storagePath is string &&
-        request.resource.data.storagePath == 'drawings/' + drawingId + '.png' &&
-        request.resource.data.createdAt == request.time;
-      allow update, delete: if false;
-    }
-  }
-}
-```
+```sql
+create table drawings (
+  id uuid primary key,
+  name text not null check (char_length(name) <= 40),
+  storage_path text not null,
+  created_at timestamptz not null default now()
+);
 
-`storagePath == 'drawings/' + drawingId + '.png'` ties the Firestore doc ID
-to the Storage filename, so a doc can never point at an image the writer
-didn't just upload under that same ID. `createdAt == request.time` forces
-use of the server timestamp (blocks a client from writing an arbitrary/fake
-date). `update, delete: if false` — moderation deletes happen only from the
-Firebase Console (which uses admin credentials, unaffected by these rules),
-never from client code.
+alter table drawings enable row level security;
 
-### Storage security rules
+create policy "Public read" on drawings
+  for select using (true);
 
-```
-rules_version = '2';
-service firebase.storage {
-  match /b/{bucket}/o {
-    match /drawings/{fileName} {
-      allow read: if true;
-      allow create: if
-        request.resource.size < 2 * 1024 * 1024 &&
-        request.resource.contentType == 'image/png' &&
-        fileName.matches('^[a-zA-Z0-9_-]+[.]png$');
-      allow update, delete: if false;
-    }
-  }
-}
+create policy "Public insert with matching storage path" on drawings
+  for insert with check (
+    storage_path = id::text || '.png'
+  );
+
+-- Client can set id/name/storage_path only — created_at is
+-- always the server-side column default (now()), never
+-- client-supplied, so there's nothing to spoof.
+revoke insert on drawings from anon;
+grant insert (id, name, storage_path) on drawings to anon;
 ```
 
-2MB cap is generous headroom for a 640×400 PNG (typically tens of KB even
-for a busy scratch drawing) while blocking anyone from using the endpoint to
-host arbitrarily large files.
+No `update`/`delete` policy is created at all — with RLS enabled, the
+absence of a policy for an action denies it by default, so moderation
+deletes only happen from the Supabase dashboard (which uses the service
+role, unaffected by RLS), never from client code.
+
+### Storage bucket + policies (SQL editor, after creating a public bucket named `drawings` in the dashboard)
+
+```sql
+create policy "Public read for drawings bucket"
+on storage.objects for select
+using (bucket_id = 'drawings');
+
+create policy "Public insert for drawings bucket"
+on storage.objects for insert
+with check (bucket_id = 'drawings');
+```
+
+Bucket-scoping (`bucket_id = 'drawings'`) is the load-bearing check — it
+stops anonymous writes from landing anywhere else in the project's storage.
+File-size/content-type enforcement at the RLS layer is less
+straightforward on Supabase than Firebase's `request.resource.size`
+equivalent; since the client only ever generates PNGs itself (`canvas.toBlob('image/png')`
+on a fixed 640×400 canvas, inherently small), this is an accepted, smaller
+residual risk versus the original Firebase design's explicit size/type
+rule — verify during Task 3 that a real upload through the app succeeds and
+that the bucket stays scoped correctly.
 
 ### Abuse mitigation
 
 No auth means no per-user identity to rate-limit against; mitigations at
-this stage are the security rules above (size/type/shape caps) plus the
+this stage are the RLS policies above (bucket/shape scoping) plus the
 client-side 30s throttle (deters accidental spam, not bots). Real
-bot-hardening (Firebase App Check with invisible reCAPTCHA) is a known,
-easy follow-up if the gallery is ever actually abused — not built now
-(YAGNI at a personal portfolio site's traffic level). Moderation is manual:
-delete the Firestore doc and Storage file for anything inappropriate via the
-Firebase Console.
+bot-hardening (e.g. Cloudflare Turnstile in front of the insert/upload
+calls) is a known, easy follow-up if the gallery is ever actually abused —
+not built now (YAGNI at a personal portfolio site's traffic level).
+Moderation is manual: delete the table row and Storage object for anything
+inappropriate via the Supabase dashboard.
 
 ### Integration with the main site
 
@@ -204,9 +225,9 @@ of the site.
 
 ## Global constraints
 
-- No build tooling, no npm, no bundler — Firebase JS SDK loaded via
-  `import()` from the `gstatic.com` CDN inside a `<script type="module">`,
-  matching the existing PDF.js dynamic-import precedent in `script.js`.
+- No build tooling, no npm, no bundler — `@supabase/supabase-js` v2 (UMD
+  build) loaded via a plain CDN `<script>` tag (`window.supabase.createClient`),
+  no ES module graph needed.
 - Root-relative paths for shared assets (`/libs/personal/site-chrome.js`),
   matching existing site convention.
 - Cache-bust query strings (`?v=YYYYMMDDx`) on any changed `<script>`/`<link>`
@@ -216,10 +237,10 @@ of the site.
   pushes to production) before commit, per this session's established
   workflow. Never touch `/gallery/pajaritos/` or stage unrelated
   pre-existing modified files.
-- Firebase config values go directly into `garabatos/script.js` as plain
-  constants — expected and safe per Firebase's own design (see Firebase
-  project setup above). Never introduce a real secret (e.g. a service
-  account key) anywhere in this static site.
+- Supabase project URL + anon key go directly into `garabatos/script.js` as
+  plain constants — expected and safe per Supabase's own design (see
+  Supabase project setup above). Never introduce a real secret (e.g. the
+  `service_role` key) anywhere in this static site.
 
 ## Testing
 
@@ -227,11 +248,11 @@ of the site.
   reveals color under simulated pointer drag, brush size changes stroke
   width, Clear resets to solid wax) requires no backend and can be fully
   verified locally.
-- End-to-end save → Storage upload → Firestore write → gallery re-render
-  requires a live Firebase project — this can only be verified once the
-  user has created the project and handed over config values. Until then,
-  the save/gallery code paths are verified by inspection and, where
-  practical, against a temporary/throwaway Firebase project if one is
+- End-to-end save → Storage upload → table insert → gallery re-render
+  requires a live Supabase project — this can only be verified once the
+  user has created the project and handed over the URL/anon key. Until
+  then, the save/gallery code paths are verified by inspection and, where
+  practical, against a temporary/throwaway Supabase project if one is
   convenient to spin up during implementation.
 - No automated test suite exists in this repo (per `CLAUDE.md`) — this
   feature doesn't introduce one.
