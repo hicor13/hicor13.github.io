@@ -10,6 +10,7 @@ Garabatos.initCanvas = function initCanvas(canvasEl, brushInput) {
   const CSS_WIDTH = 640;
   const CSS_HEIGHT = 400;
   let gradientRef = null; // Store the gradient for scratchTo()
+  let scratched = false; // True once the visitor has actually drawn something
 
   function paint() {
     // Fixed internal resolution scaled by devicePixelRatio for sharpness;
@@ -37,6 +38,8 @@ Garabatos.initCanvas = function initCanvas(canvasEl, brushInput) {
 
     ctx.fillStyle = '#111111';
     ctx.fillRect(0, 0, CSS_WIDTH, CSS_HEIGHT);
+
+    scratched = false;
   }
 
   function canvasPoint(event) {
@@ -61,6 +64,7 @@ Garabatos.initCanvas = function initCanvas(canvasEl, brushInput) {
     ctx.lineTo(point.x, point.y);
     ctx.stroke();
     lastPoint = point;
+    scratched = true;
   }
 
   canvasEl.addEventListener('pointerdown', (event) => {
@@ -86,6 +90,7 @@ Garabatos.initCanvas = function initCanvas(canvasEl, brushInput) {
 
   return {
     clear: paint,
+    hasScratched: () => scratched,
     exportPNG: () =>
       new Promise((resolve, reject) => {
         canvasEl.toBlob((blob) => {

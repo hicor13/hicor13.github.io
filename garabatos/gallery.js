@@ -18,6 +18,7 @@ Garabatos.gallery = (function () {
     const img = document.createElement('img');
     img.src = downloadUrlFor(drawing.storage_path);
     img.alt = drawing.name;
+    img.title = drawing.name;
     img.loading = 'lazy';
     const caption = document.createElement('figcaption');
     caption.textContent = drawing.name;
@@ -30,6 +31,19 @@ Garabatos.gallery = (function () {
     gridEl.prepend(renderCard(drawing));
     const empty = gridEl.querySelector('.garabatos-empty');
     if (empty) empty.remove();
+  }
+
+  // Rendered by script.js when Garabatos.gallery.init() rejects (Supabase
+  // down, CDN script failed to load, RLS misconfigured, etc.) so a visitor
+  // sees "broken" rather than a silent, empty gallery section.
+  function renderError(gridElement) {
+    gridElement.innerHTML = '';
+    const error = document.createElement('p');
+    error.className = 'garabatos-empty garabatos-error';
+    error.innerHTML =
+      '<span data-i18n-es>No se pudo cargar la galería.</span>' +
+      '<span data-i18n-en>Couldn’t load the gallery.</span>';
+    gridElement.appendChild(error);
   }
 
   async function init(url, anonKey, gridElement) {
@@ -79,5 +93,5 @@ Garabatos.gallery = (function () {
     return drawing;
   }
 
-  return { init, save };
+  return { init, save, renderError };
 })();
