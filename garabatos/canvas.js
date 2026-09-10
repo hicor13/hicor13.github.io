@@ -19,7 +19,7 @@ Garabatos.initCanvas = function initCanvas(canvasEl, brushInput) {
   // (via ctx.setTransform) regardless of this value — only the actual
   // backing resolution changes. Saved drawings export at this same low
   // resolution, so the pixelated look carries into the gallery too.
-  const PIXEL_SCALE = 4;
+  const PIXEL_SCALE = 7;
   let gradientRef = null; // Store the gradient for scratchTo()
   let scratched = false; // True once the visitor has actually drawn something
 
