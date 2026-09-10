@@ -277,6 +277,23 @@ body {
   display: none;
 }
 
+.s0 {
+    fill: #ffff00;
+    stroke: #ff6e00;
+    stroke-miterlimit: 100;
+    stroke-width: 17;
+}
+#star-position {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding-top:50vh;
+  padding-left:1px;
+  width: 3rem;
+  height: 100%;
+}
+
 html[data-lang="es"] [data-i18n-en],
 html[data-lang="en"] [data-i18n-es] {
   display: none;
