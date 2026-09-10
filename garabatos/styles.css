@@ -237,6 +237,33 @@ body {
   margin-bottom: 1.5rem;
 }
 
+/* Links to gallery/garabatos-fotos/ (the classic grid+lightbox view of
+   these same drawings). Same rainbow-border trick as #scratch-canvas and
+   .garabato-card above, so it reads as part of this page's family rather
+   than a generic button. */
+.redirect-box {
+  display: block;
+  width: fit-content;
+  margin: 0 auto 2rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background:
+    linear-gradient(#1a1a1a, #1a1a1a) padding-box,
+    linear-gradient(90deg, rgba(255,0,0,1) 0%, rgba(255,154,0,1) 10%, rgba(208,222,33,1) 20%, rgba(79,220,74,1) 30%, rgba(63,218,216,1) 40%, rgba(47,201,226,1) 50%, rgba(28,127,238,1) 60%, rgba(95,21,242,1) 70%, rgba(186,12,248,1) 80%, rgba(251,7,217,1) 90%, rgba(255,0,0,1) 100%) border-box;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.redirect-box:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+  transform: translateY(-2px);
+}
+
 .garabatos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
