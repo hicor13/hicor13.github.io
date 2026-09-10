@@ -37,11 +37,11 @@ body {
 /* --- pv1 retro scaffold: WordArt glow badge --- */
 
 .retro-wordart {
-  /* Centered directly under <site-topbar>'s "mariocornejo.com" text:
-     that row sits at top:1.5rem plus its own line-height, so this
-     clears it with a bit of breathing room. */
+  /* Centered under <site-topbar>'s "mariocornejo.com" text, lowered
+     enough to read as its own element sitting between the topbar and
+     .garabatos-header's content below, not crowding either. */
   position: fixed;
-  top: 3.4rem;
+  top: 5rem;
   left: 50%;
   transform: translateX(-50%) rotate(-4deg);
   z-index: 30;
@@ -211,7 +211,7 @@ body {
 
 @media (max-width: 40rem) {
   .garabatos-header {
-    padding-top: 8rem;
+    padding-top: 11rem;
   }
 
   /* The page's real title now, since the plain <h1> was removed — the
@@ -219,7 +219,7 @@ body {
      almost nothing below ~400px), so it needs its own explicit bump here
      rather than relying on the fluid scale to reach a readable size. */
   .retro-wordart {
-    font-size: 2rem;
+    font-size: 3rem;
   }
 }
 
