@@ -287,10 +287,15 @@ body {
 /* "NEW" star badge — bottom-right of the hero, links to /garabatos.
    #hero-overlay itself is pointer-events:none (a general-purpose empty
    hook), so this specific element opts back into pointer-events:auto to
-   stay clickable. Visible for 4s, then a 3s linear fade to fully
-   transparent + non-interactive (visibility:hidden removes it from hit
-   testing once faded, rather than leaving an invisible clickable ghost
-   sitting in the corner). */
+   stay clickable. Pops in (matches #hero-plate's own on-load reveal
+   motion elsewhere in this file), holds for 4s, then a 3s linear fade to
+   fully transparent + non-interactive (visibility:hidden removes it from
+   hit testing once faded, rather than leaving an invisible clickable
+   ghost sitting in the corner). Absolutely positioned, so it never
+   affects the flex layout around it — on narrow viewports .hero stacks
+   vertically and the bottom-right offset below would otherwise land the
+   badge on top of the hero title text, so the media query at the bottom
+   moves it up to sit clear of it instead. */
 .hero-star-badge {
   position: absolute;
   right: 2.5rem;
@@ -301,7 +306,7 @@ body {
   place-items: center;
   pointer-events: auto;
   text-decoration: none;
-  animation: hero-star-badge-intro 7s linear forwards;
+  animation: hero-star-badge-intro 7.3s linear forwards;
 }
 
 /* Stack the svg and the text span in the same grid cell instead of
@@ -317,15 +322,25 @@ body {
 
 .hero-star-badge-text {
   font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
-  font-weight: 800;
+  font-weight: 400;
   font-size: 1rem;
   letter-spacing: 0.05em;
   color: #7a1a00;
+  text-transform: lowercase;
   transform: rotate(-8deg);
 }
 
 @keyframes hero-star-badge-intro {
-  0%, 57.14% {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.85);
+    animation-timing-function: ease-out;
+  }
+  4.11% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  58.9% {
     opacity: 1;
     visibility: visible;
   }
@@ -338,6 +353,18 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .hero-star-badge {
     animation: none;
+  }
+}
+
+@media (max-width: 40rem) {
+  /* .hero stacks portrait-then-text on narrow viewports, and the
+     bottom-right offset above lands right on top of the hero title
+     there — reposition near the top-right instead, clear of both the
+     topbar controls above it and the text block below it. */
+  .hero-star-badge {
+    top: 5rem;
+    right: 1rem;
+    bottom: auto;
   }
 }
 

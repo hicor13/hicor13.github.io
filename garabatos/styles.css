@@ -259,3 +259,12 @@ body site-footer .site-footer-legal {
   border-top-color: rgba(255, 255, 255, 0.25);
   color: #cbb8ff;
 }
+
+/* <site-topbar>'s "mariocornejo.com" text defaults to var(--fg, #ece8e0)
+   — a cream, not grey, but it reads dull/washed-out against this page's
+   hot-pink gradient. Same override pattern as the footer above: extra
+   specificity via `body site-topbar` so it wins regardless of source
+   order against the element's own embedded <style>. */
+body site-topbar .site-topbar-domain {
+  color: #ffffff;
+}
