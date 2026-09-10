@@ -44,18 +44,24 @@ body {
 /* --- pv1 retro scaffold: WordArt glow badge --- */
 
 .retro-wordart {
-  /* Centered under <site-topbar>'s "mariocornejo.com" text, lowered
-     enough to read as its own element sitting between the topbar and
-     .garabatos-header's content below, not crowding either. Now a real
-     link (to /sorpresa) — pointer-events stays enabled (default) unlike
-     the landing star badge, which has to opt back in against its
-     pointer-events:none parent; this element has no such parent. */
-  position: fixed;
-  top: 6.5rem;
-  left: 50%;
-  transform: translateX(-50%) rotate(-4deg);
+  /* Scrolls normally with the page (a real in-flow sibling of
+     .garabatos-header, not an overlay) until it reaches top:1rem, then
+     sticks there and stays stuck through the rest of the page — same
+     pattern as the main site's own .hero-nav (position:sticky as a
+     direct child of <body>, so its containing block is the whole page,
+     not some short-lived wrapper it would immediately un-stick past).
+     width:fit-content + margin:auto centers it without needing left:50%
+     + transform:translateX (which would fight position:sticky's own use
+     of the left/right offsets). Now a real link (to /sorpresa) —
+     pointer-events stays enabled (default), no pointer-events:none
+     parent to opt out of like the landing star badge has. */
+  position: sticky;
+  top: 1rem;
+  display: block;
+  width: fit-content;
+  margin: 2rem auto 0;
+  transform: rotate(-4deg);
   z-index: 30;
-  display: inline-block;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   /* Fixed, not clamp()/vw-based: a fluid size interacting with the
      max-width:40rem breakpoint below left an untested mid-range gap
@@ -81,12 +87,11 @@ body {
 
 .garabatos-header {
   position: relative;
-  /* Top padding clears the fixed #retro-wordart badge above it (own
-     rule below) — needs enough room for its glow to not clip into the
-     intro text that follows, generously so (badge top:6.5rem + its own
-     rendered height + glow bleed, plus real breathing room on top of
-     that — not the tightest fit that technically clears it). */
-  padding: 11.5rem 1.5rem 2rem;
+  /* Top padding clears <site-topbar>'s absolutely-positioned row
+     (top:1.5rem + its own height) inside this header — no longer needs
+     to also clear #retro-wordart, which is a normal in-flow sibling
+     above this element now (position:sticky, not an overlay). */
+  padding: 6rem 1.5rem 2rem;
   text-align: center;
 }
 
@@ -238,13 +243,10 @@ body {
 }
 
 @media (max-width: 40rem) {
-  /* The badge is bigger here (3rem vs the base 2rem) — needs more
-     clearance below it than the base rule provides. */
-  .garabatos-header {
-    padding-top: 13.5rem;
-  }
-
-  /* The page's real title now, since the plain <h1> was removed. */
+  /* The page's real title now, since the plain <h1> was removed. No
+     .garabatos-header padding-top override needed here anymore — the
+     badge is a normal in-flow sibling above it (position:sticky), not
+     an overlay that header needs to clear space for. */
   .retro-wordart {
     font-size: 3rem;
   }
