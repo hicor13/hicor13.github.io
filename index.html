@@ -17,7 +17,15 @@
   <meta property="og:image" content="https://mariocornejo.com/assets/img/og-image.png">
   <meta property="og:url" content="https://mariocornejo.com">
 
-  <link rel="stylesheet" href="styles.css?v=20260909m">
+  <!-- Comic Sans MS is a system font — not installed on Linux/Android/
+       most non-Apple, non-Windows devices. Comic Relief (Google Fonts)
+       is an open substitute, self-hosted so the "new" star badge text
+       renders consistently instead of silently falling back to a
+       generic sans-serif on devices without Comic Sans MS installed. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&display=swap">
+  <link rel="stylesheet" href="styles.css?v=20260909n">
   <script src="/libs/personal/site-chrome.js?v=20260909h"></script>
   <script>
     try {

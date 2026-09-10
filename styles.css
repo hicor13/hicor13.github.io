@@ -321,7 +321,10 @@ body {
 }
 
 .hero-star-badge-text {
-  font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
+  /* Comic Relief loaded via Google Fonts in index.html's <head> —
+     real Comic Sans MS only exists on Windows/macOS, listed here as a
+     fallback for browsers that block the web font, not the primary. */
+  font-family: 'Comic Relief', 'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
   font-weight: 400;
   font-size: 1rem;
   letter-spacing: 0.05em;

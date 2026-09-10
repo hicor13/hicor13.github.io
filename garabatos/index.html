@@ -17,7 +17,15 @@
        same precedent as gallery/pajaritos staying token-free. All colors
        in garabatos/styles.css below now fall back to their own hardcoded
        defaults instead of the main site's light/dark theme. -->
-  <link rel="stylesheet" href="/garabatos/styles.css?v=20260909f">
+  <!-- Comic Sans MS is a system font — not installed on Linux/Android/
+       most non-Apple, non-Windows devices, silently falling back to a
+       generic sans-serif there. Comic Relief is a Google Fonts face
+       built as an open, freely-licensed substitute, self-hosted here
+       instead of depending on whichever OS the visitor has. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&display=swap">
+  <link rel="stylesheet" href="/garabatos/styles.css?v=20260909g">
   <script src="/libs/personal/site-chrome.js?v=20260909h"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
 </head>

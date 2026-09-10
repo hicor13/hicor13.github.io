@@ -28,7 +28,10 @@ body {
   filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#A8F368", endColorstr="#F9035E", GradientType=1 );
   color: var(--fg, #b7ff00);
   margin: 0;
-  font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
+  /* Comic Relief loaded via Google Fonts in index.html's <head> — real
+     Comic Sans MS only exists on Windows/macOS, so it's listed here as a
+     fallback for browsers that block the web font, not the primary. */
+  font-family: 'Comic Relief', 'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
 }
 
 /* --- pv1 retro scaffold: WordArt glow badge --- */
@@ -209,6 +212,14 @@ body {
 @media (max-width: 40rem) {
   .garabatos-header {
     padding-top: 8rem;
+  }
+
+  /* The page's real title now, since the plain <h1> was removed — the
+     clamp() above stays fairly small on narrow viewports (1vw contributes
+     almost nothing below ~400px), so it needs its own explicit bump here
+     rather than relying on the fluid scale to reach a readable size. */
+  .retro-wordart {
+    font-size: 2rem;
   }
 }
 
