@@ -17,6 +17,11 @@ html[data-lang="en"] [data-i18n-es] {
   display: none;
 }
 
+/* html gets the same background as body: on iOS Safari, scrolling past
+   the top/bottom edge (rubber-band overscroll) reveals whatever's behind
+   body — html's own background, white by default — instead of stretching
+   body's gradient into that area. Duplicating it here closes that gap. */
+html,
 body {
   background: hsla(92, 85%, 68%, 1);
   background: linear-gradient(90deg, hsla(92, 85%, 68%, 1) 0%, hsla(338, 98%, 49%, 1) 100%);
@@ -24,7 +29,9 @@ body {
   background: -moz-linear-gradient(90deg, hsla(92, 85%, 68%, 1) 0%, hsla(338, 98%, 49%, 1) 100%);
 
   background: -webkit-linear-gradient(90deg, hsla(92, 85%, 68%, 1) 0%, hsla(338, 98%, 49%, 1) 100%);
+}
 
+body {
   filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#A8F368", endColorstr="#F9035E", GradientType=1 );
   color: var(--fg, #b7ff00);
   margin: 0;
@@ -39,16 +46,21 @@ body {
 .retro-wordart {
   /* Centered under <site-topbar>'s "mariocornejo.com" text, lowered
      enough to read as its own element sitting between the topbar and
-     .garabatos-header's content below, not crowding either. */
+     .garabatos-header's content below, not crowding either. Now a real
+     link (to /sorpresa) — pointer-events stays enabled (default) unlike
+     the landing star badge, which has to opt back in against its
+     pointer-events:none parent; this element has no such parent. */
   position: fixed;
   top: 5rem;
   left: 50%;
   transform: translateX(-50%) rotate(-4deg);
   z-index: 30;
+  display: inline-block;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   font-size: clamp(1.1rem, 1vw + 1rem, 1.6rem);
   letter-spacing: 0.03em;
   color: #fffb00;
+  text-decoration: none;
   /* Stacked hard-edge offsets read as an outline at any size (cheap
      substitute for -webkit-text-stroke, which Firefox still doesn't
      support); the blurred shadows on top are the actual glow. */
@@ -60,8 +72,6 @@ body {
     0 0 8px #fffb00,
     0 0 18px #ff00c8,
     0 0 32px #ff00c8;
-  pointer-events: none;
-  user-select: none;
 }
 
 .garabatos-header {
@@ -134,6 +144,14 @@ body {
   background: var(--pill-bg, linear-gradient(90deg, rgba(255, 0, 0, 0.233) 0%, rgba(255, 153, 0, 0.227) 10%, rgba(210, 222, 33, 0.563) 20%, rgba(79, 220, 74, 0.538) 30%, rgba(63, 218, 215, 0.474) 40%, rgba(47, 202, 226, 0.671) 50%, rgba(28, 126, 238, 0.639) 60%, rgba(95, 21, 242, 0.633) 70%, rgba(185, 12, 248, 0.671) 80%, rgba(251, 7, 218, 0.582) 90%, rgba(255, 0, 0, 0.607) 100%));
   color: var(--fg, #ffffff);
   font: inherit;
+}
+
+/* Browsers default placeholder text to a dim/grey tint of the input's
+   own color — invisible-ish against this page's rainbow input
+   background. Explicit white instead. */
+#artist-name::placeholder {
+  color: #ffffff;
+  opacity: 1;
 }
 
 .garabatos-controls button {
