@@ -1,0 +1,147 @@
+/* garabatos/styles.css
+   Page-specific rules only — tokens (--bg/--fg/--muted/--pill-*) and the
+   nav-pill/site-topbar/site-footer chrome come from /styles.css, loaded
+   before this file. Garabatos follows the site's real light/dark toggle
+   (unlike gallery/pajaritos, which is deliberately fixed-dark) since a
+   scratch-art board has no reason to ignore the site theme. */
+
+body {
+  background: var(--bg, #f7f6f3);
+  color: var(--fg, #1a1a1a);
+  margin: 0;
+}
+
+.garabatos-header {
+  position: relative;
+  padding: 6rem 1.5rem 2rem;
+  text-align: center;
+}
+
+.garabatos-header h1 {
+  margin: 0 0 0.5rem;
+  font-size: 2rem;
+}
+
+.garabatos-intro {
+  max-width: 32rem;
+  margin: 0 auto;
+  color: var(--muted, #6b6b6b);
+}
+
+.garabatos-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 1.5rem 3rem;
+}
+
+#scratch-canvas {
+  width: 100%;
+  max-width: 40rem;
+  aspect-ratio: 640 / 400;
+  touch-action: none;
+  cursor: crosshair;
+  border-radius: 12px;
+  border: 1px solid var(--pill-border, #d8d6d1);
+}
+
+.garabatos-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  max-width: 40rem;
+  width: 100%;
+}
+
+.garabatos-controls label {
+  font-size: 0.85rem;
+  color: var(--muted, #6b6b6b);
+}
+
+#artist-name {
+  flex: 1 1 12rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--pill-border, #d8d6d1);
+  background: var(--pill-bg, rgba(255, 255, 255, 0.55));
+  color: var(--fg, #1a1a1a);
+  font: inherit;
+}
+
+.garabatos-controls button {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--pill-border, #d8d6d1);
+  background: var(--pill-bg, rgba(255, 255, 255, 0.55));
+  color: var(--fg, #1a1a1a);
+  font: inherit;
+  cursor: pointer;
+}
+
+.garabatos-save {
+  background: var(--accent, #1a1a1a);
+  color: var(--accent-fg, #ffffff);
+  border-color: transparent;
+}
+
+.garabatos-status {
+  min-height: 1.2em;
+  font-size: 0.9rem;
+  color: var(--muted, #6b6b6b);
+}
+
+.garabatos-gallery {
+  padding: 0 1.5rem 4rem;
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+.garabatos-gallery h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.garabatos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: 1rem;
+}
+
+.garabato-card {
+  margin: 0;
+  background: var(--pill-bg, rgba(255, 255, 255, 0.55));
+  border: 1px solid var(--pill-border, #d8d6d1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.garabato-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 640 / 400;
+  object-fit: cover;
+}
+
+.garabato-card figcaption {
+  padding: 0.4rem 0.6rem;
+  font-size: 0.8rem;
+  color: var(--muted, #6b6b6b);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.garabatos-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--muted, #6b6b6b);
+}
+
+@media (max-width: 40rem) {
+  .garabatos-header {
+    padding-top: 8rem;
+  }
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es-PE" data-lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Garabatos — Mario Cornejo</title>
+  <meta name="description" content="Raspa y dibuja: deja un garabato en la galería pública de mariocornejo.com.">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="/styles.css?v=20260909i">
+  <link rel="stylesheet" href="/garabatos/styles.css?v=20260909a">
+  <script src="/libs/personal/site-chrome.js?v=20260909h"></script>
+</head>
+<body>
+  <header class="garabatos-header">
+    <site-topbar></site-topbar>
+    <h1><span data-i18n-es>Garabatos</span><span data-i18n-en>Doodles</span></h1>
+    <p class="garabatos-intro">
+      <span data-i18n-es>Raspa la superficie negra para revelar el color de abajo. Dibuja algo y déjalo en la galería.</span>
+      <span data-i18n-en>Scratch the black surface to reveal the color underneath. Draw something and leave it in the gallery.</span>
+    </p>
+  </header>
+
+  <main>
+    <section class="garabatos-board" aria-label="Tablero de raspado">
+      <canvas id="scratch-canvas" width="640" height="400"></canvas>
+      <div class="garabatos-controls">
+        <label for="brush-size">
+          <span data-i18n-es>Grosor</span><span data-i18n-en>Brush size</span>
+        </label>
+        <input type="range" id="brush-size" min="4" max="40" value="16">
+        <button type="button" id="clear-btn">
+          <span data-i18n-es>Borrar</span><span data-i18n-en>Clear</span>
+        </button>
+        <input type="text" id="artist-name" maxlength="40" placeholder="Tu nombre / Your name">
+        <button type="button" id="save-btn" class="garabatos-save">
+          <span data-i18n-es>Guardar</span><span data-i18n-en>Save</span>
+        </button>
+      </div>
+      <p id="save-status" class="garabatos-status" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="garabatos-gallery" aria-label="Galería">
+      <h2><span data-i18n-es>Galería</span><span data-i18n-en>Gallery</span></h2>
+      <div id="gallery-grid" class="garabatos-grid"></div>
+    </section>
+  </main>
+
+  <site-footer base="/index.html"></site-footer>
+
+  <script src="/garabatos/canvas.js?v=20260909a"></script>
+  <script src="/garabatos/gallery.js?v=20260909a"></script>
+  <script src="/garabatos/script.js?v=20260909a"></script>
+</body>
+</html>
