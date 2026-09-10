@@ -51,3 +51,38 @@ body {
 .mosaic-back a:hover {
   text-decoration: underline;
 }
+
+.mosaic-tile {
+  position: relative;
+  overflow: hidden;
+  border-radius: 3px;
+  margin: 0;
+  transform: scale(var(--tile-scale, 1));
+  opacity: var(--tile-opacity, 1);
+  transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+.mosaic-noise {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, #ff00c8, #7700ff, #00fff2, #fffb00, #ff00c8);
+  background-size: 400% 400%;
+  opacity: var(--noise-opacity, 0.5);
+  animation: mosaic-noise-shift var(--noise-duration, 5s) linear infinite;
+}
+
+@keyframes mosaic-noise-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.mosaic-tile img {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mix-blend-mode: lighten;
+  image-rendering: pixelated;
+}
