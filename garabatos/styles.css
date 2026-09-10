@@ -31,23 +31,75 @@ body {
   font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
 }
 
-/* --- pv1 retro scaffold: empty stubs, yours to design ---
-
-   Modeled on the reference template's two recurring patterns:
-   a WordArt-style glow/outline heading, and a fixed, colorfully-bordered
-   sidebar nav. Both elements exist in garabatos/index.html already
-   (#retro-wordart, #retro-sidebar) but render as nothing until styled —
-   no position, no size, no visuals set here on purpose. */
+/* --- pv1 retro scaffold: WordArt glow badge + glowing sidebar nav --- */
 
 .retro-wordart {
-  /* e.g. font-family: Impact, sans-serif; text-shadow / -webkit-text-stroke
-     for the neon outline look; position it wherever it should sit. */
-     color:white;
-    }
-    
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 30;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: clamp(1.1rem, 1vw + 1rem, 1.6rem);
+  letter-spacing: 0.03em;
+  color: #fffb00;
+  transform: rotate(-4deg);
+  /* Stacked hard-edge offsets read as an outline at any size (cheap
+     substitute for -webkit-text-stroke, which Firefox still doesn't
+     support); the blurred shadows on top are the actual glow. */
+  text-shadow:
+    2px 2px 0 #7700ff,
+    -2px -2px 0 #7700ff,
+    2px -2px 0 #7700ff,
+    -2px 2px 0 #7700ff,
+    0 0 8px #fffb00,
+    0 0 18px #ff00c8,
+    0 0 32px #ff00c8;
+  pointer-events: none;
+  user-select: none;
+}
+
 .retro-sidebar {
-    color:rgb(238, 250, 0);
-  /* e.g. position: fixed; a background-image tile; bordered nav items. */
+  position: fixed;
+  top: 50%;
+  left: 1.25rem;
+  transform: translateY(-50%);
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 0.85rem;
+  border-radius: 12px;
+  background: rgba(10, 8, 20, 0.75);
+  /* Neon border glow: a solid inner edge plus two soft outer blooms —
+     same "glow via stacked shadows" idea as the wordart's text-shadow,
+     applied to box-shadow instead. */
+  box-shadow:
+    0 0 0 2px #00fff2,
+    0 0 10px 2px #00fff2,
+    0 0 24px 6px rgba(0, 255, 242, 0.55);
+}
+
+.retro-sidebar a {
+  color: #00fff2;
+  font-weight: bold;
+  text-decoration: none;
+  text-shadow: 0 0 6px #00fff2, 0 0 14px rgba(0, 255, 242, 0.7);
+  white-space: nowrap;
+  transition: color 150ms ease, text-shadow 150ms ease;
+}
+
+.retro-sidebar a:hover {
+  color: #fffb00;
+  text-shadow: 0 0 8px #fffb00, 0 0 20px rgba(255, 251, 0, 0.85);
+}
+
+@media (max-width: 40rem) {
+  /* A fixed full-height-ish sidebar eats too much of a phone-width
+     viewport to be worth keeping — hidden below this breakpoint rather
+     than shrunk into illegibility. */
+  .retro-sidebar {
+    display: none;
+  }
 }
 
 .garabatos-header {
@@ -199,4 +251,52 @@ body {
   .garabatos-header {
     padding-top: 8rem;
   }
+}
+
+/* --- pv1: retro <site-footer> override ---
+   <site-footer> is a shared custom element (libs/personal/site-chrome.js)
+   used on index.html and pajaritos too — its own <style> lives inside the
+   element itself, so it can't be edited here without affecting those
+   other pages. Instead these rules re-target its existing class names
+   (.site-footer-card etc., already in its rendered markup) with an extra
+   `body` ancestor qualifier so they win on specificity regardless of
+   where in the DOM the element's own <style> tag ends up relative to
+   this stylesheet — same rainbow-border trick as the canvas/cards above,
+   continuing the page's vaporwave gradient instead of stopping dead at a
+   flat dark box. */
+body site-footer .site-footer-card {
+  border: 2px solid transparent;
+  border-radius: 14px;
+  background:
+    linear-gradient(160deg, #2a0845, #0f0326) padding-box,
+    linear-gradient(90deg, rgba(255,0,0,1) 0%, rgba(255,154,0,1) 10%, rgba(208,222,33,1) 20%, rgba(79,220,74,1) 30%, rgba(63,218,216,1) 40%, rgba(47,201,226,1) 50%, rgba(28,127,238,1) 60%, rgba(95,21,242,1) 70%, rgba(186,12,248,1) 80%, rgba(251,7,217,1) 90%, rgba(255,0,0,1) 100%) border-box;
+  color: #fff;
+}
+
+body site-footer .site-footer-card h2 {
+  color: #fffb00;
+  text-shadow: 0 0 6px #fffb00, 0 0 16px rgba(255, 0, 200, 0.7);
+}
+
+body site-footer .site-footer-tagline {
+  color: #e0d6ff;
+}
+
+body site-footer .site-footer-columns h3 {
+  color: #00fff2;
+  text-shadow: 0 0 6px rgba(0, 255, 242, 0.6);
+}
+
+body site-footer .site-footer-columns a {
+  color: #fff;
+}
+
+body site-footer .site-footer-columns a:hover {
+  color: #fffb00;
+  text-shadow: 0 0 6px #fffb00;
+}
+
+body site-footer .site-footer-legal {
+  border-top-color: rgba(255, 255, 255, 0.25);
+  color: #cbb8ff;
 }
