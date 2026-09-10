@@ -86,3 +86,12 @@ body {
   mix-blend-mode: lighten;
   image-rendering: pixelated;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .mosaic-noise {
+    animation: none;
+  }
+  .mosaic-tile {
+    transition: none;
+  }
+}

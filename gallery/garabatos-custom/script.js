@@ -21,6 +21,10 @@
       es: 'No se pudo cargar el mosaico.',
       en: "Couldn't load the mosaic.",
     },
+    loading: {
+      es: 'Cargando el mosaico…',
+      en: 'Loading the mosaic…',
+    },
   };
 
   function downloadUrlFor(storagePath) {
@@ -63,8 +67,10 @@
     noise.className = 'mosaic-noise';
 
     const img = document.createElement('img');
+    img.crossOrigin = 'anonymous';
     img.src = downloadUrlFor(tile.drawing.storage_path);
-    img.alt = tile.drawing.name;
+    img.alt = '';
+    img.title = tile.drawing.name;
     img.loading = 'lazy';
 
     figure.appendChild(noise);
@@ -84,6 +90,11 @@
     const statusEl = document.getElementById('mosaic-status');
     if (!gridEl || !statusEl) return;
 
+    if (!window.supabase || !window.Garabatos || !Garabatos.mosaic) {
+      renderStatus(gridEl, statusEl, 'error');
+      return;
+    }
+
     const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     let rows;
@@ -100,37 +111,46 @@
       return;
     }
 
-    if (rows.length === 0) {
+    if (!rows || rows.length === 0) {
       renderStatus(gridEl, statusEl, 'empty');
       return;
     }
 
-    statusEl.textContent = '';
+    const loadingMsgs = MESSAGES.loading;
+    statusEl.innerHTML =
+      `<span data-i18n-es>${loadingMsgs.es}</span><span data-i18n-en>${loadingMsgs.en}</span>`;
 
     const densityCache = new Map();
-    const drawings = [];
-    for (const row of rows) {
-      if (!densityCache.has(row.storage_path)) {
+    const uniquePaths = [...new Set(rows.map((r) => r.storage_path))];
+    await Promise.all(
+      uniquePaths.map(async (path) => {
         try {
-          const img = await loadImage(downloadUrlFor(row.storage_path));
-          densityCache.set(row.storage_path, Garabatos.mosaic.densityScore(img));
+          const img = await loadImage(downloadUrlFor(path));
+          densityCache.set(path, Garabatos.mosaic.densityScore(img));
         } catch (error) {
           console.error('Garabatos mosaic: failed to score drawing:', error);
-          densityCache.set(row.storage_path, 0.5);
+          densityCache.set(path, 0.5);
         }
-      }
-      drawings.push({
-        name: row.name,
-        storage_path: row.storage_path,
-        density: densityCache.get(row.storage_path),
-      });
-    }
+      })
+    );
+    const drawings = rows.map((row) => ({
+      name: row.name,
+      storage_path: row.storage_path,
+      density: densityCache.get(row.storage_path),
+    }));
+
+    statusEl.textContent = '';
 
     // TODO: swap this for your own target image, e.g.:
     // const targetImg = await loadImage('/gallery/garabatos-custom/target.png');
     // const mask = Garabatos.mosaic.buildMask(targetImg, COLS, ROWS);
     const mask = Garabatos.mosaic.buildMask('GARABATOS', COLS, ROWS);
     const tiles = Garabatos.mosaic.packTiles(mask, drawings);
+
+    if (tiles.length === 0) {
+      renderStatus(gridEl, statusEl, 'empty');
+      return;
+    }
 
     gridEl.style.gridTemplateColumns = `repeat(${COLS}, 1fr)`;
     gridEl.style.gridTemplateRows = `repeat(${ROWS}, 1fr)`;
