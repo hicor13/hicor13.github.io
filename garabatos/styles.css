@@ -45,25 +45,18 @@ body {
 
 .retro-wordart {
   /* Lives inside .garabatos-header, between <site-topbar> and the intro
-     text. Scrolls normally at first, then sticks at top:1rem — but
-     position:sticky's "stuck" range is bounded by its own PARENT's box:
-     once the header runs low on remaining room below this element, CSS
-     pushes it back out of the stuck position (not a clean release at the
-     header's very end — it starts sliding up, off-screen, well before
-     that). script.js's initWordartPin() computes the exact scrollY where
-     that would start (from real getBoundingClientRect() measurements)
-     and adds .retro-wordart--pinned right at that point, switching to
-     position:fixed at the same visual spot so it keeps acting like a
-     persistent sticky header for the rest of the page (matching the
-     .hero-nav-style behavior this had before it moved inside the
-     header), with no gap where it would otherwise go missing.
-     width:fit-content + margin:auto centers it without needing
-     left:50% + transform:translateX (which would fight position:sticky's
-     own use of the left/right offsets) — the pinned state below switches
-     to that centering method instead, since position:fixed doesn't
-     participate in flow the same way. Real link (to /sorpresa) —
-     pointer-events stays enabled (default), no pointer-events:none
-     parent to opt out of. */
+     text. Plain CSS position:sticky, no JS — a prior "stay pinned
+     forever" hybrid (switching to position:fixed once the header ran
+     out of room) caused a real, large jump: leaving document flow made
+     the header collapse by the badge's own height, snapping the intro
+     text and canvas below it up by ~88px in a single scroll step. Plain
+     sticky can't do that — nothing ever leaves flow — at the cost of
+     the badge eventually scrolling away with the header instead of
+     staying stuck through the whole page. width:fit-content +
+     margin:auto centers it without needing left:50% + transform:translateX,
+     which would fight position:sticky's own use of the left/right
+     offsets. Real link (to /sorpresa) — pointer-events stays enabled
+     (default), no pointer-events:none parent to opt out of. */
   position: sticky;
   top: 1rem;
   display: block;
@@ -92,19 +85,6 @@ body {
     0 0 8px #fffb00,
     0 0 18px #ff00c8,
     0 0 32px #ff00c8;
-}
-
-/* JS-toggled fallback (script.js's initWordartPin()) for once .garabatos-header
-   itself would have scrolled the sticky badge away — see the long comment
-   on .retro-wordart above. Same visual spot (top:1rem, centered, same
-   tilt), just position:fixed instead of position:sticky so it keeps
-   holding that spot regardless of the header's own short height. */
-.retro-wordart--pinned {
-  position: fixed;
-  top: 1rem;
-  left: 50%;
-  margin: 0;
-  transform: translateX(-50%) rotate(-4deg);
 }
 
 .garabatos-header {

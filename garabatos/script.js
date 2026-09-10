@@ -55,67 +55,24 @@
     });
   }
 
-  // #retro-wordart lives inside .garabatos-header and uses position:sticky
-  // there — sticky's "stuck" range is bounded by its own parent's box.
-  //
-  // Root cause of a visible jump (found via 1px-step measurement, not
-  // guessed): CSS doesn't hold the badge at a clean top:1rem until some
-  // sharp release point — once the header starts running low on room
-  // below it, sticky continuously SLIDES it up (1:1 with scroll), well
-  // before the header's bottom edge. Two earlier attempts to predict that
-  // release point in advance (an IntersectionObserver on an end-of-header
-  // sentinel, then a formula computed from header/margin/height
-  // measurements) each fired at the wrong scrollY, so switching to
-  // .retro-wordart--pinned (position:fixed, hardcoded top:1rem) snapped
-  // the badge from wherever CSS had already slid it to (confirmed as far
-  // as top:-4.4px, i.e. partly above the viewport) to the fixed 16px
-  // target — a real ~15px jump every time, not a timing fluke.
-  //
-  // Fix: stop predicting, measure instead. Every scroll, read the
-  // badge's actual live position (getBoundingClientRect().top) while
-  // still in sticky mode; the instant CSS's own value would reach the
-  // pinned state's own rendered position, switch to pinned right then —
-  // by definition the same position CSS just had it at, so there's
-  // nothing to jump. Unpinning (scrolling back up) reverses at the same
-  // scrollY pinning engaged at, which is exact by construction rather
-  // than a second formula to get wrong.
-  //
-  // The pinned target itself is MEASURED, not assumed to be the CSS
-  // top:1rem (16px) value — a second bug, found the same way as the
-  // first: .retro-wordart has its own rotate(-4deg) transform, which
-  // shifts getBoundingClientRect()'s rendered box away from the raw CSS
-  // top value (confirmed: CSS said top:16px, actual rendered top was
-  // ~10.57px). Using 16 as the comparison threshold made the pin engage
-  // too early, since the sticky element's natural resting position
-  // never actually reaches 16 in the first place. Briefly applying
-  // .retro-wordart--pinned once at init to measure its real rendered
-  // top sidesteps this entirely — correct regardless of whatever the
-  // rotation/transform happens to be, no angle math needed.
-  function initWordartPin() {
-    const wordart = document.getElementById('retro-wordart');
-    if (!wordart) return;
-
-    wordart.classList.add('retro-wordart--pinned');
-    const PINNED_TOP_PX = wordart.getBoundingClientRect().top;
-    wordart.classList.remove('retro-wordart--pinned');
-
-    let pinEngageScrollY = null;
-
-    function onScroll() {
-      const pinned = wordart.classList.contains('retro-wordart--pinned');
-      if (!pinned) {
-        if (wordart.getBoundingClientRect().top <= PINNED_TOP_PX) {
-          pinEngageScrollY = window.scrollY;
-          wordart.classList.add('retro-wordart--pinned');
-        }
-      } else if (window.scrollY < pinEngageScrollY) {
-        wordart.classList.remove('retro-wordart--pinned');
-      }
-    }
-
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-  }
+  // #retro-wordart lives inside .garabatos-header and uses plain CSS
+  // position:sticky — no JS. There WAS a JS hybrid here that switched it
+  // to position:fixed once the header ran out of room, to keep it
+  // "stuck forever" like a persistent header. Removed after finding a
+  // 4th distinct bug in that approach, each in a different place (a
+  // mistimed IntersectionObserver, a wrong release-point formula, a
+  // rotate(-4deg) transform offsetting the measured target, and finally
+  // the real one: switching position:sticky -> position:fixed takes the
+  // badge out of document flow, so .garabatos-header instantly collapses
+  // by the badge's own height — confirmed via getBoundingClientRect():
+  // the canvas below jumped from top:156px to top:68px in a single
+  // scroll step, an 88px snap of the ENTIRE rest of the page, not just
+  // the badge). Four fixes each surfacing a new problem elsewhere is the
+  // signal to stop patching and simplify, not attempt a fifth. Plain
+  // sticky can't produce a jump like this — there's no discrete state
+  // change for anything to snap between — at the cost of the badge
+  // eventually scrolling away with the header instead of staying pinned
+  // through the whole page.
 
   // localStorage can throw (private browsing, strict site-data settings,
   // storage quota). The throttle is a nice-to-have, not core functionality,
@@ -149,7 +106,6 @@
 
     const painter = Garabatos.initCanvas(canvasEl, brushInput);
     watchPlaceholderLang(nameInput);
-    initWordartPin();
 
     clearBtn.addEventListener('click', () => {
       painter.clear();
