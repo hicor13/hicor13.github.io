@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&display=swap">
-  <link rel="stylesheet" href="/garabatos/styles.css?v=20260909n">
+  <link rel="stylesheet" href="/garabatos/styles.css?v=20260909p">
   <script src="/libs/personal/site-chrome.js?v=20260909h"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
 </head>
@@ -65,11 +65,13 @@
           <span data-i18n-es>Borrar</span><span data-i18n-en>Clear</span>
         </button>
         <input type="text" id="artist-name" maxlength="40" placeholder="Tu nombre">
-        <button type="button" id="save-btn" class="garabatos-save">
-          <span data-i18n-es>Guardar</span><span data-i18n-en>Save</span>
-        </button>
+        <span class="garabatos-save-wrap">
+          <button type="button" id="save-btn" class="garabatos-save">
+            <span data-i18n-es>Guardar</span><span data-i18n-en>Save</span>
+          </button>
+          <p id="save-status" class="garabatos-status" role="status" aria-live="polite"></p>
+        </span>
       </div>
-      <p id="save-status" class="garabatos-status" role="status" aria-live="polite"></p>
     </section>
 
     <section class="garabatos-gallery" aria-label="Galería">

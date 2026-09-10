@@ -185,12 +185,24 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
     max-width: 100%;
     max-height: 100%;
     min-height: 0;
+    /* Garabatos drawings are exported from a small backing canvas (see
+       canvas.js's PIXEL_SCALE), so the PNG's actual pixel dimensions are
+       tiny. Without an explicit box to size against, the <img> below was
+       rendering near its own tiny intrinsic size instead of filling the
+       lightbox — max-width/max-height only cap size, they don't scale an
+       image UP to fill available space. flex:1 makes this row claim the
+       vertical space next to the caption, so the image has real room to
+       grow into. */
+    flex: 1 1 auto;
 }
 
 .lightbox img {
+    width: 100%;
+    height: 100%;
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;

@@ -188,10 +188,42 @@ body {
   border-color: transparent;
 }
 
+/* Wraps #save-btn + #save-status together as ONE flex item inside
+   .garabatos-controls. Putting the status text directly in the flex row
+   (even after the button) still moved the gallery section below: the row's
+   max-width (40rem) is already tight with label+slider+clear+name+save, so
+   any text added to it pushed the row over and triggered flex-wrap onto a
+   second line, growing .garabatos-board's height. Taking #save-status out
+   of flow entirely via position:absolute (anchored to this wrapper, which
+   only sizes to the button) is the only way appearing/disappearing text
+   truly can't move anything else on the page. */
+.garabatos-save-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
 .garabatos-status {
-  min-height: 1.2em;
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0 0 0 0.75rem;
   font-size: 0.9rem;
+  white-space: nowrap;
   color: var(--muted, #ff0303);
+  pointer-events: none;
+}
+
+@media (max-width: 40rem) {
+  /* left:100% would run off the right edge of narrow viewports, since the
+     save button already sits near the row's own right edge there. Below
+     and centered on the button instead avoids that clipping. */
+  .garabatos-status {
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+    margin: 0.35rem 0 0;
+  }
 }
 
 .garabatos-gallery {
