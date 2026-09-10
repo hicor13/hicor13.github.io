@@ -283,15 +283,61 @@ body {
     stroke-miterlimit: 100;
     stroke-width: 17;
 }
-#star-position {
+
+/* "NEW" star badge — bottom-right of the hero, links to /garabatos.
+   #hero-overlay itself is pointer-events:none (a general-purpose empty
+   hook), so this specific element opts back into pointer-events:auto to
+   stay clickable. Visible for 4s, then a 3s linear fade to fully
+   transparent + non-interactive (visibility:hidden removes it from hit
+   testing once faded, rather than leaving an invisible clickable ghost
+   sitting in the corner). */
+.hero-star-badge {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding-top:50vh;
-  padding-left:1px;
-  width: 3rem;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  width: 7rem;
+  height: 7rem;
+  display: grid;
+  place-items: center;
+  pointer-events: auto;
+  text-decoration: none;
+  animation: hero-star-badge-intro 7s linear forwards;
+}
+
+/* Stack the svg and the text span in the same grid cell instead of
+   separately absolutely-positioning the text over the star. */
+.hero-star-badge > * {
+  grid-area: 1 / 1;
+}
+
+.hero-star-badge svg {
+  width: 100%;
   height: 100%;
+}
+
+.hero-star-badge-text {
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+  color: #7a1a00;
+  transform: rotate(-8deg);
+}
+
+@keyframes hero-star-badge-intro {
+  0%, 57.14% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-star-badge {
+    animation: none;
+  }
 }
 
 html[data-lang="es"] [data-i18n-en],
