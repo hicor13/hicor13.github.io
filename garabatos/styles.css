@@ -31,18 +31,21 @@ body {
   font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
 }
 
-/* --- pv1 retro scaffold: WordArt glow badge + glowing sidebar nav --- */
+/* --- pv1 retro scaffold: WordArt glow badge --- */
 
 .retro-wordart {
+  /* Centered directly under <site-topbar>'s "mariocornejo.com" text:
+     that row sits at top:1.5rem plus its own line-height, so this
+     clears it with a bit of breathing room. */
   position: fixed;
-  top: 1.25rem;
-  right: 1.25rem;
+  top: 3.4rem;
+  left: 50%;
+  transform: translateX(-50%) rotate(-4deg);
   z-index: 30;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   font-size: clamp(1.1rem, 1vw + 1rem, 1.6rem);
   letter-spacing: 0.03em;
   color: #fffb00;
-  transform: rotate(-4deg);
   /* Stacked hard-edge offsets read as an outline at any size (cheap
      substitute for -webkit-text-stroke, which Firefox still doesn't
      support); the blurred shadows on top are the actual glow. */
@@ -56,50 +59,6 @@ body {
     0 0 32px #ff00c8;
   pointer-events: none;
   user-select: none;
-}
-
-.retro-sidebar {
-  position: fixed;
-  top: 50%;
-  left: 1.25rem;
-  transform: translateY(-50%);
-  z-index: 30;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  padding: 1rem 0.85rem;
-  border-radius: 12px;
-  background: rgba(10, 8, 20, 0.75);
-  /* Neon border glow: a solid inner edge plus two soft outer blooms —
-     same "glow via stacked shadows" idea as the wordart's text-shadow,
-     applied to box-shadow instead. */
-  box-shadow:
-    0 0 0 2px #00fff2,
-    0 0 10px 2px #00fff2,
-    0 0 24px 6px rgba(0, 255, 242, 0.55);
-}
-
-.retro-sidebar a {
-  color: #00fff2;
-  font-weight: bold;
-  text-decoration: none;
-  text-shadow: 0 0 6px #00fff2, 0 0 14px rgba(0, 255, 242, 0.7);
-  white-space: nowrap;
-  transition: color 150ms ease, text-shadow 150ms ease;
-}
-
-.retro-sidebar a:hover {
-  color: #fffb00;
-  text-shadow: 0 0 8px #fffb00, 0 0 20px rgba(255, 251, 0, 0.85);
-}
-
-@media (max-width: 40rem) {
-  /* A fixed full-height-ish sidebar eats too much of a phone-width
-     viewport to be worth keeping — hidden below this breakpoint rather
-     than shrunk into illegibility. */
-  .retro-sidebar {
-    display: none;
-  }
 }
 
 .garabatos-header {
