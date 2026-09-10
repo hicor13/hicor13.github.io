@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es-PE" data-lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galería Garabatos — Mario Cornejo</title>
+  <meta name="description" content="Mosaico en vivo: cada garabato guardado se convierte en una teja de un mural que forma la palabra GARABATOS.">
+  <meta name="keywords" content="garabatos, mosaico, arte comunitario, scratch art, mario cornejo">
+  <meta name="author" content="Mario Cornejo">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://mariocornejo.com/gallery/garabatos/">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mariocornejo.com/gallery/garabatos/">
+  <meta property="og:title" content="Galería Garabatos — Mario Cornejo">
+  <meta property="og:description" content="Mosaico en vivo hecho de garabatos guardados por visitantes.">
+  <meta property="og:image" content="https://mariocornejo.com/garabatos/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&display=swap">
+  <link rel="stylesheet" href="styles.css?v=20260910b">
+  <script src="/libs/personal/site-chrome.js?v=20260909h"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
+</head>
+<body>
+  <site-topbar></site-topbar>
+
+  <main>
+    <section class="mosaic-wall" aria-label="Mosaico de garabatos">
+      <h1 class="mosaic-heading">
+        <span data-i18n-es>La palabra GARABATOS, hecha de garabatos</span>
+        <span data-i18n-en>The word GARABATOS, made of doodles</span>
+      </h1>
+      <div id="mosaic-grid" class="mosaic-grid"></div>
+      <p id="mosaic-status" class="mosaic-status" role="status" aria-live="polite"></p>
+      <p class="mosaic-back">
+        <a href="/garabatos/">&larr; <span data-i18n-es>Volver a Garabatos</span><span data-i18n-en>Back to Garabatos</span></a>
+      </p>
+    </section>
+  </main>
+
+  <site-footer base="/index.html"></site-footer>
+
+  <script src="mosaic-engine.js?v=20260910b"></script>
+  <script src="script.js?v=20260910b"></script>
+</body>
+</html>
