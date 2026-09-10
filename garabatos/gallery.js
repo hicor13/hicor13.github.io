@@ -74,7 +74,7 @@ Garabatos.gallery = (function () {
       .insert({ id, name, storage_path: storagePath });
     if (insertError) throw insertError;
 
-    const drawing = { name, storagePath: storagePath };
+    const drawing = { name, storage_path: storagePath };
     prepend(drawing);
     return drawing;
   }
