@@ -25,15 +25,22 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&display=swap">
-  <link rel="stylesheet" href="/garabatos/styles.css?v=20260909l">
+  <link rel="stylesheet" href="/garabatos/styles.css?v=20260909m">
   <script src="/libs/personal/site-chrome.js?v=20260909h"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
 </head>
 <body>
-  <!-- pv1 retro scaffold: fixed WordArt-style glow badge, centered just
-       below <site-topbar>'s "mariocornejo.com" text. Additive, doesn't
-       replace the real content below. -->
-       
+  <!-- pv1 retro scaffold: WordArt-style glow badge, sitting between
+       <site-topbar> and the intro text. position:sticky's "stuck" range
+       is bounded by its own parent's box — since #retro-wordart lives
+       inside this (short) header, plain CSS sticky starts pushing it
+       back out of the stuck position as soon as the header runs low on
+       remaining room below it (well before the header itself fully
+       scrolls away). script.js's initWordartPin() computes that exact
+       scrollY threshold from real layout measurements and switches the
+       badge to position:fixed at the same visual spot right as it's
+       reached, so it keeps behaving like a persistent sticky header
+       instead of sliding off-screen partway down the page. -->
   <header class="garabatos-header">
     <site-topbar></site-topbar>
     <a class="retro-wordart" id="retro-wordart" href="https://mariocornejo.com/sorpresa">
@@ -75,6 +82,6 @@
 
   <script src="/garabatos/canvas.js?v=20260909b"></script>
   <script src="/garabatos/gallery.js?v=20260909a"></script>
-  <script src="/garabatos/script.js?v=20260909b"></script>
+  <script src="/garabatos/script.js?v=20260909e"></script>
 </body>
 </html>

@@ -44,22 +44,31 @@ body {
 /* --- pv1 retro scaffold: WordArt glow badge --- */
 
 .retro-wordart {
-  /* Scrolls normally with the page (a real in-flow sibling of
-     .garabatos-header, not an overlay) until it reaches top:1rem, then
-     sticks there and stays stuck through the rest of the page — same
-     pattern as the main site's own .hero-nav (position:sticky as a
-     direct child of <body>, so its containing block is the whole page,
-     not some short-lived wrapper it would immediately un-stick past).
-     width:fit-content + margin:auto centers it without needing left:50%
-     + transform:translateX (which would fight position:sticky's own use
-     of the left/right offsets). Now a real link (to /sorpresa) —
+  /* Lives inside .garabatos-header, between <site-topbar> and the intro
+     text. Scrolls normally at first, then sticks at top:1rem — but
+     position:sticky's "stuck" range is bounded by its own PARENT's box:
+     once the header runs low on remaining room below this element, CSS
+     pushes it back out of the stuck position (not a clean release at the
+     header's very end — it starts sliding up, off-screen, well before
+     that). script.js's initWordartPin() computes the exact scrollY where
+     that would start (from real getBoundingClientRect() measurements)
+     and adds .retro-wordart--pinned right at that point, switching to
+     position:fixed at the same visual spot so it keeps acting like a
+     persistent sticky header for the rest of the page (matching the
+     .hero-nav-style behavior this had before it moved inside the
+     header), with no gap where it would otherwise go missing.
+     width:fit-content + margin:auto centers it without needing
+     left:50% + transform:translateX (which would fight position:sticky's
+     own use of the left/right offsets) — the pinned state below switches
+     to that centering method instead, since position:fixed doesn't
+     participate in flow the same way. Real link (to /sorpresa) —
      pointer-events stays enabled (default), no pointer-events:none
-     parent to opt out of like the landing star badge has. */
+     parent to opt out of. */
   position: sticky;
   top: 1rem;
   display: block;
   width: fit-content;
-  margin: 2rem auto 0;
+  margin: 1.5rem auto;
   transform: rotate(-4deg);
   z-index: 30;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
@@ -85,13 +94,27 @@ body {
     0 0 32px #ff00c8;
 }
 
+/* JS-toggled fallback (script.js's initWordartPin()) for once .garabatos-header
+   itself would have scrolled the sticky badge away — see the long comment
+   on .retro-wordart above. Same visual spot (top:1rem, centered, same
+   tilt), just position:fixed instead of position:sticky so it keeps
+   holding that spot regardless of the header's own short height. */
+.retro-wordart--pinned {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  margin: 0;
+  transform: translateX(-50%) rotate(-4deg);
+}
+
 .garabatos-header {
   position: relative;
   /* Top padding clears <site-topbar>'s absolutely-positioned row
-     (top:1.5rem + its own height) inside this header — no longer needs
-     to also clear #retro-wordart, which is a normal in-flow sibling
-     above this element now (position:sticky, not an overlay). */
-  padding: 6rem 1.5rem 2rem;
+     (top:1.5rem + its own height) — #retro-wordart now lives inside
+     this header (between the topbar and the intro text) and supplies
+     its own margin for the gaps on either side of it, rather than this
+     padding trying to account for it too. */
+  padding: 4.5rem 1.5rem 2rem;
   text-align: center;
 }
 
