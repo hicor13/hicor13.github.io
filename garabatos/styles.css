@@ -51,13 +51,13 @@ body {
      the landing star badge, which has to opt back in against its
      pointer-events:none parent; this element has no such parent. */
   position: fixed;
-  top: 5rem;
+  top: 6.5rem;
   left: 50%;
   transform: translateX(-50%) rotate(-4deg);
   z-index: 30;
   display: inline-block;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  font-size: clamp(1.1rem, 1vw + 1rem, 1.6rem);
+  font-size: clamp(1.4rem, 1vw + 1.1rem, 2.2rem);
   letter-spacing: 0.03em;
   color: #fffb00;
   text-decoration: none;
@@ -76,7 +76,10 @@ body {
 
 .garabatos-header {
   position: relative;
-  padding: 6rem 1.5rem 2rem;
+  /* Top padding clears the fixed #retro-wordart badge above it (own
+     rule below) — needs enough room for its glow to not clip into the
+     intro text that follows. */
+  padding: 9.5rem 1.5rem 2rem;
   text-align: center;
 }
 
