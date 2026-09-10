@@ -57,7 +57,12 @@ body {
   z-index: 30;
   display: inline-block;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  font-size: clamp(1.4rem, 1vw + 1.1rem, 2.2rem);
+  /* Fixed, not clamp()/vw-based: a fluid size interacting with the
+     max-width:40rem breakpoint below left an untested mid-range gap
+     (~640-900px) where the badge grew large enough to clip into the
+     header text despite both endpoints (375px, 1280px) looking fine.
+     One fixed size per breakpoint is boring but predictable. */
+  font-size: 2rem;
   letter-spacing: 0.03em;
   color: #fffb00;
   text-decoration: none;
@@ -78,8 +83,10 @@ body {
   position: relative;
   /* Top padding clears the fixed #retro-wordart badge above it (own
      rule below) — needs enough room for its glow to not clip into the
-     intro text that follows. */
-  padding: 9.5rem 1.5rem 2rem;
+     intro text that follows, generously so (badge top:6.5rem + its own
+     rendered height + glow bleed, plus real breathing room on top of
+     that — not the tightest fit that technically clears it). */
+  padding: 11.5rem 1.5rem 2rem;
   text-align: center;
 }
 
@@ -231,14 +238,13 @@ body {
 }
 
 @media (max-width: 40rem) {
+  /* The badge is bigger here (3rem vs the base 2rem) — needs more
+     clearance below it than the base rule provides. */
   .garabatos-header {
-    padding-top: 11rem;
+    padding-top: 13.5rem;
   }
 
-  /* The page's real title now, since the plain <h1> was removed — the
-     clamp() above stays fairly small on narrow viewports (1vw contributes
-     almost nothing below ~400px), so it needs its own explicit bump here
-     rather than relying on the fluid scale to reach a readable size. */
+  /* The page's real title now, since the plain <h1> was removed. */
   .retro-wordart {
     font-size: 3rem;
   }
