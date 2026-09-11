@@ -5,7 +5,7 @@ export const ENEMY_SPEED = 80; // pixels per second, downward — no formation/A
 export class Enemy {
   readonly sprite: Phaser.Physics.Arcade.Sprite;
 
-  constructor(scene: Phaser.Scene, textureKey: string, x: number, y: number) {
+  constructor(scene: Phaser.Scene, textureKey: string, x: number, y: number, tintColor: number) {
     this.sprite = scene.physics.add.sprite(x, y, textureKey);
     const ENEMY_TARGET_WIDTH = 40;
     const nativeWidth = this.sprite.width;
@@ -15,5 +15,8 @@ export class Enemy {
     body.setSize(this.sprite.width * 0.7, this.sprite.height * 0.7);
     body.setOffset(this.sprite.width * 0.15, this.sprite.height * 0.15);
     this.sprite.setVelocityY(ENEMY_SPEED);
+    // Multiply-tint: recolors the drawing without touching alpha, so the
+    // black-to-transparent conversion (see black-to-transparent.ts) still holds.
+    this.sprite.setTint(tintColor);
   }
 }

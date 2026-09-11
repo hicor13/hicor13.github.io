@@ -7,12 +7,19 @@ import { setBestScoreIfHigher } from '../systems/save-manager';
 const ENEMY_SPAWN_INTERVAL_MS = 1000;
 const STARTING_LIVES = 3;
 
+// Fixed tint palette for enemy sprites, matching the game's Peruvian/16-bit
+// theme: flag red (shared with the fire button), Inca gold, Andean
+// turquoise, textile purple, sunset orange, and highland green. Chosen for
+// hue separation and readability against the #111111 background.
+const ENEMY_TINT_PALETTE = [0xd91023, 0xf2b705, 0x1abc9c, 0x8e44ad, 0xff7f11, 0x4caf50];
+
 export class GameScene extends Phaser.Scene {
   private player!: Player;
   private inputController!: InputController;
   private enemies!: Phaser.Physics.Arcade.Group;
   private drawingTextureKeys!: string[];
   private nextEnemyTextureIndex = 0;
+  private nextEnemyTintIndex = 0;
   private spawnTimer!: Phaser.Time.TimerEvent;
   private score = 0;
   private lives = STARTING_LIVES;
@@ -34,6 +41,7 @@ export class GameScene extends Phaser.Scene {
     this.score = 0;
     this.lives = STARTING_LIVES;
     this.nextEnemyTextureIndex = 1;
+    this.nextEnemyTintIndex = 0;
 
     this.player = new Player(
       this,
@@ -94,8 +102,10 @@ export class GameScene extends Phaser.Scene {
     const textureKey =
       this.drawingTextureKeys[this.nextEnemyTextureIndex % this.drawingTextureKeys.length];
     this.nextEnemyTextureIndex++;
+    const tintColor = ENEMY_TINT_PALETTE[this.nextEnemyTintIndex % ENEMY_TINT_PALETTE.length];
+    this.nextEnemyTintIndex++;
     const x = Phaser.Math.Between(32, this.scale.width - 32);
-    const enemy = new Enemy(this, textureKey, x, -32);
+    const enemy = new Enemy(this, textureKey, x, -32, tintColor);
     // Phaser.Physics.Arcade.Group#add always re-applies the group's
     // defaults (velocityY: 0, since none is configured on this group) via
     // its internalCreateCallback, overwriting the downward velocity Enemy's
