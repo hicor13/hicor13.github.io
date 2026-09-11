@@ -20,13 +20,6 @@ export interface EnemyType {
   tintColor: number;
 }
 
-// Pixels per second, downward, at REFERENCE_HEIGHT (see layout-config.ts) --
-// each type's actual fall speed is ENEMY_BASE_SPEED * speedMultiplier,
-// further scaled by canvas height at spawn time. Superseded by
-// formation-manager.ts's tween-duration model (Task 2/3 of the enemy-
-// formations plan) -- remove once entities/enemy.ts no longer imports this.
-export const ENEMY_BASE_SPEED = 80;
-
 // Four tiers, small/fast/cheap to big/slow/valuable -- same tradeoff as
 // classic Galaga's enemy ranks. Colors drawn from the game's established
 // Peruvian/16-bit palette.
