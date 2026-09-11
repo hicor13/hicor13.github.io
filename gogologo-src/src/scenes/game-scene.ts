@@ -33,7 +33,7 @@ export class GameScene extends Phaser.Scene {
     this.drawingTextureKeys = this.registry.get('drawingTextureKeys') as string[];
     this.score = 0;
     this.lives = STARTING_LIVES;
-    this.nextEnemyTextureIndex = 0;
+    this.nextEnemyTextureIndex = 1;
 
     this.player = new Player(
       this,
@@ -74,11 +74,18 @@ export class GameScene extends Phaser.Scene {
       this.player.fire();
     }
 
-    this.enemies.getChildren().forEach((child) => {
+    this.enemies.getChildren().slice().forEach((child) => {
       const enemy = child as Phaser.Physics.Arcade.Sprite;
       if (enemy.y > this.scale.height + 32) {
         enemy.destroy();
         this.loseLife();
+      }
+    });
+
+    this.player.getProjectiles().getChildren().slice().forEach((child) => {
+      const projectile = child as Phaser.Physics.Arcade.Sprite;
+      if (projectile.y < -20) {
+        projectile.destroy();
       }
     });
   }
@@ -113,6 +120,7 @@ export class GameScene extends Phaser.Scene {
   }
 
   private loseLife(): void {
+    if (this.lives <= 0) return;
     this.lives--;
     this.livesText.setText(`Lives: ${this.lives}`);
     if (this.lives <= 0) {

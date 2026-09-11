@@ -17,28 +17,39 @@ export class PreloadScene extends Phaser.Scene {
       })
       .setOrigin(0.5);
 
-    const textureKeys: string[] = [];
-    const pool = await fetchDrawingPool(DRAWING_POOL_SIZE);
+    let textureKeys: string[] = [];
+    let drawings: { key: string; name: string }[] = [];
 
-    for (let i = 0; i < pool.length; i++) {
-      const key = `drawing-${i}`;
-      const ok = await loadTransparentTexture(this, key, pool[i].url);
-      if (ok) textureKeys.push(key);
+    try {
+      const pool = await fetchDrawingPool(DRAWING_POOL_SIZE);
+      for (let i = 0; i < pool.length; i++) {
+        const key = `drawing-${i}`;
+        const ok = await loadTransparentTexture(this, key, pool[i].url);
+        if (ok) {
+          textureKeys.push(key);
+          drawings.push({ key, name: pool[i].name });
+        }
+      }
+    } catch (error) {
+      console.error('PreloadScene: unexpected error loading drawings:', error);
     }
 
     if (textureKeys.length === 0) {
-      // Supabase down, empty DB, or every fetch failed — never show a
-      // silent blank/broken game, same defensive pattern as every other
-      // Garabatos-family page in this repo.
+      // Supabase down, empty DB, every fetch failed, or an unexpected
+      // exception — never show a silent blank/broken game, same
+      // defensive pattern as every other Garabatos-family page in this
+      // repo.
       const graphics = this.add.graphics();
       graphics.fillStyle(0xd91023, 1);
       graphics.fillTriangle(16, 0, 0, 32, 32, 32);
       graphics.generateTexture(PLACEHOLDER_TEXTURE_KEY, 32, 32);
       graphics.destroy();
-      textureKeys.push(PLACEHOLDER_TEXTURE_KEY);
+      textureKeys = [PLACEHOLDER_TEXTURE_KEY];
+      drawings = [{ key: PLACEHOLDER_TEXTURE_KEY, name: 'Anónimo' }];
     }
 
     this.registry.set('drawingTextureKeys', textureKeys);
+    this.registry.set('drawings', drawings);
     loadingText.destroy();
     this.scene.start('MenuScene');
   }

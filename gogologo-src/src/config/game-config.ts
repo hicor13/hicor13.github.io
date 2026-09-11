@@ -22,5 +22,8 @@ export const GAME_CONFIG: Phaser.Types.Core.GameConfig = {
       debug: false,
     },
   },
+  input: {
+    activePointers: 3,
+  },
   scene: [BootScene, PreloadScene, MenuScene, GameScene, GameOverScene],
 };

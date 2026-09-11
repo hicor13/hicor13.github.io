@@ -24,7 +24,9 @@ export class GameOverScene extends Phaser.Scene {
     const restart = (): void => {
       this.scene.start('GameScene');
     };
-    this.input.once('pointerdown', restart);
-    this.input.keyboard?.once('keydown-SPACE', restart);
+    this.time.delayedCall(600, () => {
+      this.input.once('pointerdown', restart);
+      this.input.keyboard?.once('keydown-SPACE', restart);
+    });
   }
 }
