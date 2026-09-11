@@ -13,7 +13,8 @@ export const PLAYER_CONFIG = {
 export interface EnemyType {
   name: string;
   targetWidth: number;
-  // Relative to ENEMY_BASE_SPEED -- 1.0 = base speed, >1 faster, <1 slower.
+  // Divides entrance/dive tween durations in formation-manager.ts -- 1.0 =
+  // base duration, >1 faster (shorter duration), <1 slower.
   speedMultiplier: number;
   points: number;
   tintColor: number;
@@ -21,7 +22,9 @@ export interface EnemyType {
 
 // Pixels per second, downward, at REFERENCE_HEIGHT (see layout-config.ts) --
 // each type's actual fall speed is ENEMY_BASE_SPEED * speedMultiplier,
-// further scaled by canvas height at spawn time (see enemy.ts).
+// further scaled by canvas height at spawn time. Superseded by
+// formation-manager.ts's tween-duration model (Task 2/3 of the enemy-
+// formations plan) -- remove once entities/enemy.ts no longer imports this.
 export const ENEMY_BASE_SPEED = 80;
 
 // Four tiers, small/fast/cheap to big/slow/valuable -- same tradeoff as
