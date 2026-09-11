@@ -7,7 +7,7 @@ export class Enemy {
 
   constructor(scene: Phaser.Scene, textureKey: string, x: number, y: number, tintColor: number) {
     this.sprite = scene.physics.add.sprite(x, y, textureKey);
-    const ENEMY_TARGET_WIDTH = 40;
+    const ENEMY_TARGET_WIDTH = 85;
     const nativeWidth = this.sprite.width;
     const nativeHeight = this.sprite.height;
     this.sprite.setDisplaySize(ENEMY_TARGET_WIDTH, ENEMY_TARGET_WIDTH * (nativeHeight / nativeWidth));

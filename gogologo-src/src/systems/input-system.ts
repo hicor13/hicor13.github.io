@@ -11,7 +11,7 @@ const FIRE_BUTTON_MARGIN = 50;
 // Height of the bottom strip reserved exclusively for the fire button, so it
 // never overlaps the drag-to-move zone above it. Keeps a drag whose path
 // crosses toward the bottom-right corner from being intercepted as a tap.
-const CONTROL_ZONE_HEIGHT = 140;
+export const CONTROL_ZONE_HEIGHT = 140;
 
 export function createInputController(scene: Phaser.Scene): InputController {
   let targetX: number | null = null;

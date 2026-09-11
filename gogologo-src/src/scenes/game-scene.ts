@@ -1,11 +1,15 @@
 import Phaser from 'phaser';
-import { createInputController, InputController } from '../systems/input-system';
+import { createInputController, InputController, CONTROL_ZONE_HEIGHT } from '../systems/input-system';
 import { Player } from '../entities/player';
 import { Enemy, ENEMY_SPEED } from '../entities/enemy';
 import { setBestScoreIfHigher } from '../systems/save-manager';
 
 const ENEMY_SPAWN_INTERVAL_MS = 1000;
 const STARTING_LIVES = 3;
+// Keeps the player clear of the touch control strip (CONTROL_ZONE_HEIGHT)
+// reserved at the bottom of the canvas, so the ship sits visibly above the
+// tap area instead of overlapping it.
+const PLAYER_BOTTOM_MARGIN = 60;
 
 // Fixed tint palette for enemy sprites, matching the game's Peruvian/16-bit
 // theme: flag red (shared with the fire button), Inca gold, Andean
@@ -47,7 +51,7 @@ export class GameScene extends Phaser.Scene {
       this,
       this.drawingTextureKeys[0],
       this.scale.width / 2,
-      this.scale.height - 60
+      this.scale.height - CONTROL_ZONE_HEIGHT - PLAYER_BOTTOM_MARGIN
     );
     this.inputController = createInputController(this);
 

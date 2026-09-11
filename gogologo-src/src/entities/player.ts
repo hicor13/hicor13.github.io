@@ -12,7 +12,7 @@ export class Player {
   constructor(scene: Phaser.Scene, textureKey: string, x: number, y: number) {
     this.scene = scene;
     this.sprite = scene.physics.add.sprite(x, y, textureKey);
-    const PLAYER_TARGET_WIDTH = 48;
+    const PLAYER_TARGET_WIDTH = 110;
     const nativeWidth = this.sprite.width;
     const nativeHeight = this.sprite.height;
     this.sprite.setDisplaySize(PLAYER_TARGET_WIDTH, PLAYER_TARGET_WIDTH * (nativeHeight / nativeWidth));
