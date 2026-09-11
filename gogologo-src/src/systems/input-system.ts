@@ -8,6 +8,10 @@ export interface InputController {
 const KEYBOARD_MOVE_SPEED = 300; // pixels per second
 const FIRE_BUTTON_RADIUS = 30;
 const FIRE_BUTTON_MARGIN = 50;
+// Height of the bottom strip reserved exclusively for the fire button, so it
+// never overlaps the drag-to-move zone above it. Keeps a drag whose path
+// crosses toward the bottom-right corner from being intercepted as a tap.
+const CONTROL_ZONE_HEIGHT = 140;
 
 export function createInputController(scene: Phaser.Scene): InputController {
   let targetX: number | null = null;
@@ -21,7 +25,7 @@ export function createInputController(scene: Phaser.Scene): InputController {
   const isTouchCapable = 'ontouchstart' in window;
   if (isTouchCapable) {
     const dragZone = scene.add
-      .zone(0, 0, scene.scale.width, scene.scale.height)
+      .zone(0, 0, scene.scale.width, scene.scale.height - CONTROL_ZONE_HEIGHT)
       .setOrigin(0, 0)
       .setInteractive();
 
