@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { ACCENT_COLOR, HUD_TEXT_COLOR, HUD_TEXT_COLOR_SECONDARY } from '../config/visual-config';
+import { REFERENCE_HEIGHT } from '../config/layout-config';
 
 interface DrawingEntry {
   key: string;
@@ -7,41 +8,65 @@ interface DrawingEntry {
 }
 
 const GRID_COLS = 4;
+// Canvas width is 480 on every layout this game supports (mobile and
+// desktop only differ in height), so horizontal grid math never needs to
+// scale -- only the vertical constants below do, via REFERENCE_HEIGHT.
 const CELL_WIDTH = 100;
-const CELL_HEIGHT = 120;
 const CELL_GAP_X = 10;
-const CELL_GAP_Y = 20;
 const GRID_MARGIN_X = 25;
+
+// Vertical constants below are all tuned against REFERENCE_HEIGHT (the
+// mobile canvas). create() scales each by (actual height / REFERENCE_HEIGHT)
+// into the instance fields the rest of this class actually reads, so the
+// grid still fits on the shorter desktop canvas instead of overflowing it.
+const TITLE_Y = 200;
+const CELL_HEIGHT = 120;
+const CELL_GAP_Y = 20;
 // This layout assumes at most 3 rows (12 drawings / 4 columns), which holds
 // only because PreloadScene's DRAWING_POOL_SIZE is 12. If DRAWING_POOL_SIZE
 // grows, the grid layout constants here need matching changes.
 const GRID_START_Y = 280;
 const PORTRAIT_BOX = 80;
+const HINT_Y_1 = 720;
+const HINT_Y_2 = 745;
 
 export class CharacterSelectScene extends Phaser.Scene {
   private drawings: DrawingEntry[] = [];
   private highlightedIndex = 0;
   private highlightGraphics!: Phaser.GameObjects.Graphics;
+  private gridStartY = GRID_START_Y;
+  private cellHeight = CELL_HEIGHT;
+  private cellGapY = CELL_GAP_Y;
+  private portraitBox = PORTRAIT_BOX;
 
   constructor() {
     super('CharacterSelectScene');
   }
 
   create(): void {
+    const scaleY = this.scale.height / REFERENCE_HEIGHT;
+    this.gridStartY = GRID_START_Y * scaleY;
+    this.cellHeight = CELL_HEIGHT * scaleY;
+    this.cellGapY = CELL_GAP_Y * scaleY;
+    this.portraitBox = PORTRAIT_BOX * scaleY;
+
     this.drawings = this.registry.get('drawings') as DrawingEntry[];
     this.highlightedIndex = 0;
 
     this.add
-      .text(this.scale.width / 2, 200, 'CHOOSE YOUR SHIP', { fontSize: '28px', color: HUD_TEXT_COLOR })
+      .text(this.scale.width / 2, TITLE_Y * scaleY, 'CHOOSE YOUR SHIP', {
+        fontSize: '28px',
+        color: HUD_TEXT_COLOR,
+      })
       .setOrigin(0.5);
     this.add
-      .text(this.scale.width / 2, 720, 'Arrows / Tap: choose', {
+      .text(this.scale.width / 2, HINT_Y_1 * scaleY, 'Arrows / Tap: choose', {
         fontSize: '14px',
         color: HUD_TEXT_COLOR_SECONDARY,
       })
       .setOrigin(0.5);
     this.add
-      .text(this.scale.width / 2, 745, 'Space / Tap again: confirm', {
+      .text(this.scale.width / 2, HINT_Y_2 * scaleY, 'Space / Tap again: confirm', {
         fontSize: '14px',
         color: HUD_TEXT_COLOR_SECONDARY,
       })
@@ -50,16 +75,16 @@ export class CharacterSelectScene extends Phaser.Scene {
     this.drawings.forEach((entry, index) => {
       const { x, y } = this.cellTopLeft(index);
       const portraitCx = x + CELL_WIDTH / 2;
-      const portraitCy = y + PORTRAIT_BOX / 2;
+      const portraitCy = y + this.portraitBox / 2;
 
       const image = this.add.image(portraitCx, portraitCy, entry.key);
       const nativeWidth = image.width;
       const nativeHeight = image.height;
-      const scale = Math.min(PORTRAIT_BOX / nativeWidth, PORTRAIT_BOX / nativeHeight);
+      const scale = Math.min(this.portraitBox / nativeWidth, this.portraitBox / nativeHeight);
       image.setDisplaySize(nativeWidth * scale, nativeHeight * scale);
 
       this.add
-        .text(portraitCx, y + PORTRAIT_BOX + 8, entry.name, {
+        .text(portraitCx, y + this.portraitBox + 8, entry.name, {
           fontSize: '12px',
           color: HUD_TEXT_COLOR,
           wordWrap: { width: CELL_WIDTH },
@@ -88,7 +113,7 @@ export class CharacterSelectScene extends Phaser.Scene {
 
     this.drawings.forEach((_, index) => {
       const { x, y } = this.cellTopLeft(index);
-      const zone = this.add.zone(x, y, CELL_WIDTH, CELL_HEIGHT).setOrigin(0, 0).setInteractive();
+      const zone = this.add.zone(x, y, CELL_WIDTH, this.cellHeight).setOrigin(0, 0).setInteractive();
       zone.on('pointerdown', () => {
         if (index === this.highlightedIndex) {
           this.confirmSelection(index);
@@ -105,7 +130,7 @@ export class CharacterSelectScene extends Phaser.Scene {
     const row = Math.floor(index / GRID_COLS);
     return {
       x: GRID_MARGIN_X + col * (CELL_WIDTH + CELL_GAP_X),
-      y: GRID_START_Y + row * (CELL_HEIGHT + CELL_GAP_Y),
+      y: this.gridStartY + row * (this.cellHeight + this.cellGapY),
     };
   }
 
@@ -146,7 +171,7 @@ export class CharacterSelectScene extends Phaser.Scene {
     const { x, y } = this.cellTopLeft(this.highlightedIndex);
     this.highlightGraphics.clear();
     this.highlightGraphics.lineStyle(4, ACCENT_COLOR, 1);
-    this.highlightGraphics.strokeRect(x, y, CELL_WIDTH, CELL_HEIGHT);
+    this.highlightGraphics.strokeRect(x, y, CELL_WIDTH, this.cellHeight);
   }
 
   private confirmSelection(index: number): void {

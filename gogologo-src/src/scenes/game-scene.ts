@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { createInputController, InputController, CONTROL_ZONE_HEIGHT } from '../systems/input-system';
 import { Player } from '../entities/player';
-import { Enemy, ENEMY_SPEED } from '../entities/enemy';
+import { Enemy } from '../entities/enemy';
 import { setBestScoreIfHigher } from '../systems/save-manager';
 import { ENEMY_TINT_PALETTE, HUD_TEXT_COLOR } from '../config/visual-config';
 
@@ -9,7 +9,8 @@ const ENEMY_SPAWN_INTERVAL_MS = 1000;
 const STARTING_LIVES = 3;
 // Keeps the player clear of the touch control strip (CONTROL_ZONE_HEIGHT)
 // reserved at the bottom of the canvas, so the ship sits visibly above the
-// tap area instead of overlapping it.
+// tap area instead of overlapping it. Desktop (no touch, no control strip)
+// only needs the plain bottom margin -- see playerY() below.
 const PLAYER_BOTTOM_MARGIN = 60;
 
 export class GameScene extends Phaser.Scene {
@@ -42,12 +43,7 @@ export class GameScene extends Phaser.Scene {
     this.nextEnemyTextureIndex = 1;
     this.nextEnemyTintIndex = 0;
 
-    this.player = new Player(
-      this,
-      this.drawingTextureKeys[0],
-      this.scale.width / 2,
-      this.scale.height - CONTROL_ZONE_HEIGHT - PLAYER_BOTTOM_MARGIN
-    );
+    this.player = new Player(this, this.drawingTextureKeys[0], this.scale.width / 2, this.playerY());
     this.inputController = createInputController(this);
 
     this.enemies = this.physics.add.group();
@@ -97,6 +93,15 @@ export class GameScene extends Phaser.Scene {
     });
   }
 
+  private playerY(): number {
+    // Touch devices reserve a control strip at the bottom for the fire
+    // button (see input-system.ts) -- the player must sit above it.
+    // Desktop has no touch controls at all, so no strip to clear.
+    const isTouchCapable = 'ontouchstart' in window;
+    const reservedHeight = isTouchCapable ? CONTROL_ZONE_HEIGHT : 0;
+    return this.scale.height - reservedHeight - PLAYER_BOTTOM_MARGIN;
+  }
+
   private spawnEnemy(): void {
     const textureKey =
       this.drawingTextureKeys[this.nextEnemyTextureIndex % this.drawingTextureKeys.length];
@@ -110,7 +115,7 @@ export class GameScene extends Phaser.Scene {
     // its internalCreateCallback, overwriting the downward velocity Enemy's
     // constructor just set. Re-apply it after adding so enemies actually fall.
     this.enemies.add(enemy.sprite);
-    enemy.sprite.setVelocityY(ENEMY_SPEED);
+    enemy.sprite.setVelocityY(enemy.speed);
   }
 
   private handleProjectileHitsEnemy(
