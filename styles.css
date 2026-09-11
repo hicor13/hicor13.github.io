@@ -252,19 +252,6 @@ body {
   top: 1rem;
   z-index: 10;
   padding: 1rem 1.5rem;
-  /* Each .nav-pill blurs (and tints, via --pill-bg) what's behind IT, but
-     the gaps between pills had neither — scrolled-under text/photos (e.g.
-     the CV card's "Educación" row) showed through sharp in those gaps
-     right next to a blurred+tinted pill, an inconsistent patchwork. Same
-     blur + tint values as .nav-pill (so nothing looks newly "added")
-     across the whole strip fixes that. transform: translateZ(0) forces
-     its own compositing layer — Safari is known to let a sticky element's
-     backdrop-filter freeze/skip repaint on scroll without one, which
-     reads as content "clipping through" the bar. */
-  background: var(--pill-bg);
-  -webkit-backdrop-filter: blur(14px) saturate(160%);
-  backdrop-filter: blur(14px) saturate(160%);
-  transform: translateZ(0);
 }
 
 .nav-pill {
@@ -595,26 +582,18 @@ main {
     max-width: 100%;
   }
 
-  /* Tighter pills + "CV"/"Exp." abbreviations (Curriculum Vitae/Resume,
-     Experiencia/Experience — the latter added once "Notas" became the
-     longer "Experiencia" and no longer fit) so all five nav pills stay on
-     one row instead of wrapping (fits, still centered, from ~360px up —
-     see the sub-360px override further down for the rare narrower
-     screen). */
+  /* Tighter pills + a "CV" abbreviation for Curriculum Vitae/Resume so
+     all five nav pills stay on one row instead of wrapping (fits, still
+     centered, from ~360px up — see the sub-360px override further down
+     for the rare narrower screen). */
   .hero-nav {
     gap: 0.3rem;
-    padding: 1rem 0.5rem;
-    /* Breathing room below the pills on the initial screen, before any
-       scroll, as MARGIN rather than padding: .hero-nav now paints a real
-       background (the blur-bleed fix above), and padding is inside that
-       painted box — the old 1.75rem *padding* here rendered as a tall
-       translucent band hanging well below the pills once scrolled, not
-       just spacing. Margin still reserves the same layout space without
-       being painted. It isn't part of getBoundingClientRect(), so
-       --hero-nav-h (JS) reads ~12px shorter than before — .hero ends up
-       that much taller than one exact viewport on load, an unnoticeable
-       trade for not smearing blur over whatever's scrolled underneath. */
-    margin-bottom: 0.75rem;
+    /* Extra bottom padding (vs. the 1rem top) so there's breathing room
+       below the pills on the initial screen, before any scroll — the
+       --hero-nav-h measurement (JS) picks this up automatically since
+       it's part of the nav's own rendered box, so .hero still shrinks
+       to keep hero + nav summing to exactly one viewport. */
+    padding: 1rem 0.5rem 1.75rem;
   }
 
   .nav-pill {
@@ -622,13 +601,11 @@ main {
     font-size: 0.85rem;
   }
 
-  .nav-pill-cv .nav-full,
-  .nav-pill-exp .nav-full {
+  .nav-pill-cv .nav-full {
     display: none;
   }
 
-  .nav-pill-cv .nav-abbr,
-  .nav-pill-exp .nav-abbr {
+  .nav-pill-cv .nav-abbr {
     display: inline;
   }
 

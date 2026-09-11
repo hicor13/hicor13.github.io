@@ -242,7 +242,7 @@ class SiteFooter extends HTMLElement {
             <ul>
               <li><a href="${base}#about"><span data-i18n-es>Sobre mí</span><span data-i18n-en>About</span></a></li>
               <li><a href="${base}#projects"><span data-i18n-es>Proyectos</span><span data-i18n-en>Projects</span></a></li>
-              <li><a href="${base}#notes"><span data-i18n-es>Experiencia</span><span data-i18n-en>Experience</span></a></li>
+              <li><a href="${base}#notes"><span data-i18n-es>Notas</span><span data-i18n-en>Notes</span></a></li>
               <li><a href="${base}#cv"><span data-i18n-es>Curriculum Vitae</span><span data-i18n-en>Resume</span></a></li>
               <li><a href="${base}#contact"><span data-i18n-es>Contacto</span><span data-i18n-en>Contact</span></a></li>
             </ul>
