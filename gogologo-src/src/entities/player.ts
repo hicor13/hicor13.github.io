@@ -1,8 +1,5 @@
 import Phaser from 'phaser';
-import { PLAYER_TARGET_WIDTH } from '../config/visual-config';
-
-const FIRE_COOLDOWN_MS = 350;
-const PROJECTILE_SPEED = 500;
+import { PLAYER_CONFIG } from '../config/entity-config';
 
 export class Player {
   readonly sprite: Phaser.Physics.Arcade.Sprite;
@@ -15,7 +12,10 @@ export class Player {
     this.sprite = scene.physics.add.sprite(x, y, textureKey);
     const nativeWidth = this.sprite.width;
     const nativeHeight = this.sprite.height;
-    this.sprite.setDisplaySize(PLAYER_TARGET_WIDTH, PLAYER_TARGET_WIDTH * (nativeHeight / nativeWidth));
+    this.sprite.setDisplaySize(
+      PLAYER_CONFIG.targetWidth,
+      PLAYER_CONFIG.targetWidth * (nativeHeight / nativeWidth)
+    );
     const body = this.sprite.body as Phaser.Physics.Arcade.Body;
     body.setSize(this.sprite.width * 0.7, this.sprite.height * 0.7);
     body.setOffset(this.sprite.width * 0.15, this.sprite.height * 0.15);
@@ -31,7 +31,7 @@ export class Player {
 
   fire(): void {
     const now = this.scene.time.now;
-    if (now - this.lastFiredAt < FIRE_COOLDOWN_MS) return;
+    if (now - this.lastFiredAt < PLAYER_CONFIG.fireCooldownMs) return;
     this.lastFiredAt = now;
 
     const projectile = this.projectiles.create(
@@ -39,7 +39,7 @@ export class Player {
       this.sprite.y - 20,
       'projectile'
     ) as Phaser.Physics.Arcade.Sprite;
-    projectile.setVelocityY(-PROJECTILE_SPEED);
+    projectile.setVelocityY(-PLAYER_CONFIG.projectileSpeed);
   }
 
   getProjectiles(): Phaser.Physics.Arcade.Group {

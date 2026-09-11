@@ -3,7 +3,8 @@ import { createInputController, InputController, CONTROL_ZONE_HEIGHT } from '../
 import { Player } from '../entities/player';
 import { Enemy } from '../entities/enemy';
 import { setBestScoreIfHigher } from '../systems/save-manager';
-import { ENEMY_TINT_PALETTE, HUD_TEXT_COLOR } from '../config/visual-config';
+import { HUD_TEXT_COLOR } from '../config/visual-config';
+import { ENEMY_TYPES } from '../config/entity-config';
 
 const ENEMY_SPAWN_INTERVAL_MS = 1000;
 const STARTING_LIVES = 3;
@@ -19,7 +20,7 @@ export class GameScene extends Phaser.Scene {
   private enemies!: Phaser.Physics.Arcade.Group;
   private drawingTextureKeys!: string[];
   private nextEnemyTextureIndex = 0;
-  private nextEnemyTintIndex = 0;
+  private nextEnemyTypeIndex = 0;
   private spawnTimer!: Phaser.Time.TimerEvent;
   private score = 0;
   private lives = STARTING_LIVES;
@@ -41,7 +42,7 @@ export class GameScene extends Phaser.Scene {
     this.score = 0;
     this.lives = STARTING_LIVES;
     this.nextEnemyTextureIndex = 1;
-    this.nextEnemyTintIndex = 0;
+    this.nextEnemyTypeIndex = 0;
 
     this.player = new Player(this, this.drawingTextureKeys[0], this.scale.width / 2, this.playerY());
     this.inputController = createInputController(this);
@@ -106,10 +107,10 @@ export class GameScene extends Phaser.Scene {
     const textureKey =
       this.drawingTextureKeys[this.nextEnemyTextureIndex % this.drawingTextureKeys.length];
     this.nextEnemyTextureIndex++;
-    const tintColor = ENEMY_TINT_PALETTE[this.nextEnemyTintIndex % ENEMY_TINT_PALETTE.length];
-    this.nextEnemyTintIndex++;
+    const type = ENEMY_TYPES[this.nextEnemyTypeIndex % ENEMY_TYPES.length];
+    this.nextEnemyTypeIndex++;
     const x = Phaser.Math.Between(32, this.scale.width - 32);
-    const enemy = new Enemy(this, textureKey, x, -32, tintColor);
+    const enemy = new Enemy(this, textureKey, x, -32, type);
     // Phaser.Physics.Arcade.Group#add always re-applies the group's
     // defaults (velocityY: 0, since none is configured on this group) via
     // its internalCreateCallback, overwriting the downward velocity Enemy's
@@ -123,8 +124,9 @@ export class GameScene extends Phaser.Scene {
     enemy: Phaser.Physics.Arcade.Sprite
   ): void {
     projectile.destroy();
+    const points = (enemy.getData('points') as number | undefined) ?? 0;
     enemy.destroy();
-    this.score += 10;
+    this.score += points;
     this.scoreText.setText(`Score: ${this.score}`);
   }
 

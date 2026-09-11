@@ -1,12 +1,12 @@
 import Phaser from 'phaser';
 import { ACCENT_COLOR } from '../config/visual-config';
+import { PLAYER_CONFIG } from '../config/entity-config';
 
 export interface InputController {
   getTargetX(currentX: number): number;
   isFiring(): boolean;
 }
 
-const KEYBOARD_MOVE_SPEED = 300; // pixels per second
 const FIRE_BUTTON_RADIUS = 40;
 const FIRE_BUTTON_MARGIN_X = 50;
 const FIRE_BUTTON_MARGIN_Y = 70;
@@ -105,8 +105,8 @@ export function createInputController(scene: Phaser.Scene): InputController {
       const base = targetX === null ? currentX : targetX;
       const dt = scene.game.loop.delta / 1000;
       let dx = 0;
-      if (cursors.left.isDown || keyA.isDown) dx -= KEYBOARD_MOVE_SPEED * dt;
-      if (cursors.right.isDown || keyD.isDown) dx += KEYBOARD_MOVE_SPEED * dt;
+      if (cursors.left.isDown || keyA.isDown) dx -= PLAYER_CONFIG.moveSpeed * dt;
+      if (cursors.right.isDown || keyD.isDown) dx += PLAYER_CONFIG.moveSpeed * dt;
       targetX = base + dx;
       return targetX;
     },
