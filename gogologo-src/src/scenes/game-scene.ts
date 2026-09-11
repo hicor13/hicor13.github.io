@@ -2,11 +2,11 @@ import Phaser from 'phaser';
 import { createInputController, InputController, CONTROL_ZONE_HEIGHT } from '../systems/input-system';
 import { Player } from '../entities/player';
 import { Enemy } from '../entities/enemy';
+import { FormationManager } from '../systems/formation-manager';
+import { levelConfig } from '../config/formation-config';
 import { setBestScoreIfHigher } from '../systems/save-manager';
 import { HUD_TEXT_COLOR } from '../config/visual-config';
-import { ENEMY_TYPES } from '../config/entity-config';
 
-const ENEMY_SPAWN_INTERVAL_MS = 1000;
 const STARTING_LIVES = 3;
 // Keeps the player clear of the touch control strip (CONTROL_ZONE_HEIGHT)
 // reserved at the bottom of the canvas, so the ship sits visibly above the
@@ -19,9 +19,8 @@ export class GameScene extends Phaser.Scene {
   private inputController!: InputController;
   private enemies!: Phaser.Physics.Arcade.Group;
   private drawingTextureKeys!: string[];
-  private nextEnemyTextureIndex = 0;
-  private nextEnemyTypeIndex = 0;
-  private spawnTimer!: Phaser.Time.TimerEvent;
+  private formationManager!: FormationManager;
+  private level = 1;
   private score = 0;
   private lives = STARTING_LIVES;
   private scoreText!: Phaser.GameObjects.Text;
@@ -41,18 +40,20 @@ export class GameScene extends Phaser.Scene {
     this.drawingTextureKeys = this.registry.get('drawingTextureKeys') as string[];
     this.score = 0;
     this.lives = STARTING_LIVES;
-    this.nextEnemyTextureIndex = 1;
-    this.nextEnemyTypeIndex = 0;
+    this.level = 1;
 
     this.player = new Player(this, this.drawingTextureKeys[0], this.scale.width / 2, this.playerY());
     this.inputController = createInputController(this);
 
     this.enemies = this.physics.add.group();
-    this.spawnTimer = this.time.addEvent({
-      delay: ENEMY_SPAWN_INTERVAL_MS,
-      loop: true,
-      callback: () => this.spawnEnemy(),
-    });
+    this.formationManager = new FormationManager(
+      this,
+      this.enemies,
+      this.drawingTextureKeys,
+      () => ({ x: this.player.sprite.x, y: this.player.sprite.y }),
+      () => this.handleWaveClear()
+    );
+    this.formationManager.startWave(levelConfig(this.level));
 
     this.scoreText = this.add.text(10, 10, 'Score: 0', { fontSize: '16px', color: HUD_TEXT_COLOR });
     this.livesText = this.add.text(10, 30, `Lives: ${this.lives}`, {
@@ -78,14 +79,6 @@ export class GameScene extends Phaser.Scene {
       this.player.fire();
     }
 
-    this.enemies.getChildren().slice().forEach((child) => {
-      const enemy = child as Phaser.Physics.Arcade.Sprite;
-      if (enemy.y > this.scale.height + 32) {
-        enemy.destroy();
-        this.loseLife();
-      }
-    });
-
     this.player.getProjectiles().getChildren().slice().forEach((child) => {
       const projectile = child as Phaser.Physics.Arcade.Sprite;
       if (projectile.y < -20) {
@@ -103,35 +96,28 @@ export class GameScene extends Phaser.Scene {
     return this.scale.height - reservedHeight - PLAYER_BOTTOM_MARGIN;
   }
 
-  private spawnEnemy(): void {
-    const textureKey =
-      this.drawingTextureKeys[this.nextEnemyTextureIndex % this.drawingTextureKeys.length];
-    this.nextEnemyTextureIndex++;
-    const type = ENEMY_TYPES[this.nextEnemyTypeIndex % ENEMY_TYPES.length];
-    this.nextEnemyTypeIndex++;
-    const x = Phaser.Math.Between(32, this.scale.width - 32);
-    const enemy = new Enemy(this, textureKey, x, -32, type);
-    // Phaser.Physics.Arcade.Group#add always re-applies the group's
-    // defaults (velocityY: 0, since none is configured on this group) via
-    // its internalCreateCallback, overwriting the downward velocity Enemy's
-    // constructor just set. Re-apply it after adding so enemies actually fall.
-    this.enemies.add(enemy.sprite);
-    enemy.sprite.setVelocityY(enemy.speed);
+  private handleWaveClear(): void {
+    this.level++;
+    this.formationManager.startWave(levelConfig(this.level));
   }
 
   private handleProjectileHitsEnemy(
     projectile: Phaser.Physics.Arcade.Sprite,
-    enemy: Phaser.Physics.Arcade.Sprite
+    enemySprite: Phaser.Physics.Arcade.Sprite
   ): void {
     projectile.destroy();
-    const points = (enemy.getData('points') as number | undefined) ?? 0;
-    enemy.destroy();
+    const points = (enemySprite.getData('points') as number | undefined) ?? 0;
+    const enemyRef = enemySprite.getData('enemyRef') as Enemy;
+    enemyRef.destroy();
+    this.formationManager.removeEnemy(enemyRef);
     this.score += points;
     this.scoreText.setText(`Score: ${this.score}`);
   }
 
-  private handleEnemyHitsPlayer(enemy: Phaser.Physics.Arcade.Sprite): void {
-    enemy.destroy();
+  private handleEnemyHitsPlayer(enemySprite: Phaser.Physics.Arcade.Sprite): void {
+    const enemyRef = enemySprite.getData('enemyRef') as Enemy;
+    enemyRef.destroy();
+    this.formationManager.removeEnemy(enemyRef);
     this.loseLife();
   }
 
@@ -140,7 +126,7 @@ export class GameScene extends Phaser.Scene {
     this.lives--;
     this.livesText.setText(`Lives: ${this.lives}`);
     if (this.lives <= 0) {
-      this.spawnTimer.remove();
+      this.formationManager.destroy();
       setBestScoreIfHigher(this.score);
       this.scene.start('GameOverScene', { score: this.score });
     }
