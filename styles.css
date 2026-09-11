@@ -252,14 +252,19 @@ body {
   top: 1rem;
   z-index: 10;
   padding: 1rem 1.5rem;
-  /* Each .nav-pill blurs what's behind IT, but the gaps between pills had
-     no backdrop at all — scrolled-under text (e.g. the CV card's
-     "Educación" row) showed through crisp in those gaps right next to a
-     blurred pill, an illegible patchwork. Blurring the whole sticky strip
-     (same values as .nav-pill, so nothing looks newly "added") covers the
-     gaps too. */
+  /* Each .nav-pill blurs (and tints, via --pill-bg) what's behind IT, but
+     the gaps between pills had neither — scrolled-under text/photos (e.g.
+     the CV card's "Educación" row) showed through sharp in those gaps
+     right next to a blurred+tinted pill, an inconsistent patchwork. Same
+     blur + tint values as .nav-pill (so nothing looks newly "added")
+     across the whole strip fixes that. transform: translateZ(0) forces
+     its own compositing layer — Safari is known to let a sticky element's
+     backdrop-filter freeze/skip repaint on scroll without one, which
+     reads as content "clipping through" the bar. */
+  background: var(--pill-bg);
   -webkit-backdrop-filter: blur(14px) saturate(160%);
   backdrop-filter: blur(14px) saturate(160%);
+  transform: translateZ(0);
 }
 
 .nav-pill {
