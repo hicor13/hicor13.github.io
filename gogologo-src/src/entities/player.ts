@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { PLAYER_TARGET_WIDTH } from '../config/visual-config';
 
 const FIRE_COOLDOWN_MS = 350;
 const PROJECTILE_SPEED = 500;
@@ -12,7 +13,6 @@ export class Player {
   constructor(scene: Phaser.Scene, textureKey: string, x: number, y: number) {
     this.scene = scene;
     this.sprite = scene.physics.add.sprite(x, y, textureKey);
-    const PLAYER_TARGET_WIDTH = 110;
     const nativeWidth = this.sprite.width;
     const nativeHeight = this.sprite.height;
     this.sprite.setDisplaySize(PLAYER_TARGET_WIDTH, PLAYER_TARGET_WIDTH * (nativeHeight / nativeWidth));

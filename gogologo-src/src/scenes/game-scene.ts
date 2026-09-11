@@ -3,6 +3,7 @@ import { createInputController, InputController, CONTROL_ZONE_HEIGHT } from '../
 import { Player } from '../entities/player';
 import { Enemy, ENEMY_SPEED } from '../entities/enemy';
 import { setBestScoreIfHigher } from '../systems/save-manager';
+import { ENEMY_TINT_PALETTE, HUD_TEXT_COLOR } from '../config/visual-config';
 
 const ENEMY_SPAWN_INTERVAL_MS = 1000;
 const STARTING_LIVES = 3;
@@ -10,12 +11,6 @@ const STARTING_LIVES = 3;
 // reserved at the bottom of the canvas, so the ship sits visibly above the
 // tap area instead of overlapping it.
 const PLAYER_BOTTOM_MARGIN = 60;
-
-// Fixed tint palette for enemy sprites, matching the game's Peruvian/16-bit
-// theme: flag red (shared with the fire button), Inca gold, Andean
-// turquoise, textile purple, sunset orange, and highland green. Chosen for
-// hue separation and readability against the #111111 background.
-const ENEMY_TINT_PALETTE = [0xd91023, 0xf2b705, 0x1abc9c, 0x8e44ad, 0xff7f11, 0x4caf50];
 
 export class GameScene extends Phaser.Scene {
   private player!: Player;
@@ -62,10 +57,10 @@ export class GameScene extends Phaser.Scene {
       callback: () => this.spawnEnemy(),
     });
 
-    this.scoreText = this.add.text(10, 10, 'Score: 0', { fontSize: '16px', color: '#ffffff' });
+    this.scoreText = this.add.text(10, 10, 'Score: 0', { fontSize: '16px', color: HUD_TEXT_COLOR });
     this.livesText = this.add.text(10, 30, `Lives: ${this.lives}`, {
       fontSize: '16px',
-      color: '#ffffff',
+      color: HUD_TEXT_COLOR,
     });
 
     this.physics.add.overlap(this.player.getProjectiles(), this.enemies, (projectile, enemy) =>

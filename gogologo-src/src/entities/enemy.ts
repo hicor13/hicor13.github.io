@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { ENEMY_TARGET_WIDTH } from '../config/visual-config';
 
 export const ENEMY_SPEED = 80; // pixels per second, downward — no formation/AI yet, sub-project 3's job
 
@@ -7,7 +8,6 @@ export class Enemy {
 
   constructor(scene: Phaser.Scene, textureKey: string, x: number, y: number, tintColor: number) {
     this.sprite = scene.physics.add.sprite(x, y, textureKey);
-    const ENEMY_TARGET_WIDTH = 85;
     const nativeWidth = this.sprite.width;
     const nativeHeight = this.sprite.height;
     this.sprite.setDisplaySize(ENEMY_TARGET_WIDTH, ENEMY_TARGET_WIDTH * (nativeHeight / nativeWidth));

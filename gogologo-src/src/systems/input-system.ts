@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { ACCENT_COLOR } from '../config/visual-config';
 
 export interface InputController {
   getTargetX(currentX: number): number;
@@ -84,7 +85,7 @@ export function createInputController(scene: Phaser.Scene): InputController {
         scene.scale.width - FIRE_BUTTON_MARGIN_X,
         scene.scale.height - FIRE_BUTTON_MARGIN_Y,
         FIRE_BUTTON_RADIUS,
-        0xd91023,
+        ACCENT_COLOR,
         0.6
       )
       .setInteractive();
