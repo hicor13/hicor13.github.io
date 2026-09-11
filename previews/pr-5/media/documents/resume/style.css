@@ -1,0 +1,31 @@
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+/* 100vh on mobile includes the area behind the collapsing address
+   bar, which clips the bottom of the viewer; 100svh accounts for it. */
+body { height: 100svh; background: #fff; font-family: system-ui, sans-serif; overflow: hidden; }
+.viewer { height: 100%; display: flex; flex-direction: column; }
+header {
+	min-height: 56px; padding: 10px max(16px, env(safe-area-inset-right)) 10px max(16px, env(safe-area-inset-left));
+	display: flex; align-items: center; flex-wrap: wrap;
+	justify-content: space-between; gap: 10px; background: #292a2d;
+	border-bottom: 1px solid #414247;
+}
+h1 { margin: 0; font-size: 16px; font-weight: 600; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+a {
+	display: inline-flex; align-items: center; justify-content: center;
+	color: #fff; text-decoration: none; border: 1px solid #686a70;
+	border-radius: 4px; padding: 7px 12px; font-size: 14px;
+	min-height: 44px;
+}
+a:hover, a:focus { background: #3d3f44; }
+main { flex: 1; min-height: 0; }
+iframe { display: block; width: 100%; height: 100%; border: 0; background: #fff; }
+.fallback { display: none; padding: 32px; text-align: center; color: #ddd; }
+
+@media (max-width: 480px) {
+	h1 { font-size: 14px; flex-basis: 100%; text-align: center; }
+	.actions { flex: 1; }
+	.actions a { flex: 1; padding: 10px 8px; font-size: 13px; }
+}

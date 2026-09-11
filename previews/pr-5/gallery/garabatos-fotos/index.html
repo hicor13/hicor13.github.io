@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es-PE" data-lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería de Garabatos — Mario Cornejo</title>
+    <meta name="description" content="Todos los garabatos guardados, en una galería clásica.">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://mariocornejo.com/gallery/garabatos-fotos/">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="stylesheet" href="styles.css?v=20260910b">
+    <script src="/libs/personal/site-chrome.js?v=20260909h"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mariocornejo.com/gallery/garabatos-fotos/">
+    <meta property="og:title" content="Galería de Garabatos — Mario Cornejo">
+    <meta property="og:description" content="Todos los garabatos guardados, en una galería clásica.">
+    <meta property="og:image" content="https://mariocornejo.com/garabatos/og-image.png">
+</head>
+<body>
+    <noscript><p><a href="/index.html">mariocornejo.com</a></p></noscript>
+    <header>
+        <site-topbar></site-topbar>
+        <p class="subtitle"><span data-i18n-es>Garabatos</span><span data-i18n-en>Doodles</span></p>
+        <p class="gallery-back">
+            <a href="/garabatos/">&larr; <span data-i18n-es>Back to Doodles</span><span data-i18n-en>Back to Garabatos</span></a>
+        </p>
+    </header>
+
+    <div class="gallery" id="gallery">
+        <!-- Gallery items are generated here -->
+    </div>
+
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+        <div class="lightbox-content">
+            <div class="lightbox-image-row">
+                <button class="lightbox-nav lightbox-prev" aria-label="Previous photo" onclick="prevImage()">‹</button>
+                <img id="lightbox-img" src="" alt="">
+                <button class="lightbox-nav lightbox-next" aria-label="Next photo" onclick="nextImage()">›</button>
+            </div>
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+        </div>
+    </div>
+
+    <script src="script.js?v=20260910a"></script>
+    <site-footer base="/index.html"></site-footer>
+</body>
+</html>
