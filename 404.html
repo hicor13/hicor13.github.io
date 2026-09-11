@@ -1,3 +1,58 @@
+<!DOCTYPE html>
+<html lang="es-PE">
 <head>
-    <meta http-equiv='refresh' content='0; URL=https://youtu.be/xMHJGd3wwZk?si=YO9CaBQ0EWqm9DYP'>
-  </head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, follow">
+  <title>Página no encontrada — Mario Cornejo</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/libs/personal/site-chrome.js"></script>
+  <script>
+    try {
+      var storedTheme = localStorage.getItem('theme');
+      if (storedTheme) document.documentElement.setAttribute('data-theme', storedTheme);
+    } catch (e) {}
+  </script>
+  <style>
+    /* This page skips .hero/.hero-nav entirely (no page sections to jump
+       to on itself), so it needs its own minimal layout instead of
+       reusing the homepage's hero-driven CSS. */
+    .not-found {
+      max-width: 34rem;
+      margin: 0 auto;
+      padding: 4rem 1.5rem 6rem;
+      text-align: center;
+    }
+    .not-found h1 {
+      font-size: clamp(2rem, 1.4rem + 2vw, 2.75rem);
+      margin: 0 0 0.75rem;
+    }
+    .not-found p {
+      color: var(--muted);
+      margin: 0 0 2rem;
+    }
+    .not-found-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <site-topbar></site-topbar>
+
+  <main class="not-found">
+    <h1>404 — Página no encontrada</h1>
+    <p>El enlace que seguiste no existe o se movió. Puedes volver al inicio o ir directo a una de estas secciones:</p>
+    <div class="not-found-links">
+      <a class="nav-pill" href="/">Inicio</a>
+      <a class="nav-pill" href="/#projects">Proyectos</a>
+      <a class="nav-pill" href="/#cv">Curriculum Vitae</a>
+      <a class="nav-pill" href="/#contact">Contacto</a>
+    </div>
+  </main>
+
+  <site-footer></site-footer>
+</body>
+</html>

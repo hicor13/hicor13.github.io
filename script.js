@@ -1,12 +1,16 @@
 function initHeroIntro() {
-  const heroPlate = document.getElementById('hero-plate');
-  if (!heroPlate) return;
+  // Animates only the text column (#hero-intro), never the portrait <img>
+  // itself: that image is the page's LCP candidate, and gating it behind
+  // an opacity transition delayed LCP by ~2s in Lighthouse (Chrome doesn't
+  // count a paint until the element is actually visible).
+  const heroIntro = document.getElementById('hero-intro');
+  if (!heroIntro) return;
   // Two rAFs: one to let the initial (hidden) styles paint, one to flip the
   // class on the next frame so the CSS transition actually runs instead of
   // being coalesced with the initial paint.
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      heroPlate.classList.add('is-visible');
+      heroIntro.classList.add('is-visible');
     });
   });
 }
@@ -104,7 +108,7 @@ function initResumeModal() {
 }
 
 function initScrollReveal() {
-  const targets = document.querySelectorAll('.reveal:not(#hero-plate)');
+  const targets = document.querySelectorAll('.reveal:not(#hero-intro)');
   if (!('IntersectionObserver' in window)) {
     targets.forEach((el) => el.classList.add('is-visible'));
     return;

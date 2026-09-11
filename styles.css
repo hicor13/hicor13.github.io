@@ -187,17 +187,19 @@ body {
   max-width: 48rem;
 }
 
-/* The hero's one deliberate on-load motion: a subtle opacity+slide. This
-   is the ONLY animation on the hero — .hero-title itself is fully static
-   (no letter-spacing/font-size transition), so there is nothing else to
-   layer on top of this and no risk of it reading as a "double" motion. */
-#hero-plate.reveal {
+/* The hero's one deliberate on-load motion: a subtle opacity+slide on the
+   text column only. It used to sit on the whole .hero-plate (image
+   included), which meant the portrait — this page's LCP candidate — never
+   counted as painted until the transition finished (~2s of avoidable LCP
+   delay in Lighthouse). The image now renders immediately; only
+   #hero-intro (the text) animates in. */
+#hero-intro.reveal {
   opacity: 0;
   transform: translateY(12px);
   transition: opacity 500ms ease-out, transform 500ms ease-out;
 }
 
-#hero-plate.reveal.is-visible {
+#hero-intro.reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -250,6 +252,14 @@ body {
   top: 1rem;
   z-index: 10;
   padding: 1rem 1.5rem;
+  /* Each .nav-pill blurs what's behind IT, but the gaps between pills had
+     no backdrop at all — scrolled-under text (e.g. the CV card's
+     "Educación" row) showed through crisp in those gaps right next to a
+     blurred pill, an illegible patchwork. Blurring the whole sticky strip
+     (same values as .nav-pill, so nothing looks newly "added") covers the
+     gaps too. */
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
 }
 
 .nav-pill {
@@ -287,7 +297,7 @@ body {
 /* "NEW" star badge — bottom-right of the hero, links to /garabatos.
    #hero-overlay itself is pointer-events:none (a general-purpose empty
    hook), so this specific element opts back into pointer-events:auto to
-   stay clickable. Pops in (matches #hero-plate's own on-load reveal
+   stay clickable. Pops in (matches #hero-intro's own on-load reveal
    motion elsewhere in this file), holds for 4s, then a 3s linear fade to
    fully transparent + non-interactive (visibility:hidden removes it from
    hit testing once faded, rather than leaving an invisible clickable

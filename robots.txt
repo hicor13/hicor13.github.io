@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mariocornejo.com/sitemap.xml
+Sitemap: https://www.mariocornejo.com/sitemap.xml

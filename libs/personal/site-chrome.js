@@ -121,11 +121,23 @@ class SiteTopbar extends HTMLElement {
     const initialLang = document.documentElement.dataset.lang || document.documentElement.lang || 'es';
     button.dataset.lang = initialLang;
 
+    // data-i18n-es/en spans ship with a static `hidden` attribute baked into
+    // the served HTML for whichever language isn't the page default, so
+    // extractors that don't run CSS see one clean language. Toggling here
+    // has to flip `hidden` directly (not just the CSS-driven data-lang
+    // attribute) or the non-default language stays invisible after switch.
+    const applyLang = (lang) => {
+      document.querySelectorAll('[data-i18n-es]').forEach((el) => { el.hidden = lang !== 'es'; });
+      document.querySelectorAll('[data-i18n-en]').forEach((el) => { el.hidden = lang !== 'en'; });
+    };
+    applyLang(initialLang);
+
     button.addEventListener('click', () => {
       const newLang = button.dataset.lang === 'es' ? 'en' : 'es';
       button.dataset.lang = newLang;
       document.documentElement.lang = newLang;
       document.documentElement.dataset.lang = newLang;
+      applyLang(newLang);
     });
   }
 }
@@ -230,7 +242,7 @@ class SiteFooter extends HTMLElement {
             <ul>
               <li><a href="${base}#about"><span data-i18n-es>Sobre mí</span><span data-i18n-en>About</span></a></li>
               <li><a href="${base}#projects"><span data-i18n-es>Proyectos</span><span data-i18n-en>Projects</span></a></li>
-              <li><a href="${base}#notes"><span data-i18n-es>Notas</span><span data-i18n-en>Notes</span></a></li>
+              <li><a href="${base}#notes"><span data-i18n-es>Experiencia</span><span data-i18n-en>Experience</span></a></li>
               <li><a href="${base}#cv"><span data-i18n-es>Curriculum Vitae</span><span data-i18n-en>Resume</span></a></li>
               <li><a href="${base}#contact"><span data-i18n-es>Contacto</span><span data-i18n-en>Contact</span></a></li>
             </ul>

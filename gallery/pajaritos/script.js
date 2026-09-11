@@ -53,12 +53,20 @@ function renderGallery() {
         return;
     }
 
-    gallery.innerHTML = images.map((img, index) => `
+    // alt combines the title with the species (from metadata.json's
+    // description field) when known — the title alone is the site's
+    // slang/humor voice, but "Raza no identificada" etc. means a screen
+    // reader or image-search crawler otherwise never learns what's
+    // actually in the photo.
+    gallery.innerHTML = images.map((img, index) => {
+        const altText = img.description ? `${img.title} — ${img.description}` : img.title;
+        return `
         <div class="gallery-item" onclick="openLightbox(${index})">
-            <img src="${img.src}" alt="${escapeHtml(img.title)}">
+            <img src="${img.src}" alt="${escapeHtml(altText)}">
             <div class="gallery-item-title">${escapeHtml(img.title)}</div>
         </div>
-    `).join('');
+    `;
+    }).join('');
 }
 
 // CSS column-count fills the first column completely (top to bottom)

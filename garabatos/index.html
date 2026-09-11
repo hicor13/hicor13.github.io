@@ -8,8 +8,9 @@
 
   <meta property="og:title" content="Garabatos — Mario Cornejo">
   <meta property="og:description" content="Raspa y dibuja: deja un garabato en la galería pública de mariocornejo.com.">
-  <meta property="og:image" content="https://mariocornejo.com/garabatos/og-image.png">
-  <meta property="og:url" content="https://mariocornejo.com/garabatos/index.html">
+  <meta property="og:image" content="https://www.mariocornejo.com/garabatos/og-image.png">
+  <meta property="og:url" content="https://www.mariocornejo.com/garabatos/index.html">
+  <link rel="canonical" href="https://www.mariocornejo.com/garabatos/index.html">
 
   <link rel="icon" href="/favicon.ico" sizes="any">
   <!-- pv1: unlinked from the main site's /styles.css design tokens on
@@ -28,6 +29,19 @@
   <link rel="stylesheet" href="/garabatos/styles.css?v=20260909r">
   <script src="/libs/personal/site-chrome.js?v=20260909h"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Garabatos — Mario Cornejo",
+    "description": "Raspa y dibuja: deja un garabato en la galería pública de mariocornejo.com.",
+    "url": "https://www.mariocornejo.com/garabatos/index.html",
+    "inLanguage": "es",
+    "isPartOf": { "@type": "WebSite", "url": "https://www.mariocornejo.com/", "name": "Mario Cornejo" },
+    "author": { "@type": "Person", "name": "Mario Cornejo", "url": "https://www.mariocornejo.com/" }
+  }
+  </script>
 </head>
 <body>
   <!-- pv1 retro scaffold: WordArt-style glow badge, sitting between
@@ -43,13 +57,13 @@
        instead of sliding off-screen partway down the page. -->
   <header class="garabatos-header">
     <site-topbar></site-topbar>
-    <a class="retro-wordart" id="retro-wordart" href="https://mariocornejo.com/sorpresa">
-      <span data-i18n-es>GARABATOS</span><span data-i18n-en>DOODLES</span>
+    <a class="retro-wordart" id="retro-wordart" href="https://www.mariocornejo.com/sorpresa">
+      <span data-i18n-es lang="es">GARABATOS</span><span data-i18n-en lang="en" hidden>DOODLES</span>
     </a>
 
     <p class="garabatos-intro">
-      <span data-i18n-es>Raspa la superficie negra para revelar el color de abajo. Dibuja algo y déjalo en la galería.</span>
-      <span data-i18n-en>Scratch the black surface to reveal the color underneath. Draw something and leave it in the gallery.</span>
+      <span data-i18n-es lang="es">Raspa la superficie negra para revelar el color de abajo. Dibuja algo y déjalo en la galería.</span>
+      <span data-i18n-en lang="en" hidden>Scratch the black surface to reveal the color underneath. Draw something and leave it in the gallery.</span>
     </p>
   </header>
 
@@ -58,16 +72,16 @@
       <canvas id="scratch-canvas" width="640" height="400"></canvas>
       <div class="garabatos-controls">
         <label for="brush-size">
-          <span data-i18n-es>Grosor</span><span data-i18n-en>Brush size</span>
+          <span data-i18n-es lang="es">Grosor</span><span data-i18n-en lang="en" hidden>Brush size</span>
         </label>
         <input type="range" id="brush-size" min="4" max="40" value="16">
         <button type="button" id="clear-btn">
-          <span data-i18n-es>Borrar</span><span data-i18n-en>Clear</span>
+          <span data-i18n-es lang="es">Borrar</span><span data-i18n-en lang="en" hidden>Clear</span>
         </button>
         <input type="text" id="artist-name" maxlength="40" placeholder="Tu nombre">
         <span class="garabatos-save-wrap">
           <button type="button" id="save-btn" class="garabatos-save">
-            <span data-i18n-es>Guardar</span><span data-i18n-en>Save</span>
+            <span data-i18n-es lang="es">Guardar</span><span data-i18n-en lang="en" hidden>Save</span>
           </button>
           <p id="save-status" class="garabatos-status" role="status" aria-live="polite"></p>
         </span>
@@ -75,11 +89,11 @@
     </section>
 
     <a class="redirect-box" href="/gallery/garabatos-fotos/">
-      <h1 class="garabatos-redirect"><span data-i18n-es>hacer click aquí</span><span data-i18n-en>Click Here</span></h1>
+      <h1 class="garabatos-redirect"><span data-i18n-es lang="es">hacer click aquí</span><span data-i18n-en lang="en" hidden>Click Here</span></h1>
     </a>
 
     <section class="garabatos-gallery" aria-label="Galería">
-      <h2><span data-i18n-es>Galería</span><span data-i18n-en>Gallery</span></h2>
+      <h2><span data-i18n-es lang="es">Galería</span><span data-i18n-en lang="en" hidden>Gallery</span></h2>
       <div id="gallery-grid" class="garabatos-grid"></div>
     </section>
   </main>
