@@ -96,6 +96,7 @@ export class Enemy {
   }
 
   destroy(): void {
+    this.stopActiveTween();
     this.scene.tweens.killTweensOf(this.sprite);
     this.sprite.destroy();
   }

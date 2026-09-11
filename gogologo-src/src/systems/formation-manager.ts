@@ -7,7 +7,20 @@ import { REFERENCE_HEIGHT } from '../config/layout-config';
 // Row spacing and top margin are tuned against REFERENCE_HEIGHT (see
 // layout-config.ts) and scaled by actual canvas height at wave-start time,
 // same pattern Enemy previously used for fall speed.
-const ROW_SPACING = 70;
+//
+// ROW_SPACING must clear the tallest enemy type's on-screen display height
+// on the SMALLEST canvas this scales onto (desktop, 640px vs mobile's
+// REFERENCE_HEIGHT of 1040px), since enemy display height is a fixed pixel
+// size (entity-config.ts's targetWidth) that does NOT shrink with
+// scaleFactor the way this row gap does. Comandante is the tallest type
+// (targetWidth 120) and every Garabatos drawing shares a fixed 640x400
+// source-canvas aspect ratio (see garabatos/canvas.js), so its display
+// height is 120 * (400/640) = 75px on every layout. At desktop's
+// scaleFactor of 640/1040 ≈ 0.615, a spacing needs to be at least
+// 75 / 0.615 ≈ 121.9 to avoid overlap -- 130 clears that with a bit of
+// visible gap to spare (130 * 0.615 ≈ 80px on desktop; 130px on mobile,
+// where scaleFactor is 1).
+const ROW_SPACING = 130;
 const GRID_TOP_MARGIN = 90;
 const ENTRANCE_STAGGER_MS = 150;
 const ENTRANCE_BASE_DURATION_MS = 900;
@@ -34,7 +47,11 @@ export class FormationManager {
     const rowSpacing = ROW_SPACING * scaleFactor;
     const topMargin = GRID_TOP_MARGIN * scaleFactor;
 
-    let textureIndex = 0;
+    // Start at 1, not 0: drawingTextureKeys[0] is always the player's own
+    // Garabatos drawing (GameScene builds the player from index 0, per
+    // CharacterSelectScene's reorder-to-index-0 logic) -- skip it so the
+    // player's own artwork doesn't also show up worn by an enemy.
+    let textureIndex = 1;
     let spawnDelay = 0;
 
     for (let row = 0; row < config.rows; row++) {
@@ -83,7 +100,9 @@ export class FormationManager {
   }
 
   removeEnemy(enemy: Enemy): void {
+    const before = this.activeEnemies.length;
     this.activeEnemies = this.activeEnemies.filter((e) => e !== enemy);
+    if (this.activeEnemies.length === before) return;
     if (this.activeEnemies.length === 0) {
       this.diveTimer?.remove();
       this.onWaveClear();
@@ -95,6 +114,15 @@ export class FormationManager {
     this.activeEnemies = [];
   }
 
+  // Dive concurrency isn't capped: a dive+return cycle's duration is
+  // DIVE_BASE_DURATION_MS / speedMultiplier (here) plus RETURN_DURATION_MS /
+  // speedMultiplier (enemy.ts), and at higher levels that total can outlast
+  // diveIntervalMs -- e.g. the slowest type (Comandante, speedMultiplier
+  // 0.6) takes ~(1600 + 700) / 0.6 ≈ 3833ms per cycle, which already exceeds
+  // level 1's diveIntervalMs of 3200ms. So more than one enemy may end up
+  // diving/returning at the same time as levels ramp up -- this is
+  // intentional escalation, not a bug, and triggerDive() only requires that
+  // at least one enemy is currently HOLDING (idle) before picking a diver.
   private triggerDive(): void {
     const holding = this.activeEnemies.filter((e) => e.state === 'HOLDING');
     if (holding.length === 0) return;
