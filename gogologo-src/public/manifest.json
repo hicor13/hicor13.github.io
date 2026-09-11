@@ -1,0 +1,17 @@
+{
+  "name": "Gogologo",
+  "short_name": "Gogologo",
+  "start_url": "/gogologo/",
+  "scope": "/gogologo/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#111111",
+  "theme_color": "#111111",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}
