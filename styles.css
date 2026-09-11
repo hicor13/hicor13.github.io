@@ -595,10 +595,12 @@ main {
     max-width: 100%;
   }
 
-  /* Tighter pills + a "CV" abbreviation for Curriculum Vitae/Resume so
-     all five nav pills stay on one row instead of wrapping (fits, still
-     centered, from ~360px up — see the sub-360px override further down
-     for the rare narrower screen). */
+  /* Tighter pills + "CV"/"Exp." abbreviations (Curriculum Vitae/Resume,
+     Experiencia/Experience — the latter added once "Notas" became the
+     longer "Experiencia" and no longer fit) so all five nav pills stay on
+     one row instead of wrapping (fits, still centered, from ~360px up —
+     see the sub-360px override further down for the rare narrower
+     screen). */
   .hero-nav {
     gap: 0.3rem;
     /* Extra bottom padding (vs. the 1rem top) so there's breathing room
@@ -614,11 +616,13 @@ main {
     font-size: 0.85rem;
   }
 
-  .nav-pill-cv .nav-full {
+  .nav-pill-cv .nav-full,
+  .nav-pill-exp .nav-full {
     display: none;
   }
 
-  .nav-pill-cv .nav-abbr {
+  .nav-pill-cv .nav-abbr,
+  .nav-pill-exp .nav-abbr {
     display: inline;
   }
 
