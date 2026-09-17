@@ -18,16 +18,16 @@ export class PreloadScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     let textureKeys: string[] = [];
-    let drawings: { key: string; name: string }[] = [];
+    let drawings: { key: string; name: string; completeness: number }[] = [];
 
     try {
       const pool = await fetchDrawingPool(DRAWING_POOL_SIZE);
       for (let i = 0; i < pool.length; i++) {
         const key = `drawing-${i}`;
-        const ok = await loadTransparentTexture(this, key, pool[i].url);
+        const { ok, completeness } = await loadTransparentTexture(this, key, pool[i].url);
         if (ok) {
           textureKeys.push(key);
-          drawings.push({ key, name: pool[i].name });
+          drawings.push({ key, name: pool[i].name, completeness });
         }
       }
     } catch (error) {
@@ -45,7 +45,8 @@ export class PreloadScene extends Phaser.Scene {
       graphics.generateTexture(PLACEHOLDER_TEXTURE_KEY, 32, 32);
       graphics.destroy();
       textureKeys = [PLACEHOLDER_TEXTURE_KEY];
-      drawings = [{ key: PLACEHOLDER_TEXTURE_KEY, name: 'Anónimo' }];
+      // completeness 0.5 -> no scoring penalty/bonus for the placeholder.
+      drawings = [{ key: PLACEHOLDER_TEXTURE_KEY, name: 'Anónimo', completeness: 0.5 }];
     }
 
     this.registry.set('drawingTextureKeys', textureKeys);

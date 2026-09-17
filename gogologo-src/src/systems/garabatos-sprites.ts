@@ -6,7 +6,7 @@
 // result as a usable texture.
 import Phaser from 'phaser';
 import { createClient } from '@supabase/supabase-js';
-import { applyBlackTransparency } from '../utils/black-to-transparent';
+import { applyBlackTransparency, computeCompleteness } from '../utils/black-to-transparent';
 
 const SUPABASE_URL = 'https://hvysswkivofvscfqysnj.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh2eXNzd2tpdm9mdnNjZnF5c25qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwMDUwMjYsImV4cCI6MjEwNDU4MTAyNn0.leXcOO5lH1D8DQeyhzQmBYPstJuCRhuDxJmJgBwQa70';
@@ -54,20 +54,29 @@ function loadImage(url: string): Promise<HTMLImageElement> {
   });
 }
 
-// Returns false (never throws) on any failure — the caller falls back to
+export interface LoadTextureResult {
+  ok: boolean;
+  // Fraction of the drawing's canvas that was actually scratched/drawn on
+  // (see computeCompleteness in black-to-transparent.ts) -- 0 on failure,
+  // since there's no image to measure.
+  completeness: number;
+}
+
+// ok: false (never throws) on any failure — the caller falls back to
 // a generated placeholder texture rather than breaking the game.
 export async function loadTransparentTexture(
   scene: Phaser.Scene,
   key: string,
   url: string
-): Promise<boolean> {
+): Promise<LoadTextureResult> {
   try {
     const img = await loadImage(url);
     const canvas = applyBlackTransparency(img, 40);
+    const completeness = computeCompleteness(img, 40);
     scene.textures.addCanvas(key, canvas);
-    return true;
+    return { ok: true, completeness };
   } catch (error) {
     console.error(`garabatos-sprites: failed to load texture "${key}":`, error);
-    return false;
+    return { ok: false, completeness: 0 };
   }
 }

@@ -15,10 +15,17 @@ const STARTING_LIVES = 3;
 // only needs the plain bottom margin -- see playerY() below.
 const PLAYER_BOTTOM_MARGIN = 60;
 
+interface DrawingEntry {
+  key: string;
+  name: string;
+  completeness: number;
+}
+
 export class GameScene extends Phaser.Scene {
   private player!: Player;
   private inputController!: InputController;
   private enemies!: Phaser.Physics.Arcade.Group;
+  private drawings!: DrawingEntry[];
   private drawingTextureKeys!: string[];
   private formationManager!: FormationManager;
   private level = 1;
@@ -40,7 +47,8 @@ export class GameScene extends Phaser.Scene {
     graphics.generateTexture('projectile', 4, 10);
     graphics.destroy();
 
-    this.drawingTextureKeys = this.registry.get('drawingTextureKeys') as string[];
+    this.drawings = this.registry.get('drawings') as DrawingEntry[];
+    this.drawingTextureKeys = this.drawings.map((d) => d.key);
     this.score = 0;
     this.lives = STARTING_LIVES;
     this.level = 1;
@@ -52,7 +60,7 @@ export class GameScene extends Phaser.Scene {
     this.formationManager = new FormationManager(
       this,
       this.enemies,
-      this.drawingTextureKeys,
+      this.drawings,
       () => ({ x: this.player.sprite.x, y: this.player.sprite.y }),
       () => this.handleWaveClear()
     );

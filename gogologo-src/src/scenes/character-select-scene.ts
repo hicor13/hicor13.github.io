@@ -6,6 +6,10 @@ import { applyPixelationSetting } from '../systems/settings-manager';
 interface DrawingEntry {
   key: string;
   name: string;
+  // Fraction of the drawing's canvas actually scratched/drawn on (see
+  // black-to-transparent.ts's computeCompleteness) -- passed through
+  // untouched here, GameScene/FormationManager use it for scoring.
+  completeness: number;
 }
 
 const GRID_COLS = 4;

@@ -26,17 +26,30 @@ const ENTRANCE_STAGGER_MS = 150;
 const ENTRANCE_BASE_DURATION_MS = 900;
 const DIVE_BASE_DURATION_MS = 1600;
 
+export interface DrawingEntry {
+  key: string;
+  name: string;
+  // Fraction of the drawing's canvas actually scratched/drawn on (see
+  // black-to-transparent.ts's computeCompleteness) -- used to scale the
+  // points an enemy built from this drawing is worth (see spawn loop below
+  // and entity-config.ts's ENEMY_TYPES.points).
+  completeness: number;
+}
+
 export class FormationManager {
   private activeEnemies: Enemy[] = [];
   private diveTimer?: Phaser.Time.TimerEvent;
+  private drawingTextureKeys: string[];
 
   constructor(
     private scene: Phaser.Scene,
     private enemyGroup: Phaser.Physics.Arcade.Group,
-    private drawingTextureKeys: string[],
+    private drawings: DrawingEntry[],
     private getPlayerPosition: () => { x: number; y: number },
     private onWaveClear: () => void
-  ) {}
+  ) {
+    this.drawingTextureKeys = drawings.map((d) => d.key);
+  }
 
   startWave(config: LevelConfig): void {
     this.diveTimer?.remove();
@@ -63,14 +76,16 @@ export class FormationManager {
 
       for (let col = 0; col < config.cols; col++) {
         const homeX = colWidth * col + colWidth / 2;
-        const textureKey = this.drawingTextureKeys[textureIndex % this.drawingTextureKeys.length];
+        const drawingIndex = textureIndex % this.drawings.length;
+        const textureKey = this.drawingTextureKeys[drawingIndex];
+        const completeness = this.drawings[drawingIndex].completeness;
         textureIndex++;
 
         const enterFromLeft = col < config.cols / 2;
         const spawnX = enterFromLeft ? -40 : this.scene.scale.width + 40;
         const spawnY = -40;
 
-        const enemy = new Enemy(this.scene, textureKey, spawnX, spawnY, type);
+        const enemy = new Enemy(this.scene, textureKey, spawnX, spawnY, type, completeness);
         enemy.homeX = homeX;
         enemy.homeY = homeY;
         this.enemyGroup.add(enemy.sprite);

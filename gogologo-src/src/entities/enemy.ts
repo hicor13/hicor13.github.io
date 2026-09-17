@@ -19,7 +19,19 @@ export class Enemy {
   private scene: Phaser.Scene;
   private activeTween?: Phaser.Tweens.Tween;
 
-  constructor(scene: Phaser.Scene, textureKey: string, x: number, y: number, type: EnemyType) {
+  constructor(
+    scene: Phaser.Scene,
+    textureKey: string,
+    x: number,
+    y: number,
+    type: EnemyType,
+    // Fraction of the source drawing's canvas actually scratched/drawn on
+    // (0..1, see black-to-transparent.ts's computeCompleteness) -- scales
+    // this enemy's score value so a more effort-filled piece of art is worth
+    // visibly more when destroyed. Defaults to 1 (full 1.5x bonus) so any
+    // future caller that omits it doesn't silently zero out scoring.
+    completeness: number = 1
+  ) {
     this.scene = scene;
     this.type = type;
     this.sprite = scene.physics.add.sprite(x, y, textureKey);
@@ -41,7 +53,12 @@ export class Enemy {
     // Phaser's data manager, not a plain property -- GameScene reads this
     // back off the raw sprite in its physics overlap callbacks, which only
     // hand back Phaser.Physics.Arcade.Sprite, not this Enemy wrapper.
-    this.sprite.setData('points', type.points);
+    // Completeness-scaled score: a nearly-blank drawing (completeness ~0)
+    // scores about half its type's base points, a fully-detailed drawing
+    // (completeness ~1) up to 1.5x -- see gogologo-src design notes on
+    // scratch-density affecting gameplay.
+    const finalPoints = Math.round(type.points * (0.5 + completeness));
+    this.sprite.setData('points', finalPoints);
     this.sprite.setData('enemyRef', this);
   }
 
