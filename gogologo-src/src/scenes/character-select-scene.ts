@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { ACCENT_COLOR, HUD_TEXT_COLOR, HUD_TEXT_COLOR_SECONDARY } from '../config/visual-config';
 import { REFERENCE_HEIGHT } from '../config/layout-config';
+import { applyPixelationSetting } from '../systems/settings-manager';
 
 interface DrawingEntry {
   key: string;
@@ -44,6 +45,8 @@ export class CharacterSelectScene extends Phaser.Scene {
   }
 
   create(): void {
+    applyPixelationSetting(this.cameras.main);
+
     const scaleY = this.scale.height / REFERENCE_HEIGHT;
     this.gridStartY = GRID_START_Y * scaleY;
     this.cellHeight = CELL_HEIGHT * scaleY;

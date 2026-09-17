@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { getBestScore } from '../systems/save-manager';
+import { applyPixelationSetting } from '../systems/settings-manager';
 import { HUD_TEXT_COLOR, HUD_TEXT_COLOR_SECONDARY, GAME_OVER_TEXT_COLOR } from '../config/visual-config';
 
 export class GameOverScene extends Phaser.Scene {
@@ -8,6 +9,8 @@ export class GameOverScene extends Phaser.Scene {
   }
 
   create(data: { score: number }): void {
+    applyPixelationSetting(this.cameras.main);
+
     const cx = this.scale.width / 2;
     const cy = this.scale.height / 2;
 
