@@ -6,7 +6,7 @@
 // is 3:4 (480/640 = 0.75) -- closer to classic Galaga's vertical arcade
 // cabinet aspect than a wide 16:9 would be.
 export const MOBILE_CONFIG = { width: 480, height: 1040 };
-export const DESKTOP_CONFIG = { width: 480, height: 640 };
+export const DESKTOP_CONFIG = { width: 960, height: 1280 };
 
 // All of CharacterSelectScene's vertical layout constants, and Enemy's base
 // fall speed, were tuned against MOBILE_CONFIG's height. REFERENCE_HEIGHT

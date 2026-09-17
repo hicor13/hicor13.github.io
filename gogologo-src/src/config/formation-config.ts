@@ -11,7 +11,7 @@ export interface LevelConfig {
 
 const BASE_ROWS = 3;
 const MAX_ROWS = 6;
-const COLS = 4;
+const COLS = 6;
 // 3200ms at level 1 keeps clear margin above the worst-case entrance
 // choreography settle time (~2550ms for a 3x4 grid, see formation-manager.ts)
 // so the dive timer never fires mid-entrance.

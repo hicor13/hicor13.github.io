@@ -13,7 +13,7 @@ export class PreloadScene extends Phaser.Scene {
     const loadingText = this.add
       .text(this.scale.width / 2, this.scale.height / 2, 'Loading...', {
         fontSize: '20px',
-        color: '#ffffff',
+        color: '#4ddf1c',
       })
       .setOrigin(0.5);
 

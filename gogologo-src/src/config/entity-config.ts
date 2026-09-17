@@ -27,5 +27,5 @@ export const ENEMY_TYPES: EnemyType[] = [
   { name: 'Colibrí', targetWidth: 60, speedMultiplier: 1.4, points: 10, tintColor: 0x1abc9c },
   { name: 'Cóndor', targetWidth: 85, speedMultiplier: 1.0, points: 20, tintColor: 0xf2b705 },
   { name: 'Puma', targetWidth: 100, speedMultiplier: 0.8, points: 30, tintColor: 0x8e44ad },
-  { name: 'Comandante', targetWidth: 120, speedMultiplier: 0.6, points: 50, tintColor: 0xd91023 },
+  { name: 'Comandante', targetWidth: 75, speedMultiplier: 0.6, points: 50, tintColor: 0xd91023 },
 ];

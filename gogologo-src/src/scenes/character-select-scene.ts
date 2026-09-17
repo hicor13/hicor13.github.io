@@ -11,8 +11,8 @@ const GRID_COLS = 4;
 // Canvas width is 480 on every layout this game supports (mobile and
 // desktop only differ in height), so horizontal grid math never needs to
 // scale -- only the vertical constants below do, via REFERENCE_HEIGHT.
-const CELL_WIDTH = 100;
-const CELL_GAP_X = 10;
+const CELL_WIDTH = 200;
+const CELL_GAP_X = 30;
 const GRID_MARGIN_X = 25;
 
 // Vertical constants below are all tuned against REFERENCE_HEIGHT (the
@@ -26,7 +26,7 @@ const CELL_GAP_Y = 20;
 // only because PreloadScene's DRAWING_POOL_SIZE is 12. If DRAWING_POOL_SIZE
 // grows, the grid layout constants here need matching changes.
 const GRID_START_Y = 280;
-const PORTRAIT_BOX = 80;
+const PORTRAIT_BOX = 120;
 const HINT_Y_1 = 720;
 const HINT_Y_2 = 745;
 
@@ -55,7 +55,7 @@ export class CharacterSelectScene extends Phaser.Scene {
 
     this.add
       .text(this.scale.width / 2, TITLE_Y * scaleY, 'CHOOSE YOUR SHIP', {
-        fontSize: '28px',
+        fontSize: '50px',
         color: HUD_TEXT_COLOR,
       })
       .setOrigin(0.5);

@@ -4,7 +4,7 @@
 // this file is UI-only.
 
 // Canvas background (Phaser accepts backgroundColor as a CSS-style string).
-export const BACKGROUND_COLOR = '#111111';
+export const BACKGROUND_COLOR = '#01031b';
 
 // Shared Peruvian/16-bit accent red -- the fire button and the
 // character-select highlight both use this same red.
