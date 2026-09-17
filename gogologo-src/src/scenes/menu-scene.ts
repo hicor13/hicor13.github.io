@@ -6,9 +6,11 @@ import {
   applyPixelationSetting,
   PIXELATE_AMOUNT,
 } from '../systems/settings-manager';
+import { getAudioEnabled, setAudioEnabled, audioManager } from '../systems/audio-manager';
 import { HUD_TEXT_COLOR, HUD_TEXT_COLOR_SECONDARY } from '../config/visual-config';
 
 const pixelateLabel = (enabled: boolean): string => `Pixelate: ${enabled ? 'ON' : 'OFF'}`;
+const soundLabel = (enabled: boolean): string => `Sound: ${enabled ? 'ON' : 'OFF'}`;
 
 export class MenuScene extends Phaser.Scene {
   constructor() {
@@ -52,17 +54,41 @@ export class MenuScene extends Phaser.Scene {
       }
     });
 
+    // Second small toggle, stacked just below the pixelate one -- same
+    // out-of-the-way corner, same guard pattern against the tap-to-start
+    // listener below.
+    const soundButton = this.add
+      .text(this.scale.width - 10, 28, soundLabel(getAudioEnabled()), {
+        fontSize: '12px',
+        color: HUD_TEXT_COLOR_SECONDARY,
+      })
+      .setOrigin(1, 0)
+      .setInteractive({ useHandCursor: true });
+
+    soundButton.on('pointerdown', () => {
+      const enabled = !getAudioEnabled();
+      setAudioEnabled(enabled);
+      soundButton.setText(soundLabel(enabled));
+    });
+
+    // Resuming the background loop here means it's already playing by the
+    // time CharacterSelectScene/GameScene start.
+    audioManager.startMusic();
+
     const startGame = (): void => {
       this.scene.start('CharacterSelectScene');
     };
 
     // The scene-wide "tap anywhere to start" listener would otherwise also
-    // fire on a tap that lands on the pixelate button (Phaser's global
-    // pointerdown event fires for every pointerdown, on top of the
-    // button's own). Check the pointer against the button's bounds and,
+    // fire on a tap that lands on the pixelate/sound buttons (Phaser's
+    // global pointerdown event fires for every pointerdown, on top of each
+    // button's own). Check the pointer against both buttons' bounds and,
     // if it's a hit, just re-arm the listener instead of starting.
     const handlePointerDown = (pointer: Phaser.Input.Pointer): void => {
-      if (Phaser.Geom.Rectangle.Contains(pixelateButton.getBounds(), pointer.x, pointer.y)) {
+      if (
+        Phaser.Geom.Rectangle.Contains(pixelateButton.getBounds(), pointer.x, pointer.y) ||
+        Phaser.Geom.Rectangle.Contains(soundButton.getBounds(), pointer.x, pointer.y)
+      ) {
         this.input.once('pointerdown', handlePointerDown);
         return;
       }

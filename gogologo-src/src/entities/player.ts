@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { PLAYER_CONFIG } from '../config/entity-config';
+import { audioManager } from '../systems/audio-manager';
 
 export class Player {
   readonly sprite: Phaser.Physics.Arcade.Sprite;
@@ -40,6 +41,7 @@ export class Player {
       'projectile'
     ) as Phaser.Physics.Arcade.Sprite;
     projectile.setVelocityY(-PLAYER_CONFIG.projectileSpeed);
+    audioManager.playFire();
   }
 
   getProjectiles(): Phaser.Physics.Arcade.Group {

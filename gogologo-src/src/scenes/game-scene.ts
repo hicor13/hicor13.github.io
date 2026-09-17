@@ -6,6 +6,7 @@ import { FormationManager } from '../systems/formation-manager';
 import { levelConfig } from '../config/formation-config';
 import { setBestScoreIfHigher } from '../systems/save-manager';
 import { applyPixelationSetting } from '../systems/settings-manager';
+import { audioManager } from '../systems/audio-manager';
 import { HUD_TEXT_COLOR } from '../config/visual-config';
 
 const STARTING_LIVES = 3;
@@ -40,6 +41,7 @@ export class GameScene extends Phaser.Scene {
 
   create(): void {
     applyPixelationSetting(this.cameras.main);
+    audioManager.startMusic();
 
     const graphics = this.add.graphics();
     graphics.fillStyle(0xffffff, 1);
@@ -123,6 +125,7 @@ export class GameScene extends Phaser.Scene {
     this.formationManager.removeEnemy(enemyRef);
     this.score += points;
     this.scoreText.setText(`Score: ${this.score}`);
+    audioManager.playHit();
   }
 
   private handleEnemyHitsPlayer(enemySprite: Phaser.Physics.Arcade.Sprite): void {
@@ -139,6 +142,8 @@ export class GameScene extends Phaser.Scene {
     if (this.lives <= 0) {
       this.formationManager.destroy();
       setBestScoreIfHigher(this.score);
+      audioManager.stopMusic();
+      audioManager.playGameOver();
       this.scene.start('GameOverScene', { score: this.score });
     }
   }
