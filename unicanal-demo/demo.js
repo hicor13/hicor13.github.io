@@ -104,6 +104,34 @@
       : '<li>Sin alertas.</li>';
   };
 
-  function renderAll() { renderSearch(); renderReport(); renderLog(); renderAlerts(); }
+  // Base de datos: read-only table viewer with the SQL that would produce it.
+  const renderDb = () => {
+    const name = $('#d-table').value;
+    const defs = {
+      phone: {
+        sql: 'SELECT telefono, core, descripcion FROM phone;',
+        head: ['telefono', 'core', 'descripcion'],
+        rows: () => phones.map((p) => [p.telefono, p.core, esc(p.descripcion)]),
+      },
+      phone_blocks: {
+        sql: 'SELECT telefono, estado, fecha FROM phone_blocks\nORDER BY fecha DESC;',
+        head: ['telefono', 'estado', 'fecha'],
+        rows: () => log.map((l) => [l.telefono, esc(l.estado), l.fecha]),
+      },
+      combined_report: {
+        sql: 'SELECT core, telefono, descripcion, reactividad, bloqueo\nFROM combined_report; -- phone + equipos + bloqueo de hoy',
+        head: ['core', 'telefono', 'descripcion', 'reactividad', 'bloqueo'],
+        rows: () => phones.map((p) => [p.core, p.telefono, esc(p.descripcion), p.reactividad, esc(p.bloqueo || 'NULL')]),
+      },
+    };
+    const d = defs[name];
+    const rows = d.rows();
+    $('#d-sql').textContent = d.sql;
+    $('#d-count').textContent = rows.length ? `${rows.length} fila(s)` : '0 filas (registra algo en Bloqueos)';
+    table($('#d-table-view'), d.head, rows);
+  };
+  $('#d-table').addEventListener('change', renderDb);
+
+  function renderAll() { renderDb(); renderSearch(); renderReport(); renderLog(); renderAlerts(); }
   renderAll();
 })();

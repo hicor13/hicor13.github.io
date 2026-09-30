@@ -33,3 +33,9 @@
 .uc-alerts li.closed { border-left-color: #1e8449; opacity: .6; }
 .uc-alerts small { color: var(--muted); display: block; }
 .uc-foot { font-size: .85rem; }
+.uc-panel h2 { font-size: 1.05rem; margin: 1rem 0 .4rem; }
+.uc-panel h2:first-child { margin-top: 0; }
+.uc-list { margin: 0; padding-left: 1.2rem; color: var(--muted); font-size: .9rem; }
+.uc-list li { margin-bottom: .3rem; }
+.uc code, .uc-sql { font-family: ui-monospace, Menlo, monospace; font-size: .85em; }
+.uc-sql { background: var(--bg); border: 1px solid var(--pill-border); border-radius: 6px; padding: .5rem .75rem; margin: .5rem 0; overflow-x: auto; white-space: pre; }
