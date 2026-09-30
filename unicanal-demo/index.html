@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es-PE" data-lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unicanal (demo) — Mario Cornejo</title>
+  <meta name="description" content="Demo en vivo y simplificada de Unicanal, el portal de reportería y envíos masivos por WhatsApp. Datos ficticios.">
+  <link rel="canonical" href="https://www.mariocornejo.com/unicanal-demo/">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/unicanal-demo/demo.css">
+  <script src="/libs/personal/site-chrome.js"></script>
+  <script>
+    try {
+      var storedTheme = localStorage.getItem('theme');
+      if (storedTheme) document.documentElement.setAttribute('data-theme', storedTheme);
+    } catch (e) {}
+  </script>
+</head>
+<body>
+  <site-topbar></site-topbar>
+
+  <main class="uc">
+    <header class="uc-intro">
+      <h1>Unicanal <small>demo</small></h1>
+      <p>
+        <span data-i18n-es lang="es">Versión reducida del portal real (Flask + SQLite) que uso para operar envíos masivos de WhatsApp y su reportería. Corre 100% en tu navegador con datos ficticios: nada se guarda ni se envía.</span>
+        <span data-i18n-en lang="en" hidden>Stripped-down version of the real portal (Flask + SQLite) I use to run WhatsApp bulk sends and their reporting. It runs entirely in your browser on made-up data: nothing is stored or sent.</span>
+      </p>
+    </header>
+
+    <div class="uc-app">
+      <nav class="uc-nav" role="tablist" aria-label="Unicanal">
+        <strong class="uc-brand">Unicanal</strong>
+        <button role="tab" data-tab="busqueda" aria-selected="true">Búsqueda</button>
+        <button role="tab" data-tab="bloqueos" aria-selected="false">Bloqueos</button>
+        <button role="tab" data-tab="reportes" aria-selected="false">Reportes</button>
+        <button role="tab" data-tab="alertas" aria-selected="false">Alertas <span class="uc-badge" id="badge" hidden>0</span></button>
+        <span class="uc-user">demo</span>
+      </nav>
+
+      <section id="tab-busqueda" class="uc-panel" role="tabpanel">
+        <input type="search" id="q" placeholder="Teléfono, descripción o core…" autocomplete="off" aria-label="Buscar">
+        <p class="uc-hint" id="q-count"></p>
+        <div class="uc-scroll"><table id="q-table"></table></div>
+      </section>
+
+      <section id="tab-bloqueos" class="uc-panel" role="tabpanel" hidden>
+        <p class="uc-hint">Registra el estado del día de un chip. Un registro por teléfono y día, como en el portal real.</p>
+        <form id="b-form" class="uc-row">
+          <input id="b-tel" list="b-list" placeholder="Teléfono" required aria-label="Teléfono">
+          <datalist id="b-list"></datalist>
+          <select id="b-estado" aria-label="Estado">
+            <option>Activo</option><option>Bloqueado</option><option>Restringido</option><option>Sin señal</option>
+          </select>
+          <button type="submit">Registrar</button>
+        </form>
+        <p class="uc-hint" id="b-msg" role="status"></p>
+        <div class="uc-scroll"><table id="b-table"></table></div>
+      </section>
+
+      <section id="tab-reportes" class="uc-panel" role="tabpanel" hidden>
+        <div class="uc-row">
+          <select id="r-core" aria-label="Core"><option value="">Todos los cores</option></select>
+          <button type="button" id="r-csv">Exportar CSV</button>
+        </div>
+        <div id="r-kpis" class="uc-kpis"></div>
+        <div class="uc-scroll"><table id="r-table"></table></div>
+      </section>
+
+      <section id="tab-alertas" class="uc-panel" role="tabpanel" hidden>
+        <p class="uc-hint">Alertas persistentes: se abren y se cierran solas según el estado de los datos (registra un chip como «Activo» en Bloqueos y mira cómo se cierra).</p>
+        <ul id="a-list" class="uc-alerts"></ul>
+      </section>
+    </div>
+
+    <p class="uc-foot">
+      <span data-i18n-es lang="es">Datos generados al azar. El original es un portal Flask con scraper Selenium, SQLite y permisos por usuario; esta demo replica solo Búsqueda, Bloqueos, Reportes y Alertas.</span>
+      <span data-i18n-en lang="en" hidden>Randomly generated data. The original is a Flask portal with a Selenium scraper, SQLite and per-user permissions; this demo only mirrors Search, Blocks, Reports and Alerts.</span>
+    </p>
+  </main>
+
+  <site-footer base="/index.html"></site-footer>
+  <script src="/unicanal-demo/demo.js"></script>
+</body>
+</html>
