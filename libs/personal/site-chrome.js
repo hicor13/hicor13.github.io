@@ -118,8 +118,15 @@ class SiteTopbar extends HTMLElement {
 
   initLang() {
     const button = this.querySelector('.site-topbar-lang');
-    const initialLang = document.documentElement.dataset.lang || document.documentElement.lang || 'es';
+    let initialLang = document.documentElement.dataset.lang || document.documentElement.lang || 'es';
+    try {
+      const stored = localStorage.getItem('lang');
+      if (stored === 'es' || stored === 'en') initialLang = stored;
+    } catch (e) {}
+    initialLang = initialLang.slice(0, 2);
     button.dataset.lang = initialLang;
+    document.documentElement.dataset.lang = initialLang;
+    if (initialLang === 'en') document.documentElement.lang = 'en';
 
     // data-i18n-es/en spans ship with a static `hidden` attribute baked into
     // the served HTML for whichever language isn't the page default, so
@@ -129,14 +136,23 @@ class SiteTopbar extends HTMLElement {
     const applyLang = (lang) => {
       document.querySelectorAll('[data-i18n-es]').forEach((el) => { el.hidden = lang !== 'es'; });
       document.querySelectorAll('[data-i18n-en]').forEach((el) => { el.hidden = lang !== 'en'; });
+      document.dispatchEvent(new CustomEvent('sitelangchange', { detail: { lang } }));
     };
     applyLang(initialLang);
+    // This script runs in <head>, so the page's i18n spans don't exist yet
+    // when the topbar connects; re-apply once the body has been parsed.
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => applyLang(button.dataset.lang), { once: true });
+    }
 
     button.addEventListener('click', () => {
       const newLang = button.dataset.lang === 'es' ? 'en' : 'es';
       button.dataset.lang = newLang;
       document.documentElement.lang = newLang;
       document.documentElement.dataset.lang = newLang;
+      try {
+        localStorage.setItem('lang', newLang);
+      } catch (e) {}
       applyLang(newLang);
     });
   }

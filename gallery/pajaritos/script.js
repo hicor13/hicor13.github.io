@@ -15,6 +15,11 @@ function slugFromSrc(src) {
     return src.split('/').pop().replace(/\.[^.]+$/, '');
 }
 
+// Grid uses a small WebP thumbnail; the lightbox loads the full-size src.
+function thumbSrc(src) {
+    return src.replace(/([^/]+)\.[^.]+$/, 'thumbs/$1.webp');
+}
+
 async function loadMetadata() {
     try {
         const res = await fetch('metadata.json');
@@ -62,7 +67,7 @@ function renderGallery() {
         const altText = img.description ? `${img.title} — ${img.description}` : img.title;
         return `
         <div class="gallery-item" onclick="openLightbox(${index})">
-            <img src="${img.src}" alt="${escapeHtml(altText)}">
+            <img src="${thumbSrc(img.src)}" alt="${escapeHtml(altText)}" decoding="async">
             <div class="gallery-item-title">${escapeHtml(img.title)}</div>
         </div>
     `;
