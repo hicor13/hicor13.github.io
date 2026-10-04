@@ -17,6 +17,15 @@ from playwright.sync_api import sync_playwright
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 OUT = ROOT / "media" / "documents"
 
+# Same order as each language's "contact" list: location, phone, email, LinkedIn, website.
+CONTACT_LINKS = [
+    "https://maps.app.goo.gl/839uNNTWQU41jbpg8",
+    "https://wa.me/51979001717",
+    "mailto:cornejomariob@gmail.com",
+    "https://linkedin.com/in/hicor13",
+    "https://mariocornejo.com",
+]
+
 CONTENT = {
     "es": {
         "lang": "es",
@@ -120,6 +129,7 @@ h1 { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 25pt
      text-transform: uppercase; text-align: center; margin: 0; line-height: 1.15; }
 .tagline { text-align: center; font-size: 7pt; letter-spacing: .3em; text-transform: uppercase; color: #555; margin: 2mm 0 2.5mm; }
 .contact { text-align: center; font-size: 8pt; margin: 0; }
+.contact a { color: inherit; text-decoration: none; }
 .contact span + span::before { content: '\\2022'; margin: 0 7px; }
 .citizen { text-align: center; font-size: 8pt; margin: 1mm 0 0; font-style: italic; color: #444; }
 h2 { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 9pt; letter-spacing: .2em;
@@ -142,7 +152,7 @@ def esc(s):
 
 
 def render(c, fonts_css):
-    contact = "".join(f"<span>{esc(x)}</span>" for x in c["contact"])
+    contact = "".join(f'<span><a href="{h}">{esc(x)}</a></span>' for x, h in zip(c["contact"], CONTACT_LINKS))
     edu = "".join(
         f'<div class="row"><span class="org">{esc(o)}</span><span class="r">{esc(loc)}</span></div>'
         f'<div class="row"><span class="role">{esc(d)}</span><span class="r">{esc(dt)}</span></div>'
@@ -215,7 +225,7 @@ def page_html():
         return out
 
     contact = lambda c: " &nbsp;·&nbsp; ".join(
-        f'<a href="mailto:{x}" class="plain">{x}</a>' if "@" in x else esc(x) for x in c["contact"])
+        f'<a href="{h}" class="plain">{esc(x)}</a>' for x, h in zip(c["contact"], CONTACT_LINKS))
     skills = lambda c: "".join(f"<p><strong>{esc(k)}:</strong> {esc(v)}</p>" for k, v in c["skills"])
     es = CONTENT["es"]
     return f"""<!doctype html>

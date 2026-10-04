@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es-PE" data-lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unicanal (demo) — Mario Cornejo</title>
+  <meta name="description" content="Demo en vivo y simplificada de Unicanal, un portal de reportería y operación sobre una base SQLite. Datos ficticios.">
+  <link rel="canonical" href="https://www.mariocornejo.com/unicanal-demo/">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/unicanal-demo/demo.css">
+  <script src="/libs/personal/site-chrome.js"></script>
+  <script>
+    try {
+      var storedTheme = localStorage.getItem('theme');
+      if (storedTheme) document.documentElement.setAttribute('data-theme', storedTheme);
+    } catch (e) {}
+  </script>
+</head>
+<body>
+  <site-topbar></site-topbar>
+
+  <main class="uc">
+    <header class="uc-intro">
+      <h1>Unicanal <small>demo</small></h1>
+      <p>
+        <span data-i18n-es lang="es">Versión reducida del portal real (Flask + SQLite) que uso para operar y reportar. Corre 100% en tu navegador con datos ficticios: nada se guarda ni se envía.</span>
+        <span data-i18n-en lang="en" hidden>Stripped-down version of the real portal (Flask + SQLite) I use to operate and report. It runs entirely in your browser on made-up data: nothing is stored or sent.</span>
+      </p>
+    </header>
+
+    <div class="uc-app">
+      <nav class="uc-nav" role="tablist" aria-label="Unicanal">
+        <strong class="uc-brand">Unicanal</strong>
+        <button role="tab" data-tab="busqueda" aria-selected="true">Búsqueda</button>
+        <button role="tab" data-tab="bloqueos" aria-selected="false">Bloqueos</button>
+        <button role="tab" data-tab="reportes" aria-selected="false">Reportes</button>
+        <button role="tab" data-tab="datos" aria-selected="false">Base de datos</button>
+        <button role="tab" data-tab="alertas" aria-selected="false">Alertas <span class="uc-badge" id="badge" hidden>0</span></button>
+        <span class="uc-user">demo</span>
+      </nav>
+
+      <section id="tab-busqueda" class="uc-panel" role="tabpanel">
+        <input type="search" id="q" placeholder="Teléfono, descripción o core…" autocomplete="off" aria-label="Buscar">
+        <p class="uc-hint" id="q-count"></p>
+        <div class="uc-scroll"><table id="q-table"></table></div>
+      </section>
+
+      <section id="tab-bloqueos" class="uc-panel" role="tabpanel" hidden>
+        <p class="uc-hint">Registra el estado del día de un chip. Un registro por teléfono y día, como en el portal real.</p>
+        <form id="b-form" class="uc-row">
+          <input id="b-tel" list="b-list" placeholder="Teléfono" required aria-label="Teléfono">
+          <datalist id="b-list"></datalist>
+          <select id="b-estado" aria-label="Estado">
+            <option>Activo</option><option>Bloqueado</option><option>Restringido</option><option>Sin señal</option>
+          </select>
+          <button type="submit">Registrar</button>
+        </form>
+        <p class="uc-hint" id="b-msg" role="status"></p>
+        <div class="uc-scroll"><table id="b-table"></table></div>
+      </section>
+
+      <section id="tab-reportes" class="uc-panel" role="tabpanel" hidden>
+        <div class="uc-row">
+          <select id="r-core" aria-label="Core"><option value="">Todos los cores</option></select>
+          <button type="button" id="r-csv">Exportar CSV</button>
+        </div>
+        <div id="r-kpis" class="uc-kpis"></div>
+        <div class="uc-scroll"><table id="r-table"></table></div>
+      </section>
+
+      <section id="tab-datos" class="uc-panel" role="tabpanel" hidden>
+        <h2>Cómo se maneja la base de datos</h2>
+        <ul class="uc-list">
+          <li><b>Un solo archivo SQLite</b> compartido por dos procesos independientes: el portal web (Flask) y un scraper (Selenium) que actualiza el estado de equipos y campañas.</li>
+          <li><b>Esquema idempotente:</b> al arrancar cualquiera de los dos se ejecuta <code>CREATE TABLE IF NOT EXISTS</code> y migraciones <code>ALTER TABLE ADD COLUMN</code> guiadas por <code>PRAGMA table_info</code>, así que cualquiera puede iniciar primero sobre una base vacía.</li>
+          <li><b>SQL plano, sin ORM:</b> cada módulo tiene su <code>repository.py</code> con las consultas, separado de las rutas HTTP.</li>
+          <li><b>Registros por día:</b> los bloqueos son un registro por teléfono y fecha (<code>UNIQUE (telefono, fecha)</code>), solo se agregan.</li>
+        </ul>
+        <h2>Cómo se hace la reportería</h2>
+        <ul class="uc-list">
+          <li>Una vista SQL central, <code>combined_report</code>, une las tablas de teléfonos, equipos y el bloqueo del día. Casi todos los reportes, el dashboard y las alertas leen de ella, no de las tablas crudas.</li>
+          <li>Los reportes son tablas filtrables exportables a CSV/Excel (pestaña Reportes).</li>
+          <li>Las alertas persistentes son reglas evaluadas sobre esa vista tras cada ciclo del scraper: se abren al cumplirse la condición y se cierran solas cuando los datos cambian.</li>
+        </ul>
+        <h2>Demo de tabla</h2>
+        <div class="uc-row">
+          <select id="d-table" aria-label="Tabla">
+            <option value="phone">phone</option>
+            <option value="phone_blocks">phone_blocks</option>
+            <option value="combined_report">combined_report (vista)</option>
+          </select>
+        </div>
+        <pre id="d-sql" class="uc-sql"></pre>
+        <p class="uc-hint" id="d-count"></p>
+        <div class="uc-scroll"><table id="d-table-view"></table></div>
+      </section>
+
+      <section id="tab-alertas" class="uc-panel" role="tabpanel" hidden>
+        <p class="uc-hint">Alertas persistentes: se abren y se cierran solas según el estado de los datos (registra un chip como «Activo» en Bloqueos y mira cómo se cierra).</p>
+        <ul id="a-list" class="uc-alerts"></ul>
+      </section>
+    </div>
+
+    <p class="uc-foot">
+      <span data-i18n-es lang="es">Datos generados al azar. El original es un portal Flask con scraper Selenium, SQLite y permisos por usuario; esta demo replica solo Búsqueda, Bloqueos, Reportes, Base de datos y Alertas.</span>
+      <span data-i18n-en lang="en" hidden>Randomly generated data. The original is a Flask portal with a Selenium scraper, SQLite and per-user permissions; this demo only mirrors Search, Blocks, Reports, Database and Alerts.</span>
+    </p>
+  </main>
+
+  <site-footer base="/index.html"></site-footer>
+  <script src="/unicanal-demo/demo.js"></script>
+</body>
+</html>
