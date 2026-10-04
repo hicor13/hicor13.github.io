@@ -21,7 +21,8 @@ function initResumeModal() {
   if (!trigger || !modal) return;
 
   const pagesContainer = modal.querySelector('.resume-pdf-pages');
-  const PDF_SRC = '/media/documents/resume.pdf';
+  const PDF_SRC = { es: '/media/documents/resume.pdf', en: '/media/documents/resume-en.pdf' };
+  const currentLang = () => (document.documentElement.dataset.lang === 'en' ? 'en' : 'es');
   // Own rendering via PDF.js instead of the browser's native PDF viewer
   // (iframe + #view=Fit): that always drew its own toolbar, which Safari
   // ignores every attempt to suppress via URL fragment. Rendering each
@@ -32,21 +33,28 @@ function initResumeModal() {
 
   let renderPromise = null;
   let renderedWidth = 0;
+  let renderedLang = null;
+  let renderSeq = 0;
 
   const renderPages = async () => {
     const pdfjsLib = await import(`${PDFJS_BASE}/pdf.min.mjs`);
     pdfjsLib.GlobalWorkerOptions.workerSrc = `${PDFJS_BASE}/pdf.worker.min.mjs`;
 
-    const pdf = await pdfjsLib.getDocument({ url: PDF_SRC }).promise;
+    const seq = ++renderSeq; // a newer render (language/width change) supersedes this one
+    const lang = currentLang();
+    const pdf = await pdfjsLib.getDocument({ url: PDF_SRC[lang] }).promise;
+    if (seq !== renderSeq) return;
     const containerWidth = pagesContainer.clientWidth;
     // Rendered at CSS width * devicePixelRatio, then displayed at
     // width:100% (CSS) — crisp on retina instead of a fixed raster size.
     const dpr = window.devicePixelRatio || 1;
     renderedWidth = containerWidth;
+    renderedLang = lang;
 
     pagesContainer.replaceChildren();
     for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
       const page = await pdf.getPage(pageNum);
+      if (seq !== renderSeq) return;
       const scale = (containerWidth / page.getViewport({ scale: 1 }).width) * dpr;
       const viewport = page.getViewport({ scale });
       const canvas = document.createElement('canvas');
@@ -62,13 +70,16 @@ function initResumeModal() {
     // since the last render (e.g. orientation change) to look blurry
     // or leave letterboxing at the new width.
     const widthChanged = Math.abs(pagesContainer.clientWidth - renderedWidth) > 8;
-    if (!renderPromise || widthChanged) {
+    const langChanged = renderedLang !== currentLang();
+    if (!renderPromise || widthChanged || langChanged) {
       renderPromise = renderPages().catch((error) => {
         renderPromise = null; // allow retry on next open
         pagesContainer.replaceChildren();
         const message = document.createElement('p');
         message.style.padding = '1rem';
-        message.textContent = 'No se pudo cargar la vista previa. Usa "Ver documento completo".';
+        message.textContent = currentLang() === 'en'
+          ? 'Could not load the preview. Use "Open full document".'
+          : 'No se pudo cargar la vista previa. Usa "Ver documento completo".';
         pagesContainer.appendChild(message);
         console.error('Resume PDF render failed:', error);
       });
@@ -100,6 +111,10 @@ function initResumeModal() {
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && modal.classList.contains('is-open')) close();
+  });
+
+  document.addEventListener('sitelangchange', () => {
+    if (modal.classList.contains('is-open')) ensureRendered();
   });
 
   window.addEventListener('orientationchange', () => {

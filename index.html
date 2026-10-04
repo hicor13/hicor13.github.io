@@ -33,6 +33,12 @@
         "image": "https://www.mariocornejo.com/assets/img/mario.jpg",
         "jobTitle": "Business Analyst",
         "email": "cornejomariob@gmail.com",
+        "nationality": [
+          { "@type": "Country", "name": "United States" },
+          { "@type": "Country", "name": "Peru" }
+        ],
+        "birthPlace": { "@type": "Country", "name": "United States" },
+        "knowsLanguage": ["en", "es", "ja"],
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Lima",
@@ -76,11 +82,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&display=swap">
   <link rel="stylesheet" href="styles.css?v=20260911c">
-  <script src="/libs/personal/site-chrome.js?v=20260911a"></script>
+  <script src="/libs/personal/site-chrome.js?v=20261004a"></script>
   <script>
     try {
       var storedTheme = localStorage.getItem('theme');
       if (storedTheme) document.documentElement.setAttribute('data-theme', storedTheme);
+      // Set the saved language before first paint so the other language
+      // never flashes; site-chrome.js un-hides the matching spans.
+      if (localStorage.getItem('lang') === 'en') {
+        document.documentElement.setAttribute('data-lang', 'en');
+        document.documentElement.setAttribute('lang', 'en');
+      }
     } catch (e) {}
   </script>
 
@@ -132,14 +144,17 @@
           Profesional con 3 años de experiencia en optimización de procesos operacionales y análisis
           empresarial. En INDRA Servicios redujo tiempos de ciclo operacional significativamente sin
           presupuesto adicional. Formación en Administración de Negocios (SUNEDU certificado),
-          desarrollando Python y SQL. Mejor encaje: Growth Operations Specialist, Business Analyst
-          u Operations Analyst.
+          desarrollando Python y SQL. Nacido y con residencia previa en EE. UU.; doble ciudadanía
+          (EE. UU. y Perú) y bilingüe nativo inglés–español. Mejor encaje: Growth Operations Specialist,
+          Business Analyst u Operations Analyst.
         </span>
         <span data-i18n-en lang="en" hidden>
           A professional with 3 years of experience in operational process optimization and business
           analysis. At INDRA Servicios, cut operational cycle times significantly with no additional
           budget. Background in Business Administration (SUNEDU-certified), building Python and SQL
-          skills. Best fit: Growth Operations Specialist, Business Analyst, or Operations Analyst.
+          skills. Born and previously lived in the United States; dual U.S.–Peruvian citizen and
+          native English–Spanish bilingual. Best fit: Growth Operations Specialist, Business Analyst, or
+          Operations Analyst.
         </span>
       </p>
       <h3><span data-i18n-es lang="es">Educación</span><span data-i18n-en lang="en" hidden>Education</span></h3>
@@ -164,13 +179,13 @@
       <p>
         <span data-i18n-es lang="es">
           Excel avanzado, Power Query, Google Workspace, Adobe CC, Claude Code, Linux, Docker,
-          Python (básico), SQL (CS50 Harvard, módulo 2). Idiomas: español nativo, inglés avanzado
-          (+B2 certificado), japonés básico.
+          Python (básico), SQL (CS50 Harvard, módulo 2). Idiomas: inglés nativo (nacido y con residencia previa en EE. UU.), español nativo,
+          japonés básico.
         </span>
         <span data-i18n-en lang="en" hidden>
           Advanced Excel, Power Query, Google Workspace, Adobe CC, Claude Code, Linux, Docker,
-          Python (basic), SQL (CS50 Harvard, module 2). Languages: native Spanish, advanced English
-          (B2-certified), basic Japanese.
+          Python (basic), SQL (CS50 Harvard, module 2). Languages: native English (born and previously lived in the U.S.), native Spanish,
+          basic Japanese.
         </span>
       </p>
     </section>
@@ -368,6 +383,6 @@
     </div>
   </div>
 
-  <script src="script.js?v=20260911a"></script>
+  <script src="script.js?v=20261004a"></script>
 </body>
 </html>

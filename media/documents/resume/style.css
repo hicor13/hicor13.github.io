@@ -34,3 +34,18 @@ main { max-width: 40rem; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
 	.actions { flex: 1; }
 	.actions a { flex: 1; padding: 10px 8px; font-size: 13px; }
 }
+
+[hidden] { display: none !important; }
+.lang-toggle {
+	display: inline-flex; align-items: center; justify-content: center; min-height: 44px;
+	background: none; color: #fff; border: 1px solid #686a70; border-radius: 4px;
+	padding: 7px 12px; font: inherit; font-size: 14px; cursor: pointer;
+}
+.lang-toggle:hover, .lang-toggle:focus { background: #3d3f44; }
+.lang-toggle[data-lang="es"] .l-es, .lang-toggle[data-lang="en"] .l-en { font-weight: 700; text-decoration: underline; }
+.cv-row ul { margin: 0.35rem 0 0; padding-left: 1.1rem; color: #4a4a4a; font-size: 0.92rem; }
+.cv-meta { margin-bottom: 0.3rem; }
+.cv-citizen { font-style: italic; margin-bottom: 2rem; }
+a.plain { color: inherit; border: none; padding: 0; min-height: auto; display: inline; }
+.cv-row > span:first-child { flex: 1 1 0; min-width: 12rem; }
+.cv-row > span:last-child { flex: 0 0 auto; }
