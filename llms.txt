@@ -1,0 +1,37 @@
+# Mario Cornejo
+
+> Personal site of Mario Roy Cornejo Bellido, a Business Analyst / Growth Operations Specialist based in Lima, Peru. Focus: process optimization, reporting automation, SQL and Python. Born and previously lived in the United States; dual U.S. and Peruvian citizen and a native speaker of both English and Spanish. The site is available in English and Spanish, each on its own URL.
+
+Mario has 3 years of experience in operational process optimization and business analysis. At INDRA Servicios (Quality Assurance Analyst, Oct 2025 – Jan 2026) he cut a QA cycle from 4+ hours to about 25 minutes with no extra budget. At CR Cobranzas (Digital Channels Assistant, Mar 2026 – present) he automates reporting, migrating from Excel Power Query to SQL + Python. Education: Bachelor's in Business Administration, Universidad Privada San Juan Bautista (Ica, Peru), SUNEDU-certified, Dec 2022. Best-fit roles: Growth Operations Specialist, Business Analyst, Operations Analyst.
+
+## About and resume
+
+- [Home (English)](https://www.mariocornejo.com/en/): Overview, education, certifications, skills, work history and projects.
+- [Inicio (Español)](https://www.mariocornejo.com/): The same content in Spanish.
+- [Resume (English)](https://www.mariocornejo.com/en/resume/): Full resume page; PDF at https://www.mariocornejo.com/media/documents/resume-en.pdf
+- [Currículum (Español)](https://www.mariocornejo.com/media/documents/resume/index.html): Spanish resume page; PDF at https://www.mariocornejo.com/media/documents/resume.pdf
+
+## Projects
+
+- [Unicanal demo](https://www.mariocornejo.com/unicanal-demo/): Live, simplified demo of a reporting and operations portal (Flask + SQLite in the original) that runs in the browser on made-up data.
+- [GoGoLogo](https://www.mariocornejo.com/gogologo/): Free Galaga-style browser arcade shooter where drawings from the Garabatos gallery become the ship and enemies. Phaser + TypeScript, keyboard and touch controls, online leaderboard.
+- [Garabatos](https://www.mariocornejo.com/garabatos/index.html): Scratch a black surface to reveal color underneath and leave a drawing in a public gallery. Canvas 2D + Supabase.
+- [Pajaritos](https://www.mariocornejo.com/gallery/pajaritos/): Bird photography album with a title, date and species note for each photo.
+
+## Skills
+
+- Advanced Excel, Power Query, Google Workspace, Adobe CC, Linux, Docker, Python (basic), SQL (CS50 Harvard, module 2).
+- Languages: native English, native Spanish, basic Japanese.
+- Certifications: English B2 First (Cambridge), CS50 SQL (Harvard, module 2), Basic Japanese I (APJ); MOS Associate in progress.
+
+## Contact
+
+- [LinkedIn](https://linkedin.com/in/hicor13)
+- [GitHub](https://github.com/hicor13)
+- Email: cornejomariob@gmail.com
+
+## Optional
+
+- [Garabatos gallery (mosaic)](https://www.mariocornejo.com/gallery/garabatos/): Live mosaic built from visitors' saved drawings.
+- [Garabatos gallery (classic)](https://www.mariocornejo.com/gallery/garabatos-fotos/): All saved drawings in a classic grid.
+- [Sitemap](https://www.mariocornejo.com/sitemap.xml)
