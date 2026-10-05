@@ -3,7 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>Gogologo</title>
+  <title>GoGoLogo — Free Retro Arcade Shooter Game | Mario Cornejo</title>
+  <meta name="description" content="Free Galaga-style browser arcade shooter where drawings from the public Garabatos gallery become your ship and enemies. Keyboard and touch controls." />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://www.mariocornejo.com/gogologo/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Mario Cornejo" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:title" content="GoGoLogo — Free Retro Arcade Shooter" />
+  <meta property="og:description" content="A free Galaga-style browser arcade shooter where visitors' drawings become the ship and the enemies. Built with Phaser and TypeScript." />
+  <meta property="og:url" content="https://www.mariocornejo.com/gogologo/" />
+  <meta property="og:image" content="https://www.mariocornejo.com/assets/img/og-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="GoGoLogo — Free Retro Arcade Shooter" />
+  <meta name="twitter:description" content="A free Galaga-style browser arcade shooter where visitors' drawings become the ship and the enemies. Built with Phaser and TypeScript." />
+  <meta name="twitter:image" content="https://www.mariocornejo.com/assets/img/og-card.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "name": "GoGoLogo",
+    "url": "https://www.mariocornejo.com/gogologo/",
+    "description": "A free Galaga-style browser arcade shooter where drawings from the public Garabatos gallery become the player's ship and the enemies.",
+    "genre": "Arcade shooter",
+    "playMode": "SinglePlayer",
+    "applicationCategory": "Game",
+    "operatingSystem": "Any (web browser)",
+    "inLanguage": "en",
+    "isAccessibleForFree": true,
+    "author": { "@type": "Person", "@id": "https://www.mariocornejo.com/#person", "name": "Mario Cornejo", "url": "https://www.mariocornejo.com/" }
+  }
+  </script>
   <!-- Add-to-Home-Screen fullscreen (iOS): with these three tags, opening
        the icon saved via Safari's "Add to Home Screen" launches with no
        browser chrome at all. Opening the page in a normal Safari tab is
@@ -20,6 +52,13 @@
 </head>
 <body>
   <div id="game-container"></div>
+  <!-- Readable fallback for crawlers, screen readers and no-JS: the game itself is a canvas. -->
+  <noscript>
+    <main style="color:#eee;font:16px/1.5 system-ui,sans-serif;padding:2rem;max-width:40rem;margin:auto">
+      <h1>GoGoLogo</h1>
+      <p>A free Galaga-style browser arcade shooter where drawings from the public Garabatos gallery become your ship and the enemies, built by <a href="https://www.mariocornejo.com/" style="color:#9cf">Mario Cornejo</a> with Phaser and TypeScript. Enable JavaScript to play.</p>
+    </main>
+  </noscript>
   <script type="module" src="/src/main.ts"></script>
 </body>
 </html>

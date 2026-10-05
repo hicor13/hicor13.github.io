@@ -4,15 +4,33 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Curriculum Vitae — Mario Cornejo</title>
-	<meta name="description" content="Curriculum Vitae de Mario Roy Cornejo Bellido — Growth Operations Specialist / Business Analyst, Lima, Perú. Ciudadanía dual EE. UU. y Perú; inglés y español nativos. / Resume of Mario Roy Cornejo Bellido — Business Analyst, Lima, Peru; dual U.S. and Peruvian citizen, native English and Spanish.">
+	<meta name="description" content="Currículum de Mario Roy Cornejo Bellido: Business Analyst en Lima, Perú. SQL, Python y automatización de reportería. Bilingüe nativo inglés–español.">
+	<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 	<link rel="canonical" href="https://www.mariocornejo.com/media/documents/resume/index.html">
+	<link rel="alternate" hreflang="es" href="https://www.mariocornejo.com/media/documents/resume/index.html">
+	<link rel="alternate" hreflang="en" href="https://www.mariocornejo.com/en/resume/">
+	<link rel="alternate" hreflang="x-default" href="https://www.mariocornejo.com/media/documents/resume/index.html">
+	<meta property="og:type" content="profile">
+	<meta property="og:site_name" content="Mario Cornejo">
+	<meta property="og:locale" content="es_PE">
+	<meta property="og:locale:alternate" content="en_US">
+	<meta property="og:title" content="Currículum — Mario Cornejo">
+	<meta property="og:description" content="Business Analyst en Lima, Perú. SQL, Python, automatización de reportería. Bilingüe nativo inglés–español.">
+	<meta property="og:url" content="https://www.mariocornejo.com/media/documents/resume/index.html">
+	<meta property="og:image" content="https://www.mariocornejo.com/assets/img/og-card.png">
+	<meta property="og:image:width" content="1200">
+	<meta property="og:image:height" content="630">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Currículum — Mario Cornejo">
+	<meta name="twitter:description" content="Business Analyst en Lima, Perú. SQL, Python, automatización de reportería.">
+	<meta name="twitter:image" content="https://www.mariocornejo.com/assets/img/og-card.png">
 	<link rel="stylesheet" href="style.css?v=20261004a">
 	<script type="application/ld+json">
 	{
 	  "@context": "https://schema.org",
 	  "@type": "ProfilePage",
 	  "url": "https://www.mariocornejo.com/media/documents/resume/index.html",
-	  "inLanguage": ["es", "en"],
+	  "inLanguage": "es",
 	  "mainEntity": {
 	    "@type": "Person",
 	    "@id": "https://www.mariocornejo.com/#person",
@@ -79,22 +97,36 @@
 	</div>
 	<script>
 		(function () {
+			var de = document.documentElement;
+			var fixed = de.hasAttribute('data-lang-fixed');
 			var btn = document.getElementById('lang-toggle');
 			var titles = { es: 'Curriculum Vitae — Mario Cornejo', en: 'Resume — Mario Cornejo' };
+			// Per-language URL declared via <link rel="alternate" hreflang>, same-origin path only.
+			function alt(l) {
+				var k = document.querySelector('link[rel="alternate"][hreflang="' + l + '"]');
+				if (!k) return null;
+				try { var p = new URL(k.href, location.href).pathname; return p === location.pathname ? null : p; } catch (e) { return null; }
+			}
 			function apply(l) {
-				document.documentElement.lang = l === 'en' ? 'en' : 'es-PE';
-				document.documentElement.dataset.lang = l;
+				de.lang = l === 'en' ? 'en' : 'es-PE';
+				de.dataset.lang = l;
 				btn.dataset.lang = l;
-				document.title = titles[l];
+				if (!fixed) document.title = titles[l];
 				document.querySelectorAll('[data-i18n-es]').forEach(function (e) { e.hidden = l !== 'es'; });
 				document.querySelectorAll('[data-i18n-en]').forEach(function (e) { e.hidden = l !== 'en'; });
 			}
-			var lang = 'es';
-			try { var s = localStorage.getItem('lang'); if (s === 'en' || s === 'es') lang = s; } catch (e) {}
+			var lang = fixed ? de.dataset.lang : 'es';
+			if (!fixed) {
+				try { var s = localStorage.getItem('lang'); if (s === 'en' || s === 'es') lang = s; } catch (e) {}
+				if (lang === 'en' && alt('en')) { location.replace(alt('en') + location.search + location.hash); return; }
+			}
 			apply(lang);
 			btn.addEventListener('click', function () {
-				lang = lang === 'es' ? 'en' : 'es';
-				try { localStorage.setItem('lang', lang); } catch (e) {}
+				var next = lang === 'es' ? 'en' : 'es';
+				try { localStorage.setItem('lang', next); } catch (e) {}
+				var target = alt(next);
+				if (target) { location.assign(target + location.search + location.hash); return; }
+				lang = next;
 				apply(lang);
 			});
 		})();

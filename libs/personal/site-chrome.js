@@ -7,6 +7,33 @@
 // two tags work correctly on index.html's --bg/--fg design-token system
 // and on pajaritos's separate, token-less stylesheet.
 
+// --- Language routing -------------------------------------------------
+// Pages with a real per-language URL declare it with
+// <link rel="alternate" hreflang="es|en" href="...">. Those pages use the
+// URL (not just a JS toggle) as the source of truth for language, so each
+// language is crawlable/indexable on its own and the toggle navigates
+// between them. Pages without alternates keep the in-place toggle.
+// English pages carry <html data-lang-fixed>: they never switch in place.
+function altLangPath(lang) {
+  const link = document.querySelector('link[rel="alternate"][hreflang="' + lang + '"]');
+  if (!link) return null;
+  try {
+    const path = new URL(link.href, location.href).pathname; // stay same-origin (www / apex / github.io)
+    return path === location.pathname ? null : path;
+  } catch (e) {
+    return null;
+  }
+}
+
+(function redirectSavedLanguage() {
+  if (document.documentElement.hasAttribute('data-lang-fixed')) return;
+  let stored = null;
+  try { stored = localStorage.getItem('lang'); } catch (e) {}
+  if (stored !== 'en') return;
+  const path = altLangPath('en');
+  if (path) location.replace(path + location.search + location.hash);
+})();
+
 class SiteTopbar extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
@@ -118,10 +145,11 @@ class SiteTopbar extends HTMLElement {
 
   initLang() {
     const button = this.querySelector('.site-topbar-lang');
+    const fixedLang = document.documentElement.hasAttribute('data-lang-fixed');
     let initialLang = document.documentElement.dataset.lang || document.documentElement.lang || 'es';
     try {
       const stored = localStorage.getItem('lang');
-      if (stored === 'es' || stored === 'en') initialLang = stored;
+      if (!fixedLang && (stored === 'es' || stored === 'en')) initialLang = stored;
     } catch (e) {}
     initialLang = initialLang.slice(0, 2);
     button.dataset.lang = initialLang;
@@ -147,6 +175,12 @@ class SiteTopbar extends HTMLElement {
 
     button.addEventListener('click', () => {
       const newLang = button.dataset.lang === 'es' ? 'en' : 'es';
+      const target = altLangPath(newLang);
+      if (target) {
+        try { localStorage.setItem('lang', newLang); } catch (e) {}
+        location.assign(target + location.search + location.hash);
+        return;
+      }
       button.dataset.lang = newLang;
       document.documentElement.lang = newLang;
       document.documentElement.dataset.lang = newLang;

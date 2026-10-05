@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
+# Not content: PR preview copies of the whole site, internal specs/plans, build sources and scripts.
+Disallow: /previews/
+Disallow: /docs/
+Disallow: /gogologo-src/
+Disallow: /tools/
 
 Sitemap: https://www.mariocornejo.com/sitemap.xml
+Sitemap: https://www.mariocornejo.com/gallery/pajaritos/sitemap.xml
