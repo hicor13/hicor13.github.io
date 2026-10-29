@@ -440,6 +440,15 @@ main {
   font-size: 0.85rem;
 }
 
+.timeline-bullets {
+  margin: 0.5rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.timeline-bullets li {
+  margin-bottom: 0.25rem;
+}
+
 .card-link {
   display: block; /* Makes the anchor behave like a block element */
   text-decoration: none; /* Removes default link underline */

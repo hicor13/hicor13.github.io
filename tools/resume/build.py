@@ -35,12 +35,7 @@ CONTENT = {
         "contact": ["Lima, Perú 15038", "+51 979 001 717", "cornejomariob@gmail.com", "linkedin.com/in/hicor13", "mariocornejo.com"],
         "profile_h": "Perfil",
         "profile": (
-            "Profesional con 3 años de experiencia en optimización de procesos operacionales y análisis "
-            "empresarial. En INDRA Servicios redujo significativamente los tiempos de ciclo operacional sin "
-            "presupuesto adicional. Formación en Administración de Negocios (certificada por SUNEDU), "
-            "desarrollando Python y SQL. Nacido y con residencia previa en EE. UU.; doble ciudadanía "
-            "(EE. UU. y Perú) y bilingüe nativo inglés–español. Mejor encaje: Growth Operations Specialist, "
-            "Business Analyst u Operations Analyst."
+            'Profesional con 3 años en optimización de procesos y análisis empresarial. En CR Cobranzas implementó con Claude Code una base de datos SQL que reemplazó hojas de cálculo en un proceso legado y automatizó la consolidación de datos para reportes ISO. En INDRA redujo el ciclo de QA en 90% sin presupuesto adicional. Mejor encaje: Business Analyst, Operations Analyst o Growth Operations Specialist.'
         ),
         "edu_h": "Educación",
         "edu": [("Universidad Privada San Juan Bautista", "Ica, Perú",
@@ -48,9 +43,12 @@ CONTENT = {
         "exp_h": "Experiencia",
         "exp": [
             ("CR Cobranzas", "Lima, Perú", "Digital Channels Assistant", "mar 2026 – presente", [
-                "Automatización de reportería: migración de Excel Power Query a SQL + Python/scraping.",
-                "Ejecución de estrategias de envíos masivos por canales digitales.",
-                "Resolución de cuellos de botella en el flujo operativo."]),
+                'Transformación digital con Claude Code: base de datos SQL para el proceso legado de comunicaciones.',
+                'Independencia de hojas de cálculo: SQL a medida del área y reportería rápida con Python/scraping.',
+                'Automatización de la consolidación de datos para reportes ISO.',
+                'Control de registros sensibles mediante búsqueda y filtrado con Power Query.',
+                'Ejecución de envíos masivos por canales digitales y resolución de cuellos de botella del flujo operativo.',
+                ]),
             ("INDRA Servicios Perú", "Ica, Perú", "Quality Assurance Analyst", "oct 2025 – ene 2026", [
                 "Validación técnica de Activos Digitales siguiendo protocolos establecidos.",
                 "Diseño e implementación de varias optimizaciones al flujo de QA que en conjunto acortaron los tiempos.",
@@ -79,12 +77,7 @@ CONTENT = {
         "contact": ["Lima, Peru 15038", "+51 979 001 717", "cornejomariob@gmail.com", "linkedin.com/in/hicor13", "mariocornejo.com"],
         "profile_h": "Profile",
         "profile": (
-            "Professional with 3 years of experience in operational process optimization and business "
-            "analysis. At INDRA Servicios, significantly cut operational cycle times with no additional "
-            "budget. Background in Business Administration (SUNEDU-certified), building Python and SQL "
-            "skills. Born and previously lived in the United States; dual U.S.–Peruvian citizen and native "
-            "English–Spanish bilingual. Best fit: Growth Operations Specialist, Business Analyst, or "
-            "Operations Analyst."
+            'Professional with 3 years in process optimization and business analysis. At CR Cobranzas, implemented with Claude Code a SQL database that replaced spreadsheets in a legacy process and automated data consolidation for ISO reports. At INDRA, cut the QA cycle by 90% with no additional budget. Best fit: Business Analyst, Operations Analyst, or Growth Operations Specialist.'
         ),
         "edu_h": "Education",
         "edu": [("Universidad Privada San Juan Bautista", "Ica, Peru",
@@ -92,9 +85,12 @@ CONTENT = {
         "exp_h": "Experience",
         "exp": [
             ("CR Cobranzas", "Lima, Peru", "Digital Channels Assistant", "Mar 2026 – present", [
-                "Reporting automation: migrated from Excel Power Query to SQL + Python/scraping.",
-                "Ran mass-send strategies across digital channels.",
-                "Resolved bottlenecks in the operational workflow."]),
+                'Digital transformation with Claude Code: SQL database for the legacy communications process.',
+                'Independence from spreadsheets: custom SQL built for the team and fast reporting with Python/scraping.',
+                'Automation of data consolidation for ISO reports.',
+                'Control of sensitive records through search and filtering with Power Query.',
+                'Ran mass sends across digital channels and resolved bottlenecks in the operational workflow.',
+                ]),
             ("INDRA Servicios Peru", "Ica, Peru", "Quality Assurance Analyst", "Oct 2025 – Jan 2026", [
                 "Technical validation of Digital Assets following established protocols.",
                 "Designed and implemented several QA workflow optimizations that together shortened cycle times.",
