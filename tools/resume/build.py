@@ -33,7 +33,6 @@ CONTENT = {
         "title": "Currículum de Mario Roy Cornejo Bellido",
         "tagline": "Gestión de Negocios y Análisis de Datos",
         "contact": ["Lima, Perú 15038", "+51 979 001 717", "cornejomariob@gmail.com", "linkedin.com/in/hicor13", "mariocornejo.com"],
-        "citizenship": "Ciudadanía dual: EE. UU. y Perú  ·  Inglés y español nativos",
         "profile_h": "Perfil",
         "profile": (
             "Profesional con 3 años de experiencia en optimización de procesos operacionales y análisis "
@@ -78,7 +77,6 @@ CONTENT = {
         "title": "Resume of Mario Roy Cornejo Bellido",
         "tagline": "Business Management & Data Analytics",
         "contact": ["Lima, Peru 15038", "+51 979 001 717", "cornejomariob@gmail.com", "linkedin.com/in/hicor13", "mariocornejo.com"],
-        "citizenship": "Dual U.S. &amp; Peruvian citizen  ·  Native English and Spanish speaker",
         "profile_h": "Profile",
         "profile": (
             "Professional with 3 years of experience in operational process optimization and business "
@@ -131,7 +129,6 @@ h1 { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 25pt
 .contact { text-align: center; font-size: 8pt; margin: 0; }
 .contact a { color: inherit; text-decoration: none; }
 .contact span + span::before { content: '\\2022'; margin: 0 7px; }
-.citizen { text-align: center; font-size: 8pt; margin: 1mm 0 0; font-style: italic; color: #444; }
 h2 { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 9pt; letter-spacing: .2em;
      text-transform: uppercase; margin: 4.4mm 0 2mm; padding-bottom: .8mm; border-bottom: .6pt solid #222; }
 p { margin: 0; }
@@ -170,7 +167,6 @@ def render(c, fonts_css):
 <h1>Mario Roy Cornejo Bellido</h1>
 <p class="tagline">{esc(c['tagline'])}</p>
 <p class="contact">{contact}</p>
-<p class="citizen">{c['citizenship']}</p>
 <h2>{c['profile_h']}</h2><p>{esc(c['profile'])}</p>
 <h2>{c['edu_h']}</h2>{edu}
 <h2>{c['exp_h']}</h2>{jobs}
@@ -277,7 +273,6 @@ def page_html():
 			<p class="cv-meta">
 				{bi(contact)}
 			</p>
-			<p class="cv-meta cv-citizen">{bi(lambda c: c["citizenship"])}</p>
 
 			<section class="cv-block">
 				<h2>{bi(lambda c: c["profile_h"])}</h2>
