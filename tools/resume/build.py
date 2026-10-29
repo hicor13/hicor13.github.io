@@ -66,7 +66,7 @@ CONTENT = {
         "skills": [
             ("Técnico", "Excel avanzado, Power Query, Google Workspace, Adobe CC, Claude Code, Linux, Docker, "
                         "Python (básico), SQL (CS50 Harvard, módulo 2)"),
-            ("Idiomas", "Inglés nativo (nacido y con residencia previa en EE. UU.), español nativo, japonés básico"),
+            ("Idiomas", "Inglés nativo, español nativo, japonés básico"),
         ],
     },
     "en": {
@@ -108,7 +108,7 @@ CONTENT = {
         "skills": [
             ("Technical", "Advanced Excel, Power Query, Google Workspace, Adobe CC, Claude Code, Linux, Docker, "
                           "Python (basic), SQL (CS50 Harvard, module 2)"),
-            ("Languages", "Native English (born and previously lived in the U.S.), native Spanish, basic Japanese"),
+            ("Languages", "Native English, native Spanish, basic Japanese"),
         ],
     },
 }
@@ -185,8 +185,6 @@ PAGE_JSONLD = """{
 	    "image": "https://www.mariocornejo.com/assets/img/mario.jpg",
 	    "jobTitle": "Business Analyst",
 	    "email": "cornejomariob@gmail.com",
-	    "nationality": [{ "@type": "Country", "name": "United States" }, { "@type": "Country", "name": "Peru" }],
-	    "birthPlace": { "@type": "Country", "name": "United States" },
 	    "knowsLanguage": ["en", "es", "ja"],
 	    "address": { "@type": "PostalAddress", "addressLocality": "Lima", "addressCountry": "PE" },
 	    "sameAs": ["https://linkedin.com/in/hicor13"]

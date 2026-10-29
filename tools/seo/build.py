@@ -30,7 +30,7 @@ PAGES = [
         "base": "/",  # directory the source page lives in, for relative URLs
         "url": f"{SITE}/en/",
         "title": "Mario Cornejo — Business Analyst in Lima, Peru",
-        "description": "Business Analyst in Lima, Peru: process optimization, SQL, Python and reporting automation. Native English and Spanish speaker; U.S. and Peruvian citizen.",
+        "description": "Business Analyst in Lima, Peru: process optimization, SQL, Python and reporting automation. Native English and Spanish speaker.",
         "social_title": "Mario Cornejo — Business Analyst in Lima, Peru",
         "social_description": "Process optimization, SQL, Python and reporting automation. Native English–Spanish bilingual.",
         "links": {"/media/documents/resume/index.html": "/en/resume/"},
