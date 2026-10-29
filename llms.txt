@@ -2,7 +2,7 @@
 
 > Personal site of Mario Roy Cornejo Bellido, a Business Analyst / Growth Operations Specialist based in Lima, Peru. Focus: process optimization, reporting automation, SQL and Python. Born and previously lived in the United States; dual U.S. and Peruvian citizen and a native speaker of both English and Spanish. The site is available in English and Spanish, each on its own URL.
 
-Mario has 3 years of experience in operational process optimization and business analysis. At INDRA Servicios (Quality Assurance Analyst, Oct 2025 – Jan 2026) he cut a QA cycle from 4+ hours to about 25 minutes with no extra budget. At CR Cobranzas (Digital Channels Assistant, Mar 2026 – present) he automates reporting, migrating from Excel Power Query to SQL + Python. Education: Bachelor's in Business Administration, Universidad Privada San Juan Bautista (Ica, Peru), SUNEDU-certified, Dec 2022. Best-fit roles: Growth Operations Specialist, Business Analyst, Operations Analyst.
+Mario has 3 years in process optimization and business analysis. At CR Cobranzas (Digital Channels Assistant, Mar 2026 – present) he implemented, with Claude Code, a SQL database that replaced spreadsheets in a legacy communications process, automated data consolidation for ISO reports, and built fast reporting with Python/scraping. At INDRA Servicios (Quality Assurance Analyst, Oct 2025 – Jan 2026) he cut the QA cycle by 90% (from 4+ hours to about 25 minutes) with no additional budget. Education: Bachelor's in Business Administration, Universidad Privada San Juan Bautista (Ica, Peru), SUNEDU-certified, Dec 2022. Best-fit roles: Business Analyst, Operations Analyst, Growth Operations Specialist.
 
 ## About and resume
 
