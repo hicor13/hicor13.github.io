@@ -23,6 +23,7 @@ Mario has 3 years in process optimization and business analysis. At CR Cobranzas
 - Advanced Excel, Power Query, Google Workspace, Adobe CC, Linux, Docker, Python (basic), SQL (CS50 Harvard, module 2).
 - Languages: native English, native Spanish, basic Japanese.
 - Certifications: English B2 First (Cambridge), CS50 SQL (Harvard, module 2), Basic Japanese I (APJ); MOS Associate in progress.
+- Verified credential: MO-211 Excel Advanced, issued by Microsoft (digital badge on Credly): https://www.credly.com/badges/d8b771da-daab-4fa0-827c-5f7d2be1e5c3/public_url
 
 ## Contact
 

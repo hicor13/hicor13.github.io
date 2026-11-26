@@ -865,3 +865,64 @@ main {
     transition: none;
   }
 }
+
+/* --- Verified credential (Credly badge) --------------------------------- */
+.credential {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 0 0 2rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--pill-border);
+  border-radius: 14px;
+  background: var(--pill-bg);
+}
+
+/* The Credly badge ships on a transparent background, so it sits on a fixed
+   light panel to read the same in light and dark mode. The min-size reserves
+   the iframe's 150x270 box so the page doesn't jump when the embed loads. */
+.credential-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 150px;
+  min-height: 270px;
+  padding: 0.5rem;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.credential-kicker {
+  margin: 0 0 0.25rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.credential-text h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1.35rem;
+}
+
+.credential-issuer {
+  margin: 0 0 0.75rem;
+  color: var(--muted);
+}
+
+.credential-link {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+@media (max-width: 36rem) {
+  .credential {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+}
