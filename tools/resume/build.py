@@ -60,7 +60,7 @@ CONTENT = {
             ("Hotel Matryoshka", "Ica, Perú", "Front Desk Receptionist", "dic 2019 – mar 2020", []),
         ],
         "cert_h": "Certificaciones",
-        "certs": ["Inglés B2 First (Cambridge)", "MOS Associate <em>(en progreso)</em>",
+        "certs": ["Inglés B2 First (Cambridge)", "MO-211 Excel Advanced <em>(Microsoft)</em>",
                   "CS50 SQL, Harvard <em>(módulo 2)</em>", "Japonés Básico I <em>(APJ)</em>"],
         "skills_h": "Habilidades e intereses",
         "skills": [
@@ -102,7 +102,7 @@ CONTENT = {
             ("Hotel Matryoshka", "Ica, Peru", "Front Desk Receptionist", "Dec 2019 – Mar 2020", []),
         ],
         "cert_h": "Certifications",
-        "certs": ["English B2 First (Cambridge)", "MOS Associate <em>(in progress)</em>",
+        "certs": ["English B2 First (Cambridge)", "MO-211 Excel Advanced <em>(Microsoft)</em>",
                   "CS50 SQL, Harvard <em>(module 2)</em>", "Basic Japanese I <em>(APJ)</em>"],
         "skills_h": "Skills &amp; Interests",
         "skills": [
